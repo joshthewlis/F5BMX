@@ -1,0 +1,87 @@
+﻿<Window x:Class="F5BMX.Views.CreateSeries"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:Models="clr-namespace:F5BMX.Models"
+        xmlns:UserControls="clr-namespace:F5BMX.UserControls"
+        mc:Ignorable="d"
+        Title="F5BMX - Create Series"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Window.DataContext>
+        <Models:Series />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <CollectionViewSource x:Key="cvsFormulas" Source="{Binding Path=formulas}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="order" Direction="Ascending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </Window.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource FormLabel}">Year:</Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=year}" IsEnabled="False" />
+
+        <Label Grid.Row="1" Grid.Column="2" Style="{StaticResource FormLabel}">Name:</Label>
+        <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource FormTextBox}" Text="{Binding Path=name}" />
+
+        <Rectangle Grid.Row="2" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
+
+        <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource FormLabel}">Number of Rounds:</Label>
+
+        <Slider Grid.Row="3" Grid.Column="1" Padding="0" Margin="0" Minimum="1" Maximum="10" Value="{Binding Path=numberOfRounds}" />
+        <TextBox Grid.Row="3" Grid.Column="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=numberOfRounds}" IsEnabled="False" />
+
+        <Rectangle Grid.Row="4" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
+
+        <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource FormLabel}">Co-Ordinator:</Label>
+        <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=coordinator}" />
+
+        <Label Grid.Row="5" Grid.Column="2" Style="{StaticResource FormLabel}">Co-Ordinator Email:</Label>
+        <TextBox Grid.Row="5" Grid.Column="3" Style="{StaticResource FormTextBox}" Text="{Binding Path=coordinatorEmail}" />
+
+        <Rectangle Grid.Row="6" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
+
+        <DataGrid x:Name="grdFormulas" Grid.Row="7" Grid.ColumnSpan="3" MinHeight="200" Style="{StaticResource FormDataGrid}"
+                  AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource ResourceKey=cvsFormulas}}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Race Order" Binding="{Binding Path=order}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Path=name}" />
+                <DataGridTextColumn Header="Start Min Age" Binding="{Binding Path=minAge}" />
+                <DataGridTextColumn Header="Start Max Age" Binding="{Binding Path=maxAge}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="7" Grid.Column="4">
+            <UserControls:FormulaEditor />
+        </StackPanel>
+
+        <StackPanel Grid.Row="9" Grid.ColumnSpan="4" HorizontalAlignment="Center">
+            <Button x:Name="btnCreateSeries" Click="btnCreateSeries_Click">Create Series</Button>
+        </StackPanel>
+    </Grid>
+</Window>
