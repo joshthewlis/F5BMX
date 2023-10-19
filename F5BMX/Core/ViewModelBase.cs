@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace F5BMX.Core;
 
-internal class NotifyBase : INotifyPropertyChanged
+internal class ViewModelBase : ModelBase, INotifyPropertyChanged
 {
 
     public event PropertyChangedEventHandler? PropertyChanged;
