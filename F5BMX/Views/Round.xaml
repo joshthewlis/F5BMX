@@ -10,7 +10,7 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Window.DataContext>
-        <ViewModel:Round />
+        <ViewModel:RoundViewModel />
     </Window.DataContext>
     
     <Grid Margin="10">

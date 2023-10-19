@@ -1,5 +1,5 @@
 ﻿namespace F5BMX.ViewModels;
 
-internal class Round
+internal class RoundViewModel
 {
 }
