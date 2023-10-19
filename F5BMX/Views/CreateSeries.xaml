@@ -5,8 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:ViewModels="clr-namespace:F5BMX.ViewModels"
-        xmlns:UserControls="clr-namespace:F5BMX.UserControls"
-        mc:Ignorable="d"
         Title="F5BMX - Create Series"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
@@ -14,14 +12,6 @@
     <Window.DataContext>
         <ViewModels:CreateSeriesViewModel />
     </Window.DataContext>
-
-    <Window.Resources>
-        <CollectionViewSource x:Key="cvsFormulas" Source="{Binding Path=series.formulas}">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="order" Direction="Ascending" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-    </Window.Resources>
 
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -32,8 +22,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -42,6 +31,8 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="4" Style="{StaticResource PageTitle}">F5BMX - Create Series</Label>
 
         <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource FormLabel}">Year:</Label>
         <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=series.year}" IsEnabled="False" />
@@ -66,24 +57,95 @@
 
         <Rectangle Grid.Row="6" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
 
-        <DataGrid x:Name="grdFormulas" Grid.Row="7" Grid.ColumnSpan="3" MinHeight="200" Style="{StaticResource FormDataGrid}"
+        <Grid Grid.Row="7" Grid.ColumnSpan="4" Margin="10">
+            <Grid.Resources>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseControl}">
+                    <Setter Property="MinWidth" Value="40" />
+                    <Setter Property="MinHeight" Value="20" />
+                    <Setter Property="Padding" Value="3" />
+                </Style>
+
+                <Style x:Key="FormLabel" TargetType="{x:Type Label}" BasedOn="{StaticResource FormLabel}">
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+
+                <Style x:Key="FormCheckBox" TargetType="{x:Type CheckBox}">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+
+                <CollectionViewSource x:Key="cvsFormulas" Source="{Binding Path=series.formulas}" IsLiveSortingRequested="True">
+                    <CollectionViewSource.SortDescriptions>
+                        <scm:SortDescription PropertyName="order" Direction="Ascending" />
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <DataGrid x:Name="grdFormulas" Grid.RowSpan="4" Grid.Column="0" MinHeight="200" Style="{StaticResource FormDataGrid}"
                   AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource ResourceKey=cvsFormulas}}"
                   SelectionMode="Single" SelectedItem="{Binding Path=selectedFormula}"
                   IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Race Order" Binding="{Binding Path=order}" />
-                <DataGridTextColumn Header="Name" Binding="{Binding Path=name}" />
-                <DataGridTextColumn Header="Start Min Age" Binding="{Binding Path=minAge}" />
-                <DataGridTextColumn Header="Start Max Age" Binding="{Binding Path=maxAge}" />
-            </DataGrid.Columns>
-        </DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Race Order" Binding="{Binding Path=order}" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Path=name}" />
+                    <DataGridTextColumn Header="Start Min Age" Binding="{Binding Path=minAge}" />
+                    <DataGridTextColumn Header="Start Max Age" Binding="{Binding Path=maxAge}" />
+                    <DataGridCheckBoxColumn Header="Dash for Cash" Binding="{Binding Path=dashForCash}" />
+                </DataGrid.Columns>
+            </DataGrid>
 
-        <StackPanel Grid.Row="7" Grid.Column="4">
-            <UserControls:FormulaEditor DataContext="{Binding Path=selectedFormula}" />
-        </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Command="{Binding Path=btnMoveUp}">Move Up</Button>
+                <Button Command="{Binding Path=btnCreateFormula}">Create</Button>
+                <Button Command="{Binding Path=btnMoveDown}">Move Down</Button>
+            </StackPanel>
 
-        <StackPanel Grid.Row="9" Grid.ColumnSpan="4" HorizontalAlignment="Center">
-            <Button x:Name="btnCreateSeries" Click="btnCreateSeries_Click">Create Series</Button>
+            <GroupBox Grid.Row="1" Grid.Column="1" Header="Formula" DataContext="{Binding Path=selectedFormulaEditor}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Style="{StaticResource FormLabel}">Order</Label>
+                    <TextBox Grid.Row="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=order}" IsEnabled="False" />
+                    <Label Grid.Row="2" Style="{StaticResource FormLabel}">Name</Label>
+                    <TextBox Grid.Row="3" Style="{StaticResource FormTextBox}" Text="{Binding Path=name}" />
+                    <Label Grid.Row="4" Style="{StaticResource FormLabel}">Min Age</Label>
+                    <TextBox Grid.Row="5" Style="{StaticResource FormTextBox}" Text="{Binding Path=minAge}" />
+                    <Label Grid.Row="6" Style="{StaticResource FormLabel}">Max Age</Label>
+                    <TextBox Grid.Row="7" Style="{StaticResource FormTextBox}" Text="{Binding Path=maxAge}" />
+                    <Label Grid.Row="8" Style="{StaticResource FormLabel}">Dash for Cash</Label>
+                    <CheckBox Grid.Row="9" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=dashForCash}" />
+                </Grid>
+            </GroupBox>
+
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Command="{Binding Path=btnCreateUpdate}">Create / Update</Button>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="8" Grid.ColumnSpan="4" HorizontalAlignment="Center">
+            <Button Command="{Binding Path=btnCreateSeries}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Create Series</Button>
         </StackPanel>
     </Grid>
 </Window>

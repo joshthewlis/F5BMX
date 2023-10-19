@@ -1,18 +1,15 @@
-﻿using System.IO;
+﻿using F5BMX.Interfaces;
+using System.IO;
 using System.Windows;
 
 namespace F5BMX.Views;
 
-public partial class CreateSeries : Window
+public partial class CreateSeries : Window, IClosable
 {
+
     public CreateSeries()
     {
         InitializeComponent();
-    }
-
-    private void btnCreateSeries_Click(object sender, RoutedEventArgs e)
-    {
-
     }
 
 }

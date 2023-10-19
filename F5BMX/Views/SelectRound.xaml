@@ -3,10 +3,57 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:F5BMX.Views"
+        xmlns:ViewModels="clr-namespace:F5BMX.ViewModels"
         mc:Ignorable="d"
-        Title="SelectRound" Height="450" Width="800">
-    <Grid>
+        Title="SelectRound"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    
+    <Window.DataContext>
+        <ViewModels:SelectRoundViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Window.Resources>
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Style="{StaticResource PageTitle}">F5BMX - Select Round</Label>
         
+        <Label Grid.Row="1" Style="{StaticResource PageHeading}">2023 - Bradford Winter Series</Label>
+
+        <ItemsControl Grid.Row="2" MinHeight="100" MinWidth="500" Margin="10" ItemsSource="{Binding Path=rounds}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton GroupName="round" IsEnabled="{Binding Path=complete}">
+                        <TextBlock>
+                            <Run Text="Round " />
+                            <Run Text="{Binding Path=roundNumber}" />
+                            <Run Text=" - " />
+                            <Run Text="Complete" />
+                        </TextBlock>
+                    </RadioButton>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center">
+            <Button>Open Round</Button>
+        </StackPanel>
     </Grid>
 </Window>

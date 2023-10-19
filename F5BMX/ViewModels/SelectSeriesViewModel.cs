@@ -1,4 +1,5 @@
 ﻿using F5BMX.Core;
+using F5BMX.Core.IO;
 using F5BMX.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -6,20 +7,15 @@ using System.IO;
 
 namespace F5BMX.ViewModels;
 
-internal class SelectSeriesViewModel : NotifyBase
+internal class SelectSeriesViewModel : ViewModelBase
 {
 
     public SelectSeriesViewModel()
     {
-        if(Directory.Exists(Static.baseDirectory) == false)
-            Directory.CreateDirectory(Static.baseDirectory);
-
-        foreach (var item in Directory.EnumerateDirectories(Static.baseDirectory))
+        Directories.LoadSeries().ForEach((x) =>
         {
-            series.Add(
-                new Series(item.Replace(Static.baseDirectory, ""))
-            );
-        };
+            series.Add(new Series(x));
+        });
     }
 
     public ObservableCollection<Series> series { get; init; } = new ObservableCollection<Series>();
