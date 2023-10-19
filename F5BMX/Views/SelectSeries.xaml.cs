@@ -2,10 +2,10 @@
 
 namespace F5BMX.Views;
 
-public partial class Start : Window
+public partial class SelectSeries : Window
 {
 
-    public Start()
+    public SelectSeries()
     {
         InitializeComponent();
     }

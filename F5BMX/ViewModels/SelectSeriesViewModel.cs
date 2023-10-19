@@ -6,10 +6,10 @@ using System.IO;
 
 namespace F5BMX.ViewModels;
 
-internal class Start : NotifyBase
+internal class SelectSeriesViewModel : NotifyBase
 {
 
-    public Start()
+    public SelectSeriesViewModel()
     {
         if(Directory.Exists(Static.baseDirectory) == false)
             Directory.CreateDirectory(Static.baseDirectory);
