@@ -38,13 +38,13 @@ internal class Series : ViewModelBase
     }
 
     private int _year;
-    private string? _name;
+    private string _name = String.Empty;
     private int _numberOfRounds;
     private string? _coordinator;
     private string? _coordinatorEmail;
 
     public int year { get => _year; init => _year = value; }
-    public string? name { get => _name; set => _name = value; }
+    public string name { get => _name; set => _name = value; }
     public int numberOfRounds { get => _numberOfRounds; set { _numberOfRounds = value; NotifyPropertyChanged(); } }
     public string? coordinator { get => _coordinator; set => _coordinator = value; }
     public string? coordinatorEmail { get => _coordinatorEmail; set => _coordinatorEmail = value; }
