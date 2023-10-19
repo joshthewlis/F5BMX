@@ -37,20 +37,20 @@ internal class Series : NotifyBase
     }
 
     private int _year;
-    private string _name;
+    private string? _name;
     private int _numberOfRounds;
-    private string _coordinator;
-    private string _coordinatorEmail;
+    private string? _coordinator;
+    private string? _coordinatorEmail;
 
-    private ObservableCollection<Formula> _formulas;
+    private ObservableCollection<Formula>? _formulas;
 
     public int year { get => _year; init => _year = value; }
-    public string name { get => _name; set => _name = value; }
+    public string? name { get => _name; set => _name = value; }
     public int numberOfRounds { get => _numberOfRounds; set { _numberOfRounds = value; NotifyPropertyChanged(); } }
-    public string coordinator { get => _coordinator; set => _coordinator = value; }
-    public string coordinatorEmail { get => _coordinatorEmail; set => _coordinatorEmail = value; }
+    public string? coordinator { get => _coordinator; set => _coordinator = value; }
+    public string? coordinatorEmail { get => _coordinatorEmail; set => _coordinatorEmail = value; }
 
-    public ObservableCollection<Formula> formulas { get => _formulas; }
+    public ObservableCollection<Formula>? formulas { get => _formulas; }
 
 
 }
