@@ -10,9 +10,16 @@
         <Setter Property="Padding" Value="10" />
     </Style>
 
-    <!-- PAGE TITLE -->
+    <!-- LABELS-->
     <Style x:Key="PageTitle" TargetType="{x:Type Label}">
         <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Bold" />
+
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+    
+    <Style x:Key="PageHeading" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="FontWeight" Value="Bold" />
 
         <Setter Property="HorizontalContentAlignment" Value="Center" />
