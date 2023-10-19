@@ -13,12 +13,17 @@ internal static class Directories
 
     public static string baseDirectory { get => $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/F5BMX/{seriesDirectory}"; }
 
-    public static void SetSeries(int year, string name)
+    public static void SetSeries(string seriesName)
     {
-        seriesDirectory = $"{year}-{name.Replace(" ", "_")}";
+        seriesDirectory = seriesName;
+    }
 
-        if (Directory.Exists(baseDirectory) == false)
-            Directory.CreateDirectory(baseDirectory);
+    public static void CreateSeriesDirectory(int year, string name)
+    {   
+        var dir = $"{year}-{name.Replace(" ", "_")}";
+
+        if (Directory.Exists($"{baseDirectory}{dir}") == false)
+            Directory.CreateDirectory($"{baseDirectory}{dir}");
     }
 
     public static List<string> LoadSeries()

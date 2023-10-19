@@ -10,9 +10,9 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     
-    <Window.DataContext>
+    <d:Window.DataContext>
         <ViewModels:SelectRoundViewModel />
-    </Window.DataContext>
+    </d:Window.DataContext>
 
     <Window.Resources>
         <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
@@ -32,7 +32,7 @@
         
         <Label Grid.Row="1" Style="{StaticResource PageHeading}">2023 - Bradford Winter Series</Label>
 
-        <ItemsControl Grid.Row="2" MinHeight="100" MinWidth="500" Margin="10" ItemsSource="{Binding Path=rounds}">
+        <ItemsControl Grid.Row="2" MinHeight="100" MinWidth="500" Margin="10" ItemsSource="{Binding Path=series.rounds}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="3" />
@@ -45,7 +45,7 @@
                             <Run Text="Round " />
                             <Run Text="{Binding Path=roundNumber}" />
                             <Run Text=" - " />
-                            <Run Text="Complete" />
+                            <Run Text="{Binding Path=complete}" />
                         </TextBlock>
                     </RadioButton>
                 </DataTemplate>

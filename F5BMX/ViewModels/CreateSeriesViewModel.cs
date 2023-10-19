@@ -90,8 +90,17 @@ internal class CreateSeriesViewModel : ViewModelBase
     public ICommand btnCreateSeries => new RelayCommand<IClosable>(createSeries, canCreateSeries);
     private void createSeries(IClosable window)
     {
-        Directories.CreateSeries(series.year, series.name);
-        Core.Serialization.JSON.WriteFile<Series>("series", series);
+        // CREATE DIRECTORY
+        Directories.CreateSeriesDirectory(series.year, series.name);
+
+        // CREATE ROUNDS STATUS
+        for (int i = 1; i <= series.numberOfRounds; i++)
+            series.rounds.Add(new SeriesRoundStatus() { roundNumber = i });
+
+        // WRITE SERIES JSON FILE
+        JSON.WriteFile<Series>("series", series);
+
+        // CLOSE WINDOW
         window.Close();
     }
     private bool canCreateSeries()

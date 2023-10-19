@@ -1,12 +1,11 @@
-﻿using F5BMX.Core.IO;
-using System.IO;
+﻿using System.IO;
 using System.Text.Json;
 
-namespace F5BMX.Core.Serialization;
+namespace F5BMX.Core.IO;
 
 static class JSON
 {
-
+    /* ISSUE NOT KNOWING TO SAVE SERIES TO CORRECT FILE */
     public static T? ReadFile<T>(string fileName) where T : class
     {
         return JsonSerializer.Deserialize<T>(File.ReadAllText($"{Directories.baseDirectory}\\{fileName}.json"));

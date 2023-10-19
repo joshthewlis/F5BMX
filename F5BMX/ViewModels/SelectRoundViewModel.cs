@@ -1,5 +1,5 @@
-﻿using F5BMX.Models;
-using System.Collections.Generic;
+﻿using F5BMX.Core.IO;
+using F5BMX.Models;
 
 namespace F5BMX.ViewModels;
 
@@ -8,21 +8,17 @@ internal class SelectRoundViewModel
 
     public SelectRoundViewModel()
     {
-        this.series = new Series();
-        this.rounds = new List<Round>()
-        {
-            new Round(),
-            new Round(),
-            new Round(),
-            new Round(),
-            new Round(),
-            new Round()
-        };
+
+    }
+
+    public SelectRoundViewModel(string seriesName)
+    {
+        Directories.SetSeries(seriesName);
+
+        this.series = JSON.ReadFile<Series>("series");
     }
 
     public Series series { get; set; }
-
-    public List<Round> rounds { get; set; }
     public Round selectedRound { get; set; }
 
 }

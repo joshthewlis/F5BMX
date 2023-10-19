@@ -20,7 +20,7 @@ internal class Series : ViewModelBase
             new Formula(4, "Formula 2", 15, 17),
             new Formula(5, "Formula 1", 18, 99),
         };
-        this.rounds = new List<Round>();
+        this.rounds = new List<SeriesRoundStatus>();
     }
 
     public Series(int year, string name) : this()
@@ -51,7 +51,7 @@ internal class Series : ViewModelBase
 
 
     public ObservableCollection<Formula> formulas { get; set; }
-    public List<Round> rounds { get; set; }
+    public List<SeriesRoundStatus> rounds { get; set; }
 
 
 }

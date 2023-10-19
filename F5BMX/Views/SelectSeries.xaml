@@ -28,23 +28,11 @@
 
         <Label Grid.Row="1" Style="{StaticResource PageTitle}">Formula 5 BMX Event Manager</Label>
 
-        <ComboBox Grid.Row="2" MinWidth="400"
-                  ItemsSource="{Binding Path=series}"
-                  SelectedItem="{Binding Path=selectedSeries}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock>
-                        <Run Text="{Binding Path=year}" />
-                        <Run Text=" - " />
-                        <Run Text="{Binding Path=name}" />
-                    </TextBlock>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+        <ComboBox Grid.Row="2" MinWidth="400" ItemsSource="{Binding Path=series}" SelectedItem="{Binding Path=selectedSeries}" />
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="btnCreateSeries" Click="btnCreateSeries_Click">Create Series</Button>
-            <Button x:Name="btnLoadSeries" Click="btnLoadSeries_Click">Load Series</Button>
+            <Button Command="{Binding Path=btnCreateSeries}">Create Series</Button>
+            <Button Command="{Binding Path=btnLoadSeries}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Load Series</Button>
         </StackPanel>
 
         <!--
