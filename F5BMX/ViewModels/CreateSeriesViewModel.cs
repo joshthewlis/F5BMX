@@ -19,17 +19,17 @@ internal class CreateSeriesViewModel : ViewModelBase
     private void CreateSeriesViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == "selectedFormula")
-            selectedFormulaEditor = selectedFormula?.clone<Formula>();
+            selectedFormulaEditor = selectedFormula?.clone<SeriesFormula>();
     }
 
     public Series series { get; init; } = new Series();
 
-    private Formula? _selectedFormula;
-    public Formula? selectedFormula { get => _selectedFormula; set { _selectedFormula = value; NotifyPropertyChanged(); } }
+    private SeriesFormula? _selectedFormula;
+    public SeriesFormula? selectedFormula { get => _selectedFormula; set { _selectedFormula = value; NotifyPropertyChanged(); } }
 
 
-    private Formula? _selectedFormulaEditor;
-    public Formula? selectedFormulaEditor { get => _selectedFormulaEditor; set { _selectedFormulaEditor = value; NotifyPropertyChanged(); } }
+    private SeriesFormula? _selectedFormulaEditor;
+    public SeriesFormula? selectedFormulaEditor { get => _selectedFormulaEditor; set { _selectedFormulaEditor = value; NotifyPropertyChanged(); } }
 
     #region FormulaEditorButtons
     public ICommand btnMoveUp => new RelayCommand(moveUp, canMoveUp);
@@ -51,7 +51,7 @@ internal class CreateSeriesViewModel : ViewModelBase
     public ICommand btnCreateFormula => new RelayCommand(createFormula);
     private void createFormula()
     {
-        selectedFormulaEditor = new Formula(series.formulas.Count + 1);
+        selectedFormulaEditor = new SeriesFormula(series.formulas.Count + 1);
     }
 
     public ICommand btnMoveDown => new RelayCommand(moveDown, canMoveDown);
