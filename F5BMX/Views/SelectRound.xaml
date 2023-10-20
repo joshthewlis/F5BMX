@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Converter="clr-namespace:F5BMX.Converters"
         xmlns:ViewModels="clr-namespace:F5BMX.ViewModels"
         mc:Ignorable="d"
         Title="SelectRound"
@@ -15,6 +16,8 @@
     </d:Window.DataContext>
 
     <Window.Resources>
+        <Converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
         <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
             <Setter Property="Margin" Value="5" />
         </Style>
@@ -29,8 +32,12 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Style="{StaticResource PageTitle}">F5BMX - Select Round</Label>
-        
-        <Label Grid.Row="1" Style="{StaticResource PageHeading}">2023 - Bradford Winter Series</Label>
+
+        <TextBlock Grid.Row="1" Style="{StaticResource TextBlockHeading}">
+            <Run Text="{Binding Path=series.year}" />
+            <Run Text=" - " />
+            <Run Text="{Binding Path=series.name}" />
+        </TextBlock>
 
         <ItemsControl Grid.Row="2" MinHeight="100" MinWidth="500" Margin="10" ItemsSource="{Binding Path=series.rounds}">
             <ItemsControl.ItemsPanel>
@@ -40,7 +47,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <RadioButton GroupName="round" IsEnabled="{Binding Path=complete}">
+                    <RadioButton GroupName="round" IsEnabled="{Binding Path=complete, Converter={StaticResource InverseBooleanConverter}}"
+                                 Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.btnSelectRound}"
+                                 CommandParameter="{Binding}">
                         <TextBlock>
                             <Run Text="Round " />
                             <Run Text="{Binding Path=roundNumber}" />
@@ -53,7 +62,7 @@
         </ItemsControl>
 
         <StackPanel Grid.Row="3" HorizontalAlignment="Center">
-            <Button>Open Round</Button>
+            <Button Command="{Binding Path=btnLoadRound}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Open Round</Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -7,6 +7,8 @@ namespace F5BMX.Models;
 internal class SeriesFormula : ViewModelBase 
 {
 
+    public SeriesFormula() { }
+
     public SeriesFormula(int order) : this(order, string.Empty, 0, 0)
     { }
 
