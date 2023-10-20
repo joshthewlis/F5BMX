@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace F5BMX.Models;
 
@@ -12,6 +12,7 @@ internal class Round
 
     public int roundNumber { get; init; }
 
-    public ObservableCollection<Rider> riders { get; init; } = new ObservableCollection<Rider>();
+    public List<Rider> riders { get; init; } = new List<Rider>();
+    public List<RoundFormula> formulas { get; init; } = new List<RoundFormula>();
 
 }

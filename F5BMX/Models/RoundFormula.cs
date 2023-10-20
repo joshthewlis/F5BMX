@@ -8,22 +8,22 @@ internal class RoundFormula
     public RoundFormula()
     {
         this._riders = new List<Rider>();
-        this._moto1 = new List<Moto>();
-        this._moto2 = new List<Moto>();
-        this._moto3 = new List<Moto>();
-        this._final = new List<Moto>();
+        this._moto1 = new List<Race>();
+        this._moto2 = new List<Race>();
+        this._moto3 = new List<Race>();
+        this._final = new List<Race>();
     }
 
     private List<Rider> _riders;
-    private List<Moto> _moto1;
-    private List<Moto> _moto2;
-    private List<Moto> _moto3;
-    private List<Moto> _final;
+    private List<Race> _moto1;
+    private List<Race> _moto2;
+    private List<Race> _moto3;
+    private List<Race> _final;
 
     public List<Rider> riders { get => _riders; }
-    public List<Moto> moto1 { get => _moto1; }
-    public List<Moto> moto2 { get => _moto2; }
-    public List<Moto> moto3 { get => _moto3; }
-    public List<Moto> final { get => _final; }
+    public List<Race> moto1 { get => _moto1; }
+    public List<Race> moto2 { get => _moto2; }
+    public List<Race> moto3 { get => _moto3; }
+    public List<Race> final { get => _final; }
 
 }
