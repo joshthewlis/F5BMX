@@ -1,6 +1,6 @@
 ﻿namespace F5BMX.Models;
 
-internal class Moto
+internal class Race
 {
 
     public Rider? gate1 { get; set; }
