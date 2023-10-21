@@ -19,7 +19,7 @@ internal class CreateSeriesViewModel : ViewModelBase
     private void CreateSeriesViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == "selectedFormula")
-            selectedFormulaEditor = selectedFormula?.clone<SeriesFormula>();
+            selectedFormulaEditor = selectedFormula?.Clone<SeriesFormula>();
     }
 
     public Series series { get; init; } = new Series();

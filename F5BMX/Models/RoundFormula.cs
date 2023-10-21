@@ -1,5 +1,6 @@
 ﻿using F5BMX.Core;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
@@ -14,7 +15,12 @@ internal class RoundFormula : ViewModelBase
 
     public RoundFormula(SeriesFormula seriesFormula)
     {
-        this.seriesFormula = seriesFormula;
+        this.id = seriesFormula.id;
+        this.order = seriesFormula.order;
+        this.name = seriesFormula.name;
+        this.minAge = seriesFormula.minAge;
+        this.maxAge = seriesFormula.maxAge;
+        this.dashForCash = seriesFormula.dashForCash;
 
         this.riders = new ObservableCollection<RoundRider>();
         this.moto1 = new List<Race>();
@@ -23,17 +29,13 @@ internal class RoundFormula : ViewModelBase
         this.final = new List<Race>();
     }
 
-    /* SERIES FORMULA DATA */
-    private SeriesFormula seriesFormula;
+    public Guid id { get; set; }
+    public uint order { get; set; }
+    public string name { get; set; }
+    public uint minAge { get; set; }
+    public uint maxAge { get; set; }
+    public bool dashForCash { get; set; }
 
-    public Guid id { get => seriesFormula.id; }
-    public uint order { get => seriesFormula.order; }
-    public string name { get => seriesFormula.name; }
-    public uint minAge { get => seriesFormula.minAge; }
-    public uint maxAge { get => seriesFormula.maxAge; }
-    public bool dashForCash { get => seriesFormula.dashForCash; }
-
-    [JsonIgnore]
     public ObservableCollection<RoundRider> riders { get; init; }
     public List<Race> moto1 { get; init; }
     public List<Race> moto2 { get; init; }

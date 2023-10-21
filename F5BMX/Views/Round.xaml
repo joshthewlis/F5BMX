@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Converters="clr-namespace:F5BMX.Converters"
         xmlns:ViewModel="clr-namespace:F5BMX.ViewModels"
         mc:Ignorable="d"
         Title="F5BMX - Round"
@@ -12,6 +13,9 @@
     <d:Window.DataContext>
         <ViewModel:RoundViewModel />
     </d:Window.DataContext>
+    <Window.Resources>
+        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </Window.Resources>
     
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -21,35 +25,42 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Label Style="{StaticResource PageTitle}">F5BMX - 2023 Bradford Winter Series - Round 5</Label>
+        <TextBlock Grid.Row="0" Style="{StaticResource WindowTitle}">Formula 5 BMX Event Manager</TextBlock>
 
-        <GroupBox Header="Series &amp; Information" Grid.Row="1">
+        <TextBlock Grid.Row="1" Style="{StaticResource WindowHeading1}">
+            <Run Text="{Binding Path=series.year}" />
+            <Run Text=" - " />
+            <Run Text="{Binding Path=series.name}" />
+        </TextBlock>
+
+        <GroupBox Grid.Row="2" Header="Series &amp; Round Information">
             <UniformGrid Columns="4">
                 <Button>Edit Series</Button>
             </UniformGrid>
         </GroupBox>
-        
-        <GroupBox Header="Registration" Grid.Row="2">
+
+        <GroupBox Grid.Row="3" Header="Registration" IsEnabled="{Binding Path=registrationEnabled}">
             <UniformGrid Columns="4">
                 <Button Command="{Binding Path=btnRegisterRiders}">Register Riders</Button>
-                <Button>Print Rider List</Button>
-                <Button>Close Registration</Button>
-                <Button>Re-Open Registration</Button>
+                <Button Command="{Binding Path=btnCloseRegistration}">Close Registration</Button>
+                <Button Command="{Binding Path=btnPrintRiderList}">Print Rider List</Button>
+                <Button Command="{Binding Path=btnReOpenRegistration}">Re-Open Registration</Button>
             </UniformGrid>
         </GroupBox>
 
-        <GroupBox Header="Motos" Grid.Row="3">
+        <GroupBox Grid.Row="4" Header="Motos Control" IsEnabled="{Binding Path=motosEnabled}">
             <UniformGrid Columns="4">
-                <Button>Generate Motos</Button>
-                <Button>Generate Sheets</Button>
-                <Button>Enter Results</Button>
-                <Button>Finalize Motos</Button>
+                <Button Command="{Binding Path=btnGenerateMotos}">Generate Motos</Button>
+                <Button Command="{Binding Path=btnPrintMotoSheets}">Generate Sheets</Button>
+                <Button Command="{Binding Path=btnEnterMotoResults}">Enter Results</Button>
+                <Button Command="{Binding Path=btnFinalizeMotos}">Finalize Motos</Button>
             </UniformGrid>
         </GroupBox>
-        
-        <GroupBox Header="Finals" Grid.Row="4">
+
+        <GroupBox Grid.Row="5" Header="Finals Control" IsEnabled="{Binding Path=finalsEnabled}">
             <UniformGrid Columns="4">
                 <Button>Generate Finals</Button>
                 <Button>Generate Sheets</Button>
@@ -57,8 +68,8 @@
                 <Button>Finalize Finals</Button>
             </UniformGrid>
         </GroupBox>
-        
-        <GroupBox Header="Results" Grid.Row="5">
+
+        <GroupBox Grid.Row="6" Header="Results">
             <UniformGrid Columns="4">
                 <Button>Round Standings</Button>
                 <Button>Series Standings</Button>

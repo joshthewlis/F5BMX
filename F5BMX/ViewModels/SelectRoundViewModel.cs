@@ -17,7 +17,7 @@ internal class SelectRoundViewModel
     {
         Directories.SetSeries(seriesName);
 
-        this.series = JSON.ReadFile<Series>("series");
+        this.series = JSON.ReadModel<Series>("series");
     }
 
     public Series series { get; set; }
