@@ -16,7 +16,8 @@ namespace F5BMX.ViewModels;
 internal class RegisterRidersViewModel : ViewModelBase
 {
 
-    public RegisterRidersViewModel() { }
+    public RegisterRidersViewModel() : this(new Series(), new Round(0, new List<SeriesFormula>()))
+    { }
 
     public RegisterRidersViewModel(Series series, Round round)
     {

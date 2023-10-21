@@ -9,7 +9,8 @@ namespace F5BMX.ViewModels;
 internal class RoundViewModel
 {
 
-    public RoundViewModel() { }
+    public RoundViewModel() : this(new Series(), 0)
+    { }
 
     public RoundViewModel(Series series, int roundNumber)
     {
