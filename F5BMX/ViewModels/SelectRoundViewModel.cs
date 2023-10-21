@@ -9,7 +9,9 @@ namespace F5BMX.ViewModels;
 internal class SelectRoundViewModel
 {
 
-    public SelectRoundViewModel() { }
+    public SelectRoundViewModel()
+    {
+    }
 
     public SelectRoundViewModel(string seriesName)
     {
@@ -18,7 +20,7 @@ internal class SelectRoundViewModel
         this.series = JSON.ReadFile<Series>("series");
     }
 
-    public Series? series { get; set; }
+    public Series series { get; set; }
     public SeriesRoundStatus? selectedRound { get; set; }
 
 
@@ -32,8 +34,11 @@ internal class SelectRoundViewModel
     public ICommand btnLoadRound => new RelayCommand<IClosable>(loadRound, canLoadRound);
     private void loadRound(IClosable window)
     {
-        new Views.Round() { DataContext = new Round(selectedRound.roundNumber) }.Show();
-        window.Close();
+        if (selectedRound != null)
+        {
+            new Views.Round() { DataContext = new RoundViewModel(series, selectedRound.roundNumber) }.Show();
+            window.Close();
+        }
     }
     private bool canLoadRound()
     {

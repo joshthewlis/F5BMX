@@ -1,7 +1,9 @@
 ﻿using F5BMX.Core;
+using F5BMX.Core.IO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace F5BMX.Models;
 
@@ -21,6 +23,9 @@ internal class Series : ViewModelBase
             new SeriesFormula(5, "Formula 1", 18, 99),
         };
         this.rounds = new List<SeriesRoundStatus>();
+        this.riders = JSON.ReadFile<ObservableCollection<SeriesRider>>("riders");
+        if (this.riders == null)
+            this.riders = new ObservableCollection<SeriesRider>();
     }
 
     public Series(int year, string name) : this()
@@ -52,6 +57,7 @@ internal class Series : ViewModelBase
 
     public ObservableCollection<SeriesFormula> formulas { get; set; }
     public List<SeriesRoundStatus> rounds { get; set; }
-
+    [JsonIgnore]
+    public ObservableCollection<SeriesRider> riders { get; set; }
 
 }

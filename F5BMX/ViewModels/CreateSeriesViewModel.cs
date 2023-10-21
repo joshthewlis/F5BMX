@@ -51,7 +51,7 @@ internal class CreateSeriesViewModel : ViewModelBase
     public ICommand btnCreateFormula => new RelayCommand(createFormula);
     private void createFormula()
     {
-        selectedFormulaEditor = new SeriesFormula(series.formulas.Count + 1);
+        selectedFormulaEditor = new SeriesFormula((uint)series.formulas.Count + 1);
     }
 
     public ICommand btnMoveDown => new RelayCommand(moveDown, canMoveDown);

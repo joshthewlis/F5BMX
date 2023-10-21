@@ -1,29 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using F5BMX.Core;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace F5BMX.Models;
 
-internal class RoundFormula
+internal class RoundFormula : ViewModelBase
 {
 
-    public RoundFormula()
+    public RoundFormula() : this(new SeriesFormula())
+    { }
+
+    public RoundFormula(SeriesFormula seriesFormula)
     {
-        this._riders = new List<Rider>();
-        this._moto1 = new List<Race>();
-        this._moto2 = new List<Race>();
-        this._moto3 = new List<Race>();
-        this._final = new List<Race>();
+        this.seriesFormula = seriesFormula;
+
+        this.riders = new ObservableCollection<RoundRider>();
+        this.moto1 = new List<Race>();
+        this.moto2 = new List<Race>();
+        this.moto3 = new List<Race>();
+        this.final = new List<Race>();
     }
 
-    private List<Rider> _riders;
-    private List<Race> _moto1;
-    private List<Race> _moto2;
-    private List<Race> _moto3;
-    private List<Race> _final;
+    /* SERIES FORMULA DATA */
+    private SeriesFormula seriesFormula;
 
-    public List<Rider> riders { get => _riders; }
-    public List<Race> moto1 { get => _moto1; }
-    public List<Race> moto2 { get => _moto2; }
-    public List<Race> moto3 { get => _moto3; }
-    public List<Race> final { get => _final; }
+    public Guid id { get => seriesFormula.id; }
+    public uint order { get => seriesFormula.order; }
+    public string name { get => seriesFormula.name; }
+    public uint minAge { get => seriesFormula.minAge; }
+    public uint maxAge { get => seriesFormula.maxAge; }
+    public bool dashForCash { get => seriesFormula.dashForCash; }
+
+    [JsonIgnore]
+    public ObservableCollection<RoundRider> riders { get; init; }
+    public List<Race> moto1 { get; init; }
+    public List<Race> moto2 { get; init; }
+    public List<Race> moto3 { get; init; }
+    public List<Race> final { get; init; }
 
 }
