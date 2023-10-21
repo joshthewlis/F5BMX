@@ -1,0 +1,141 @@
+﻿<Window x:Class="F5BMX.Views.EnterResults"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:F5BMX.Views"
+        xmlns:Converters="clr-namespace:F5BMX.Converters"
+        mc:Ignorable="d"
+        Title="EnterResults"
+        Width="400"
+        Height="550"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Grid Margin="5">
+        <Grid.Resources>
+            <Style TargetType="{x:Type Control}" x:Key="IsEnabledControl">
+                <Setter Property="IsEnabled">
+                    <Setter.Value>
+                        <Binding>
+                            <Binding.Converter>
+                                <Converters:NotNullBooleanConverter />
+                            </Binding.Converter>
+                        </Binding>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IsEnabledControl}">
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="Padding" Value="10,5" />
+            </Style>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource IsEnabledControl}">
+                <Setter Property="Margin" Value="10" />
+            </Style>
+
+            <Converters:NotNullBooleanConverter x:Key="NotNullBooleanConverter" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="60" />
+            <!--<ColumnDefinition Width="60" />-->
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" HorizontalAlignment="Center">
+            <Run Text="Round" />
+            <Run Text="{Binding Path=round.roundNumber}" />
+            <Run Text="- Race" />
+            <Run Text="{Binding Path=race.raceNumber}" />
+        </TextBlock>
+
+        <Button Grid.Row="1" Grid.Column="0" DataContext="{Binding Path=race.gate1}" Content="{Binding Path=plateNumber}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" DataContext="{Binding Path=race.gate1}">
+            <Run Text="{Binding Path=firstName}" />
+            <Run Text="{Binding Path=lastName}" />
+        </TextBlock>
+        <TextBox Grid.Row="1" Grid.Column="2" DataContext="{Binding Path=race.gate1}"/>
+
+
+
+        <Button Grid.Row="2" Grid.Column="0" DataContext="{Binding Path=race.gate2}" Content="{Binding Path=plateNumber}" />
+        <TextBlock Grid.Row="2" Grid.Column="1" DataContext="{Binding Path=race.gate2}">
+            <Run Text="{Binding Path=firstName}" />
+            <Run Text="{Binding Path=lastName}" />
+        </TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="2" DataContext="{Binding Path=race.gate2}" />
+
+        
+        
+        <Button Grid.Row="3" Grid.Column="0" DataContext="{Binding Path=race.gate3}" Content="{Binding Path=plateNumber}" />
+        <TextBlock Grid.Row="3" Grid.Column="1" DataContext="{Binding Path=race.gate3}">
+            <Run Text="{Binding Path=firstName}" />
+            <Run Text="{Binding Path=lastName}" />
+        </TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="2" DataContext="{Binding Path=race.gate3}" />
+
+        
+        
+        <Button Grid.Row="4" Grid.Column="0" DataContext="{Binding Path=race.gate4}" Content="{Binding Path=plateNumber}" />
+        <TextBlock Grid.Row="4" Grid.Column="1" DataContext="{Binding Path=race.gate4}">
+            <Run Text="{Binding Path=firstName}" />
+            <Run Text="{Binding Path=lastName}" />
+        </TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="2" DataContext="{Binding Path=race.gate4}" />
+
+        
+        
+        <Button Grid.Row="5" Grid.Column="0" DataContext="{Binding Path=race.gate5}" Content="{Binding Path=plateNumber}" />
+        <TextBlock Grid.Row="5" Grid.Column="1" DataContext="{Binding Path=race.gate5}">
+            <Run Text="{Binding Path=firstName}" />
+            <Run Text="{Binding Path=lastName}" />
+        </TextBlock>
+        <TextBox Grid.Row="5" Grid.Column="2" DataContext="{Binding Path=race.gate5}" />
+
+        <Button Grid.Row="6" Grid.Column="0" DataContext="{Binding Path=race.gate6}" Content="{Binding Path=plateNumber}" />
+        <TextBlock Grid.Row="6" Grid.Column="1" DataContext="{Binding Path=race.gate6}">
+            <Run Text="{Binding Path=firstName}" />
+            <Run Text="{Binding Path=lastName}" />
+        </TextBlock>
+        <TextBox Grid.Row="6" Grid.Column="2" DataContext="{Binding Path=race.gate6}" />
+
+        <Button Grid.Row="7" Grid.Column="0" DataContext="{Binding Path=race.gate7}" Content="{Binding Path=plateNumber}" />
+        <TextBlock Grid.Row="7" Grid.Column="1" DataContext="{Binding Path=race.gate7}">
+            <Run Text="{Binding Path=firstName}" />
+            <Run Text="{Binding Path=lastName}" />
+        </TextBlock>
+        <TextBox Grid.Row="7" Grid.Column="2" DataContext="{Binding Path=race.gate7}" />
+
+        <Button Grid.Row="8" Grid.Column="0" DataContext="{Binding Path=race.gate8}" Content="{Binding Path=plateNumber}" />
+        <TextBlock Grid.Row="8" Grid.Column="1" DataContext="{Binding Path=race.gate8}">
+            <Run Text="{Binding Path=firstName}" />
+            <Run Text="{Binding Path=lastName}" />
+        </TextBlock>
+        <TextBox Grid.Row="8" Grid.Column="2" DataContext="{Binding Path=race.gate8}" />
+
+        <StackPanel Grid.Row="10" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding Path=btnPrevRace}">Previous Race</Button>
+            <Button Command="{Binding Path=btnReset}">Reset</Button>
+            <Button Command="{Binding Path=btnNextRace}">Next Race</Button>
+        </StackPanel>
+    </Grid>
+</Window>

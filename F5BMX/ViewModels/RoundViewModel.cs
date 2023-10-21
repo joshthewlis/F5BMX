@@ -75,12 +75,18 @@ internal class RoundViewModel : ViewModelBase
         () => {
             Motos.GenerateMotoListing(series, round);
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motolist.html") { UseShellExecute = true });
+            round.motosStatus = StageStatus.SheetsPrinted;
+            round.Save();
         },
         () => { return round.motosStatus == StageStatus.Generated; }
     );
     public ICommand btnEnterMotoResults => new RelayCommand(
-        () => { },
-        () => { return round.motosStatus == StageStatus.SheetsPrinted; }
+        () => {
+            new Views.EnterResults() { DataContext = new EnterResultsViewModel(round) }.ShowDialog();
+            round.motosStatus = StageStatus.ResultsEntered;
+            round.Save();
+        },
+        () => { return round.motosStatus == StageStatus.SheetsPrinted || round.motosStatus == StageStatus.ResultsEntered; }
     );
     public ICommand btnFinalizeMotos => new RelayCommand(
         () => { },
