@@ -9,7 +9,7 @@ namespace F5BMX.Helpers;
 internal static class Registration
 {
 
-    public static void GenerateEntryList(int year, string seriesName, Round round, List<SeriesRider> seriesRiders)
+    public static void GenerateEntryList(Series series, Round round)
     {
         StringBuilder entryList = new StringBuilder();
         entryList.Append(@"
@@ -56,7 +56,7 @@ internal static class Registration
 
 <body>
 <h1>");
-        entryList.AppendFormat("F5BMX - {0} - {1}", year, seriesName);
+        entryList.AppendFormat("F5BMX - {0} - {1}", series.year, series.name);
         entryList.Append(@"</h1><h2>");
         entryList.AppendFormat("Round {0} - Entry List", round.roundNumber);
         entryList.Append(@"</h2>");
@@ -88,7 +88,7 @@ internal static class Registration
                 entryList.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
                 entryList.AppendLine($"<td>{rider.club}</td>");
                 entryList.AppendLine($"<td>{rider.plateNumber}</td>");
-                entryList.AppendLine($"<td>{seriesRiders.Where(x => x.id == rider.id).FirstOrDefault()?.seriesPoints}</td>");
+                entryList.AppendLine($"<td>{series.riders.Where(x => x.id == rider.id).FirstOrDefault()?.seriesPoints}</td>");
                 entryList.AppendLine("</tr>");
             }
 

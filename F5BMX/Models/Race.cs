@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Security.RightsManagement;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace F5BMX.Models;
 
@@ -48,5 +49,30 @@ internal class Race
                 throw new ArgumentException("Invalid Gate Number", "gate");
         }
     }
+
+    public int findRiderGate(Guid rider)
+    {
+        if (gate1 == rider)
+            return 1;
+        if (gate2 == rider)
+            return 2;
+        if (gate3 == rider)
+            return 3;
+        if (gate4 == rider)
+            return 4;
+        if (gate5 == rider)
+            return 5;
+        if (gate6 == rider)
+            return 6;
+        if (gate7 == rider)
+            return 7;
+        if (gate8 == rider)
+            return 8;
+
+        return 0;
+    }
+
+    [JsonIgnore]
+    public List<Guid?> riderList => new List<Guid?>() { gate1, gate2, gate3, gate4, gate5, gate6, gate7, gate8 };
 
 }

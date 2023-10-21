@@ -49,7 +49,7 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnPrintRiderList => new RelayCommand(
         () =>
         {
-            Registration.GenerateEntryList(series.year, series.name, round, series.riders.ToList());
+            Registration.GenerateEntryList(series, round);
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.entrylist.html") { UseShellExecute = true });
         },
         () => { return round.registrationStatus == RegistrationStatus.Closed && round.motosStatus == StageStatus.NotGenerated; }
@@ -71,7 +71,10 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.registrationStatus == RegistrationStatus.Closed && round.motosStatus == StageStatus.NotGenerated; }
     );
     public ICommand btnPrintMotoSheets => new RelayCommand(
-        () => { },
+        () => {
+            Motos.GenerateMotoListing(series, round);
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motolist.html") { UseShellExecute = true });
+        },
         () => { return round.motosStatus == StageStatus.Generated; }
     );
     public ICommand btnEnterMotoResults => new RelayCommand(
