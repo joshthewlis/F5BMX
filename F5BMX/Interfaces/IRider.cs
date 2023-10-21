@@ -5,10 +5,10 @@ namespace F5BMX.Interfaces;
 internal interface IRider
 {
 
-    Guid guid { get; init; }
+    Guid id { get; init; }
     string firstName { get; set; }
     string lastName { get; set; }
     int yearOfBirth { get; set; }
-    string numberPlate { get; set; }
+    string plateNumber { get; set; }
 
 }
