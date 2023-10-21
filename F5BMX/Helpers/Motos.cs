@@ -1,7 +1,9 @@
-﻿using F5BMX.Models;
+﻿using F5BMX.Core.IO;
+using F5BMX.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace F5BMX.Helpers;
 
@@ -55,11 +57,6 @@ internal static class Motos
             }
             // SWAP RIDERS IN RACES
         }
-    }
-
-    public static void GenerateEntryList(Round round)
-    {
-
     }
 
 }

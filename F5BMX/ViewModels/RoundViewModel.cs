@@ -3,7 +3,7 @@ using F5BMX.Core.IO;
 using F5BMX.Enums;
 using F5BMX.Helpers;
 using F5BMX.Models;
-using Microsoft.Win32;
+using System;
 using System.Linq;
 using System.Windows.Input;
 
@@ -47,7 +47,11 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.registrationStatus == RegistrationStatus.Open; }
     );
     public ICommand btnPrintRiderList => new RelayCommand(
-        () => { },
+        () =>
+        {
+            Registration.GenerateEntryList(series.year, series.name, round, series.riders.ToList());
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.entrylist.html") { UseShellExecute = true });
+        },
         () => { return round.registrationStatus == RegistrationStatus.Closed && round.motosStatus == StageStatus.NotGenerated; }
     );
     public ICommand btnReOpenRegistration => new RelayCommand(
@@ -58,7 +62,8 @@ internal class RoundViewModel : ViewModelBase
 
     #region MotoControlButtons
     public ICommand btnGenerateMotos => new RelayCommand(
-        () => {
+        () =>
+        {
             Motos.Generate(round);
             round.motosStatus = StageStatus.Generated;
             round.Save();
