@@ -25,7 +25,10 @@ internal static class Motos
 
     public static void Generate(Round round)
     {
-        foreach (var formula in round.formulas.OrderBy(x => x.order))
+        var formulaRaceOrder = round.formulas.OrderBy(x => x.order);
+
+        // ASSIGN RIDERS
+        foreach (var formula in formulaRaceOrder)
         {
             // GENERATE THE RACE CLASSES
             int numberOfRaces = (int)Math.Ceiling((double)formula.riders.Count / round.numberOfGates);
@@ -55,8 +58,45 @@ internal static class Motos
                     gateNumber++;
                 }
             }
+
             // SWAP RIDERS IN RACES
+            if(numberOfRaces > 1)
+            {
+
+            }
         }
+
+        // NUMBER THE RACES
+        int raceNumber = 1;
+        foreach (var formula in formulaRaceOrder)
+        {
+            foreach (var race in formula.moto1)
+            {
+                race.raceNumber = raceNumber;
+                raceNumber++;
+            }
+        }
+        foreach (var formula in formulaRaceOrder)
+        {
+            foreach (var race in formula.moto2)
+            {
+                race.raceNumber = raceNumber;
+                raceNumber++;
+            }
+        }
+        foreach (var formula in formulaRaceOrder)
+        {
+            foreach (var race in formula.moto3)
+            {
+                race.raceNumber = raceNumber;
+                raceNumber++;
+            }
+        }
+    }
+
+    public static void GenerateRaceListing(Round round)
+    {
+
     }
 
 }

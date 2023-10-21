@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Security.RightsManagement;
 
 namespace F5BMX.Models;
 
 internal class Race
 {
 
+    public int raceNumber { get; set; }
     public Guid? gate1 { get; set; }
     public Guid? gate2 { get; set; }
     public Guid? gate3 { get; set; }
