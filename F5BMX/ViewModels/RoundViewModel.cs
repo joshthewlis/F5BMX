@@ -26,8 +26,9 @@ internal class RoundViewModel : ViewModelBase
     public Series series { get; set; }
     public Round round { get; set; }
 
+    public bool roundSettingsEnabled => round.motosStatus == StageStatus.NotGenerated;
     public bool registrationEnabled => round.motosStatus == StageStatus.NotGenerated;
-    public bool motosEnabled => round.registrationStatus == RegistrationStatus.Closed;
+    public bool motosEnabled => round.registrationStatus == RegistrationStatus.Closed && round.finalsStatus == StageStatus.NotGenerated;
     public bool finalsEnabled => round.motosStatus == StageStatus.Finished;
 
     private void NotifyEnabled()

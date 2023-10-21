@@ -22,6 +22,7 @@ internal class Round : ModelBase
 
     public int roundNumber { get; init; }
     public int numberOfGates { get; set; } = 8;
+    public int numberOfMotos { get; set; } = 3;
 
     public RegistrationStatus registrationStatus { get; set; } = RegistrationStatus.Open;
     public StageStatus motosStatus { get; set; } = StageStatus.NotGenerated;

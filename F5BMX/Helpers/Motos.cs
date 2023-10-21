@@ -10,22 +10,49 @@ namespace F5BMX.Helpers;
 internal static class Motos
 {
 
-    private static int[,] gateNumbers =
+    private static int[,] getGateNumbers(int numberOfGates)
     {
-        {1, 6, 4},
-        {2, 5, 7},
-        {3, 8, 6},
-        {4, 7, 1},
-        {5, 2, 8},
-        {6, 1, 3},
-        {7, 4, 2},
-        {8, 3, 5}
-    };
+        switch (numberOfGates)
+        {
+            case 8:
+                return new int[,] {
+                        { 1, 6, 4},
+                        { 2, 5, 7},
+                        { 3, 8, 6},
+                        { 4, 7, 1},
+                        { 5, 2, 8},
+                        { 6, 1, 3},
+                        { 7, 4, 2},
+                        { 8, 3, 5}
+                    };
 
+            case 6:
+                return new int[,] {
+                        { 1, 4, 6},
+                        { 2, 3, 5},
+                        { 3, 6, 1},
+                        { 4, 5, 2},
+                        { 5, 2, 3},
+                        { 6, 1, 4}
+                    };
+
+            case 4:
+                return new int[,] {
+                        { 1, 4, 3},
+                        { 2, 3, 1},
+                        { 3, 2, 4},
+                        { 4, 1, 2}
+                    };
+
+            default:
+                throw new ArgumentException("Invalid number of Gates");
+        }
+    }
 
     public static void Generate(Round round)
     {
         var formulaRaceOrder = round.formulas.OrderBy(x => x.order);
+        var gateNumbers = getGateNumbers(round.numberOfGates);
 
         // ASSIGN RIDERS
         foreach (var formula in formulaRaceOrder)
@@ -65,7 +92,7 @@ internal static class Motos
             }
 
             // SWAP RIDERS IN RACES
-            if(numberOfRaces > 1)
+            if (numberOfRaces > 1)
             {
 
             }

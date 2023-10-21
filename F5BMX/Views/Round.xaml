@@ -54,14 +54,19 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource FormLabel}">Gates on Track?</Label>
-                <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource FormLabel}">Dash for Cash</Label>
-                <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource FormLabel}">Number of Motos</Label>
+                <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource FormLabel}">Number of Motos</Label>
+                <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource FormLabel}">Dash for Cash</Label>
                 <Label Grid.Row="0" Grid.Column="3" Style="{StaticResource FormLabel}">Test</Label>
 
                 <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
                     <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=8}">8 Man</RadioButton>
                     <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=6}">6 Man</RadioButton>
                     <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=4}">4 Man</RadioButton>
+                </StackPanel>
+                
+                <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+                    <RadioButton GroupName="numberOfMotos" IsChecked="{Binding Path=round.numberOfMotos, Converter={StaticResource EqualsValueConverter}, ConverterParameter=3}">3 Motos</RadioButton>
+                    <RadioButton GroupName="numberOfMotos" IsChecked="{Binding Path=round.numberOfMotos, Converter={StaticResource EqualsValueConverter}, ConverterParameter=2}">2 Motos</RadioButton>
                 </StackPanel>
             </Grid>
         </GroupBox>
