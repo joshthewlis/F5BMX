@@ -5,6 +5,7 @@ namespace F5BMX.Interfaces;
 internal interface IModel
 {
 
-    T clone<T>() where T : IModel;
+    T Clone<T>() where T : IModel;
+    void Save(string fileName);
 
 }
