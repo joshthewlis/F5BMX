@@ -15,8 +15,9 @@
     </d:Window.DataContext>
     <Window.Resources>
         <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <Converters:EqualsValueConverter x:Key="EqualsValueConverter" />
     </Window.Resources>
-    
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -36,10 +37,33 @@
             <Run Text="{Binding Path=series.name}" />
         </TextBlock>
 
-        <GroupBox Grid.Row="2" Header="Series &amp; Round Information">
-            <UniformGrid Columns="4">
-                <Button>Edit Series</Button>
-            </UniformGrid>
+        <GroupBox Grid.Row="2" Header="Round Settings" IsEnabled="{Binding Path=roundSettingsEnabled}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource FormLabel}">Gates on Track?</Label>
+                <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource FormLabel}">Dash for Cash</Label>
+                <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource FormLabel}">Number of Motos</Label>
+                <Label Grid.Row="0" Grid.Column="3" Style="{StaticResource FormLabel}">Test</Label>
+
+                <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
+                    <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=8}">8 Man</RadioButton>
+                    <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=6}">6 Man</RadioButton>
+                    <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=4}">4 Man</RadioButton>
+                </StackPanel>
+            </Grid>
         </GroupBox>
 
         <GroupBox Grid.Row="3" Header="Registration" IsEnabled="{Binding Path=registrationEnabled}">
