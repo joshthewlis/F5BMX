@@ -10,9 +10,10 @@ namespace F5BMX.Models
     internal class RaceResult : ModelBase
     {
 
-        public RaceResult(RoundFormula formula, Race race)
+        public RaceResult(RoundFormula formula, uint motoRound, Race race)
         {
             raceNumber = race.raceNumber;
+            this.motoRound = motoRound;
             formulaName = formula.name;
             gate1 = formula.riders.Where(x => x.id == race.gate1).FirstOrDefault();
             gate2 = formula.riders.Where(x => x.id == race.gate2).FirstOrDefault();
@@ -25,6 +26,7 @@ namespace F5BMX.Models
         }
 
         public int raceNumber { get; init; }
+        public uint motoRound { get; init; }
         public string formulaName { get; init; }
         public RoundRider? gate1 { get; init; }
         public RoundRider? gate2 { get; init; }

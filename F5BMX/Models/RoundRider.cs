@@ -36,4 +36,21 @@ internal class RoundRider : ModelBase, IRider
     public uint finalNumber { get; set; }
     public uint finalpos { get; set; }
 
+
+    public void setMotoPos(uint moto, uint pos)
+    {
+        switch(moto)
+        {
+            case 1:
+                moto1pos = pos;
+                break;
+            case 2:
+                moto2pos = pos;
+                break;
+            case 3:
+                moto3pos = pos;
+                break;
+        }
+    }
+
 }

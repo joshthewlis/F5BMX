@@ -20,9 +20,9 @@ namespace F5BMX.ViewModels
             var tmpRaces = new List<RaceResult>();
             foreach (var formula in round.formulas)
             {
-                formula.moto1.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
-                formula.moto2.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
-                formula.moto3.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
+                formula.moto1.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, 1, moto)); });
+                formula.moto2.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, 2, moto)); });
+                formula.moto3.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, 3, moto)); });
             }
 
             this.races = tmpRaces.OrderBy(x => x.raceNumber).ToList();
