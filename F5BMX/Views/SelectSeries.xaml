@@ -26,7 +26,7 @@
 
         <Image Grid.Row="0" Source="/F5BMX;component/Resources/Images/logo.jpg" MaxHeight="200" />
 
-        <Label Grid.Row="1" Style="{StaticResource PageTitle}">Formula 5 BMX Event Manager</Label>
+        <TextBlock Grid.Row="1" Style="{StaticResource WindowTitle}">Formula 5 BMX Event Manager</TextBlock>
 
         <ComboBox Grid.Row="2" MinWidth="400" ItemsSource="{Binding Path=series}" SelectedItem="{Binding Path=selectedSeries}" />
 

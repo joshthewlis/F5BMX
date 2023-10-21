@@ -24,6 +24,12 @@ internal class RegisterRidersViewModel : ViewModelBase
         this.series = series;
         this.round = round;
 
+        _cvsSeriesRiders = new CollectionViewSource()
+        {
+            Source = series.riders,
+            IsLiveSortingRequested = true,
+            IsLiveFilteringRequested = true
+        };
         cvsSeriesRiders.Filter += CvsSeriesRiders_Filter;
         cvsSeriesRiders.SortDescriptions.Add(new SortDescription("lastName", ListSortDirection.Ascending));
         cvsSeriesRiders.SortDescriptions.Add(new SortDescription("firstName", ListSortDirection.Ascending));
@@ -47,12 +53,8 @@ internal class RegisterRidersViewModel : ViewModelBase
     public Series series { get; set; }
     public Round round { get; set; }
 
-    public CollectionViewSource cvsSeriesRiders => new CollectionViewSource()
-    {
-        Source = series.riders,
-        IsLiveSortingRequested = true,
-        IsLiveFilteringRequested = true
-    };
+    private CollectionViewSource _cvsSeriesRiders;
+    public CollectionViewSource cvsSeriesRiders { get => _cvsSeriesRiders; }
 
     private SeriesRider? _selectedRider;
     public SeriesRider? selectedRider
@@ -71,6 +73,8 @@ internal class RegisterRidersViewModel : ViewModelBase
             NotifyPropertyChanged();
         }
     }
+
+    public RoundRider? selectedRegisteredRider { get; set; }
 
     private void _selectedRider_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
@@ -110,8 +114,9 @@ internal class RegisterRidersViewModel : ViewModelBase
                 var formula = round.formulas.Where(x => x.id == selectedRider.formulaID).FirstOrDefault();
                 if (formula != null)
                     formula.riders.Add(new RoundRider(selectedRider));
-
             }
+
+            Save();
         }
     }
     private bool canRegisterRider()
@@ -121,6 +126,43 @@ internal class RegisterRidersViewModel : ViewModelBase
 
         return false;
     }
+
+    /* FIX LATER */
+    public ICommand btnUnregisterRider => new RelayCommand(unregisterRider, canUnregisterRider);
+    private void unregisterRider()
+    {
+        if (selectedRegisteredRider == null)
+            return;
+
+        foreach (var formula in round.formulas)
+            if (formula.riders.Contains(selectedRegisteredRider))
+                formula.riders.Remove(selectedRegisteredRider);
+
+        Save();
+    }
+    private bool canUnregisterRider()
+    {
+        if (selectedRegisteredRider == null)
+            return false;
+
+        return true;
+    }
+    public void unregisterRider(IRider rider)
+    {
+        foreach (var formula in round.formulas)
+            if (formula.riders.Contains(rider))
+                formula.riders.Remove((RoundRider)rider);
+
+        Save();
+    }
     #endregion
 
+
+    private void Save()
+    {
+        cvsSeriesRiders.View.Refresh();
+
+        JSON.WriteFile("riders", series.riders);
+        round.Save();
+    }
 }

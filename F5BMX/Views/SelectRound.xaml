@@ -31,9 +31,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Style="{StaticResource PageTitle}">F5BMX - Select Round</Label>
+        <TextBlock Grid.Row="0" Style="{StaticResource WindowTitle}">F5BMX - Select Round</TextBlock>
 
-        <TextBlock Grid.Row="1" Style="{StaticResource TextBlockHeading}">
+        <TextBlock Grid.Row="1" Style="{StaticResource WindowHeading1}">
             <Run Text="{Binding Path=series.year}" />
             <Run Text=" - " />
             <Run Text="{Binding Path=series.name}" />

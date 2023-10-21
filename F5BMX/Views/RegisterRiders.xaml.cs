@@ -1,4 +1,5 @@
 ﻿using F5BMX.Interfaces;
+using F5BMX.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,5 +25,26 @@ namespace F5BMX.Views
         {
             InitializeComponent();
         }
+
+        private void lstSeriesRiders_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var viewModel = (RegisterRidersViewModel)DataContext;
+
+            viewModel.btnRegisterRider.Execute(null);
+        }
+
+        private void lstFormulaRider_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var listView = (ListView)sender;
+
+            if (listView == null)
+                return;
+
+            var selectedRider = (IRider)listView.SelectedItem;
+            var viewModel = (RegisterRidersViewModel)DataContext;
+
+            viewModel.unregisterRider(selectedRider);
+        }
+
     }
 }

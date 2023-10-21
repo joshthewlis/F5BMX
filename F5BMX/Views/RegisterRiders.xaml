@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Converters="clr-namespace:F5BMX.Converters"
-        xmlns:UserControls="clr-namespace:F5BMX.UserControls"
         xmlns:ViewModels="clr-namespace:F5BMX.ViewModels"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         mc:Ignorable="d"
@@ -39,7 +38,9 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Style="{StaticResource FormLabel}">Series Riders</Label>
-            <ListView Grid.Row="1" MinHeight="150" Margin="10" ItemsSource="{Binding Path=cvsSeriesRiders}">
+            <ListView Grid.Row="1" MinHeight="150" Margin="10"
+                      ItemsSource="{Binding Path=cvsSeriesRiders.View}" SelectedItem="{Binding Path=selectedRider}"
+                      MouseDoubleClick="lstSeriesRiders_MouseDoubleClick">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
@@ -122,7 +123,28 @@
             <ItemsControl ItemsSource="{Binding Path=round.formulas}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <UserControls:RegisterFormulaRiders />
+                        <Grid MinHeight="100">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Label Grid.Row="0" Margin="10,0" Padding="0" Content="{Binding Path=name}" />
+
+                            <ListView Grid.Row="1" Margin="10,0"
+                                      ItemsSource="{Binding Path=riders}"
+                                      MouseDoubleClick="lstFormulaRider_MouseDoubleClick">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.Columns>
+                                            <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=firstName}" />
+                                            <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Path=lastName}" />
+                                            <GridViewColumn Header="Plate Number" DisplayMemberBinding="{Binding Path=plateNumber}" />
+                                        </GridView.Columns>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
