@@ -69,7 +69,9 @@ internal static class Motos
             {
                 formula.moto1.Add(new Race());
                 formula.moto2.Add(new Race());
-                formula.moto3.Add(new Race());
+
+                if (round.numberOfMotos == 3)
+                    formula.moto3.Add(new Race());
             }
 
             // FILL RACE CLASSES WITH RIDERS
@@ -81,7 +83,9 @@ internal static class Motos
             {
                 formula.moto1[fillIndex].setGateRider(gateNumbers[gateNumber, 0], rider.id);
                 formula.moto2[fillIndex].setGateRider(gateNumbers[gateNumber, 1], rider.id);
-                formula.moto3[fillIndex].setGateRider(gateNumbers[gateNumber, 2], rider.id);
+
+                if (round.numberOfMotos == 3)
+                    formula.moto3[fillIndex].setGateRider(gateNumbers[gateNumber, 2], rider.id);
 
                 fillIndex++;
                 if (fillIndex >= numberOfRaces)
