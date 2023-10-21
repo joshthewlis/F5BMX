@@ -2,6 +2,7 @@
 using F5BMX.Core.IO;
 using F5BMX.Interfaces;
 using F5BMX.Models;
+using System;
 using System.Windows.Input;
 
 namespace F5BMX.ViewModels;
@@ -9,9 +10,8 @@ namespace F5BMX.ViewModels;
 internal class SelectRoundViewModel
 {
 
-    public SelectRoundViewModel()
-    {
-    }
+    public SelectRoundViewModel() : this(String.Empty)
+    { }
 
     public SelectRoundViewModel(string seriesName)
     {
@@ -47,7 +47,6 @@ internal class SelectRoundViewModel
 
         return true;
     }
-
     #endregion
 
 }
