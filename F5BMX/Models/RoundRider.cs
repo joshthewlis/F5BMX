@@ -17,6 +17,7 @@ internal class RoundRider : ModelBase, IRider
         this.id = seriesRider.id;
         this.firstName = seriesRider.firstName;
         this.lastName = seriesRider.lastName;
+        this.club = seriesRider.club;
         this.plateNumber = seriesRider.plateNumber;
         this.yearOfBirth = seriesRider.yearOfBirth;
     }
@@ -24,6 +25,7 @@ internal class RoundRider : ModelBase, IRider
     public Guid id { get; init; }
     public string firstName { get; set; }
     public string lastName { get; set; }
+    public string club { get; set; }
     public string plateNumber { get; set; }
     public int yearOfBirth { get; set; }
 

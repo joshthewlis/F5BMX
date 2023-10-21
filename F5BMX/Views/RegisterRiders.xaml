@@ -98,18 +98,21 @@
                 <Label Grid.Column="0" Grid.Row="2">Last Name</Label>
                 <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=lastName}" />
 
-                <Label Grid.Column="0" Grid.Row="3">Plate Number</Label>
-                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=plateNumber}" />
+                <Label Grid.Column="0" Grid.Row="3">Club / Team</Label>
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=club}" />
 
-                <Label Grid.Column="0" Grid.Row="4">Year of Birth</Label>
-                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=yearOfBirth}" />
+                <Label Grid.Column="0" Grid.Row="4">Plate Number</Label>
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=plateNumber}" />
 
-                <Label Grid.Column="0" Grid.Row="5">Age</Label>
-                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=yearAge, Mode=OneWay}" IsEnabled="False" />
+                <Label Grid.Column="0" Grid.Row="5">Year of Birth</Label>
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=yearOfBirth}" />
 
-                <Label Grid.Column="0" Grid.Row="6">Formula</Label>
+                <Label Grid.Column="0" Grid.Row="6">Age</Label>
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=yearAge, Mode=OneWay}" IsEnabled="False" />
+
+                <Label Grid.Column="0" Grid.Row="7">Formula</Label>
                 <!--<TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=formula}" />-->
-                <ComboBox Grid.Column="1" Grid.Row="6"
+                <ComboBox Grid.Column="1" Grid.Row="7"
                           ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.round.formulas}"
                           DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=formulaID}" />
             </Grid>
