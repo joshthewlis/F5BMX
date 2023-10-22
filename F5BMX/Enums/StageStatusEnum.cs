@@ -1,6 +1,6 @@
 ﻿namespace F5BMX.Enums;
 
-internal enum StageStatus
+internal enum StageStatusEnum
 {
 
     NotGenerated,

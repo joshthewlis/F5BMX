@@ -131,11 +131,19 @@ internal static class Motos
         }
     }
 
-    public static void Finalize(List<MotoRaceResult> raceResults)
+    public static void Finalize(List<RaceResult> raceResults, int numberOfMotos)
     {
-        foreach(var raceResult in raceResults)
-            foreach(var riderResult in raceResult.gates)
-                riderResult.Value.rider.motoPositions[raceResult.motoRound-1] = riderResult.Value.result;
+        int numberOfMotoPerRounds = raceResults.Count / numberOfMotos;
+
+        foreach (var raceResult in raceResults)
+        {
+            foreach (var riderResult in raceResult.gates)
+            {
+                int motoRound = (int)Math.Floor((double)raceResult.raceNumber-1 / numberOfMotoPerRounds);
+
+                riderResult.Value.rider.motoPositions[motoRound] = riderResult.Value.result;
+            }
+        }
     }
 
     public static void GenerateListing(Series series, Round round)

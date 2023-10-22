@@ -93,8 +93,8 @@
             <UniformGrid Columns="4">
                 <Button Command="{Binding Path=btnGenerateFinals}">Generate Finals</Button>
                 <Button Command="{Binding Path=btnPrintFinalSheets}">Generate Sheets</Button>
-                <Button>Enter Results</Button>
-                <Button>Finalize Finals</Button>
+                <Button Command="{Binding Path=btnEnterFinalResults}">Enter Results</Button>
+                <Button Command="{Binding Path=btnFinalizeFinals}">Finalize Finals</Button>
             </UniformGrid>
         </GroupBox>
 

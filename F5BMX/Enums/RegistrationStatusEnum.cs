@@ -1,6 +1,6 @@
 ﻿namespace F5BMX.Enums;
 
-internal enum RegistrationStatus
+internal enum RegistrationStatusEnum
 {
 
     Open,

@@ -24,9 +24,9 @@ internal class Round : ModelBase
     public int numberOfGates { get; set; } = 8;
     public int numberOfMotos { get; set; } = 3;
 
-    public RegistrationStatus registrationStatus { get; set; } = RegistrationStatus.Open;
-    public StageStatus motosStatus { get; set; } = StageStatus.NotGenerated;
-    public StageStatus finalsStatus { get; set; } = StageStatus.NotGenerated;
+    public RegistrationStatusEnum registrationStatus { get; set; } = RegistrationStatusEnum.Open;
+    public StageStatusEnum motosStatus { get; set; } = StageStatusEnum.NotGenerated;
+    public StageStatusEnum finalsStatus { get; set; } = StageStatusEnum.NotGenerated;
 
     public ObservableCollection<RoundFormula> formulas { get; set; } = new ObservableCollection<RoundFormula>();
 

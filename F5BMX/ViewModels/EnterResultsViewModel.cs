@@ -1,4 +1,5 @@
 ﻿using F5BMX.Core;
+using F5BMX.Enums;
 using F5BMX.Interfaces;
 using F5BMX.Models;
 using System;
@@ -14,27 +15,36 @@ namespace F5BMX.ViewModels
     internal class EnterResultsViewModel : ViewModelBase
     {
 
-        public EnterResultsViewModel(Round round)
+        public EnterResultsViewModel(Round round, EnterResultsTypeEnum enterResultsTypeEnum)
         {
             this.round = round;
+            this.enterResultsTypeEnum = enterResultsTypeEnum;
 
-            var tmpRaces = new List<MotoRaceResult>();
+            var tmpRaces = new List<RaceResult>();
             foreach (var formula in round.formulas)
             {
-                formula.moto1.ForEach(moto => { tmpRaces.Add(new MotoRaceResult(formula, 1, moto)); });
-                formula.moto2.ForEach(moto => { tmpRaces.Add(new MotoRaceResult(formula, 2, moto)); });
-                formula.moto3.ForEach(moto => { tmpRaces.Add(new MotoRaceResult(formula, 3, moto)); });
+                if(enterResultsTypeEnum == EnterResultsTypeEnum.Moto)
+                {
+                    formula.moto1.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
+                    formula.moto2.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
+                    formula.moto3.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
+                }
+                else
+                {
+                    formula.final.ForEach(final => { tmpRaces.Add(new RaceResult(formula, final)); });
+                }
             }
 
             this.races = tmpRaces.OrderBy(x => x.raceNumber).ToList();
         }
 
+        public EnterResultsTypeEnum enterResultsTypeEnum { get; init; }
         public Round round { get; set; }
 
         #region Enumerator
-        public List<MotoRaceResult> races;
+        public List<RaceResult> races;
         private int idx = 0;
-        public MotoRaceResult race => races[idx];
+        public RaceResult race => races[idx];
         #endregion
 
         #region Buttons

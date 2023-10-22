@@ -1,4 +1,5 @@
 ﻿using F5BMX.Core;
+using F5BMX.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace F5BMX.Models
 {
-    internal class MotoRaceResult : ModelBase
+    internal class RaceResult : ModelBase, IRaceResult
     {
 
-        public MotoRaceResult(RoundFormula formula, uint motoRound, Race race)
+        public RaceResult(RoundFormula formula, Race race)
         {
             raceNumber = race.raceNumber;
-            this.motoRound = motoRound;
             formulaName = formula.name;
 
             this.gates = new Dictionary<uint, RoundRiderResult>();
@@ -22,7 +22,6 @@ namespace F5BMX.Models
         }
 
         public int raceNumber { get; init; }
-        public uint motoRound { get; init; }
         public string formulaName { get; init; }
 
         public Dictionary<uint, RoundRiderResult> gates { get; init; }

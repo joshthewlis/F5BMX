@@ -28,13 +28,15 @@ internal class RoundViewModel : ViewModelBase
     public Series series { get; set; }
     public Round round { get; set; }
 
-    public bool roundSettingsEnabled => round.motosStatus == StageStatus.NotGenerated;
-    public bool registrationEnabled => round.motosStatus == StageStatus.NotGenerated;
-    public bool motosEnabled => round.registrationStatus == RegistrationStatus.Closed && round.finalsStatus == StageStatus.NotGenerated;
-    public bool finalsEnabled => round.motosStatus == StageStatus.Finished;
+    public bool roundSettingsEnabled => round.motosStatus == StageStatusEnum.NotGenerated;
+    public bool registrationEnabled => round.motosStatus == StageStatusEnum.NotGenerated;
+    public bool motosEnabled => round.registrationStatus == RegistrationStatusEnum.Closed && round.finalsStatus == StageStatusEnum.NotGenerated;
+    public bool finalsEnabled => round.motosStatus == StageStatusEnum.Finished;
 
     [JsonIgnore]
-    public EnterResultsViewModel? enterResultsViewModel { get; set; }
+    public EnterResultsViewModel? motoResultsViewModel { get; set; }
+    [JsonIgnore]
+    public EnterResultsViewModel? finalResultsViewModel { get; set; }
 
     private void NotifyEnabled()
     {
@@ -46,11 +48,11 @@ internal class RoundViewModel : ViewModelBase
     #region RegistrationButtons
     public ICommand btnRegisterRiders => new RelayCommand(
         () => { new Views.RegisterRiders() { DataContext = new RegisterRidersViewModel(series, round) }.Show(); },
-        () => { return round.registrationStatus == RegistrationStatus.Open; }
+        () => { return round.registrationStatus == RegistrationStatusEnum.Open; }
     );
     public ICommand btnCloseRegistration => new RelayCommand(
-        () => { round.registrationStatus = RegistrationStatus.Closed; NotifyEnabled(); },
-        () => { return round.registrationStatus == RegistrationStatus.Open; }
+        () => { round.registrationStatus = RegistrationStatusEnum.Closed; NotifyEnabled(); },
+        () => { return round.registrationStatus == RegistrationStatusEnum.Open; }
     );
     public ICommand btnPrintRiderList => new RelayCommand(
         () =>
@@ -59,11 +61,11 @@ internal class RoundViewModel : ViewModelBase
             MessageBox.Show("Opening Entry List In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.entrylist.html") { UseShellExecute = true });
         },
-        () => { return round.registrationStatus == RegistrationStatus.Closed && round.motosStatus == StageStatus.NotGenerated; }
+        () => { return round.registrationStatus == RegistrationStatusEnum.Closed && round.motosStatus == StageStatusEnum.NotGenerated; }
     );
     public ICommand btnReOpenRegistration => new RelayCommand(
-        () => { round.registrationStatus = RegistrationStatus.Open; NotifyEnabled(); },
-        () => { return round.registrationStatus == RegistrationStatus.Closed && round.motosStatus == StageStatus.NotGenerated; }
+        () => { round.registrationStatus = RegistrationStatusEnum.Open; NotifyEnabled(); },
+        () => { return round.registrationStatus == RegistrationStatusEnum.Closed && round.motosStatus == StageStatusEnum.NotGenerated; }
     );
     #endregion
 
@@ -72,10 +74,10 @@ internal class RoundViewModel : ViewModelBase
         () =>
         {
             Motos.Generate(round);
-            round.motosStatus = StageStatus.Generated;
+            round.motosStatus = StageStatusEnum.Generated;
             round.Save();
         },
-        () => { return round.registrationStatus == RegistrationStatus.Closed && round.motosStatus == StageStatus.NotGenerated; }
+        () => { return round.registrationStatus == RegistrationStatusEnum.Closed && round.motosStatus == StageStatusEnum.NotGenerated; }
     );
     public ICommand btnPrintMotoSheets => new RelayCommand(
         () =>
@@ -92,35 +94,35 @@ internal class RoundViewModel : ViewModelBase
             MessageBox.Show("Opening Call Up In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motocallup.html") { UseShellExecute = true });
 
-            round.motosStatus = StageStatus.SheetsPrinted;
+            round.motosStatus = StageStatusEnum.SheetsPrinted;
             round.Save();
         },
-        () => { return round.motosStatus == StageStatus.Generated; }
+        () => { return round.motosStatus == StageStatusEnum.Generated; }
     );
     public ICommand btnEnterMotoResults => new RelayCommand(
         () =>
         {
-            if (enterResultsViewModel == null)
-                enterResultsViewModel = new EnterResultsViewModel(round);
+            if (motoResultsViewModel == null)
+                motoResultsViewModel = new EnterResultsViewModel(round, EnterResultsTypeEnum.Moto);
 
-            new Views.EnterResults() { DataContext = enterResultsViewModel }.ShowDialog();
-            round.motosStatus = StageStatus.ResultsEntered;
+            new Views.EnterResults() { DataContext = motoResultsViewModel }.ShowDialog();
+            round.motosStatus = StageStatusEnum.ResultsEntered;
             round.Save();
         },
-        () => { return round.motosStatus == StageStatus.SheetsPrinted || round.motosStatus == StageStatus.ResultsEntered; }
+        () => { return round.motosStatus == StageStatusEnum.SheetsPrinted || round.motosStatus == StageStatusEnum.ResultsEntered; }
     );
     public ICommand btnFinalizeMotos => new RelayCommand(
         () =>
         {
-            if (enterResultsViewModel == null)
+            if (motoResultsViewModel == null)
                 return;
 
-            Motos.Finalize(enterResultsViewModel.races);
-            round.motosStatus = StageStatus.Finished;
+            Motos.Finalize(motoResultsViewModel.races, round.numberOfMotos);
+            round.motosStatus = StageStatusEnum.Finished;
             NotifyPropertyChanged(nameof(finalsEnabled));
             round.Save();
         },
-        () => { return round.motosStatus == StageStatus.ResultsEntered; }
+        () => { return round.motosStatus == StageStatusEnum.ResultsEntered; }
     );
     #endregion
 
@@ -128,10 +130,10 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnGenerateFinals => new RelayCommand(
         () => {
             Finals.Generate(round);
-            round.finalsStatus = StageStatus.Generated;
+            round.finalsStatus = StageStatusEnum.Generated;
             round.Save();
         },
-        () => { return round.finalsStatus == StageStatus.NotGenerated; }
+        () => { return round.finalsStatus == StageStatusEnum.NotGenerated; }
     );
     public ICommand btnPrintFinalSheets => new RelayCommand(
         () => {
@@ -147,19 +149,26 @@ internal class RoundViewModel : ViewModelBase
             MessageBox.Show("Opening Call Up In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.finalcallup.html") { UseShellExecute = true });
 
+            round.finalsStatus = StageStatusEnum.SheetsPrinted;
             round.Save();
         },
-        () => { return round.finalsStatus == StageStatus.Generated; }
+        () => { return round.finalsStatus == StageStatusEnum.Generated; }
     );
     public ICommand btnEnterFinalResults => new RelayCommand(
         () => {
+            if (finalResultsViewModel == null)
+                finalResultsViewModel = new EnterResultsViewModel(round, EnterResultsTypeEnum.Final);
+
+            new Views.EnterResults() { DataContext = finalResultsViewModel }.ShowDialog();
+            round.motosStatus = StageStatusEnum.ResultsEntered;
+            round.Save();
         },
-        () => { return round.finalsStatus == StageStatus.SheetsPrinted || round.finalsStatus == StageStatus.ResultsEntered; }
+        () => { return round.finalsStatus == StageStatusEnum.SheetsPrinted || round.finalsStatus == StageStatusEnum.ResultsEntered; }
     );
     public ICommand btnFinalizeFinals => new RelayCommand(
         () => {
         },
-        () => { return round.finalsStatus == StageStatus.ResultsEntered; }
+        () => { return round.finalsStatus == StageStatusEnum.ResultsEntered; }
     );
     #endregion
 }
