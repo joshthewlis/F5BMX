@@ -34,7 +34,7 @@ internal class RoundViewModel : ViewModelBase
     public bool finalsEnabled => round.motosStatus == StageStatus.Finished;
 
     [JsonIgnore]
-    public EnterResultsViewModel enterResultsViewModel { get; set; }
+    public EnterResultsViewModel? enterResultsViewModel { get; set; }
 
     private void NotifyEnabled()
     {
@@ -84,13 +84,13 @@ internal class RoundViewModel : ViewModelBase
             MessageBox.Show("Opening Moto Listings In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motolist.html") { UseShellExecute = true });
 
-            Motos.GenerateCommentary(series, round);
+            Motos.GenerateCommentary(round);
             MessageBox.Show("Opening Commentary In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.commentary.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motocommentary.html") { UseShellExecute = true });
 
-            Motos.GenerateCallup(series, round);
+            Motos.GenerateCallup(round);
             MessageBox.Show("Opening Call Up In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.callup.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motocallup.html") { UseShellExecute = true });
 
             round.motosStatus = StageStatus.SheetsPrinted;
             round.Save();
@@ -112,6 +112,9 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnFinalizeMotos => new RelayCommand(
         () =>
         {
+            if (enterResultsViewModel == null)
+                return;
+
             Motos.Finalize(enterResultsViewModel.races);
             round.motosStatus = StageStatus.Finished;
             NotifyPropertyChanged(nameof(finalsEnabled));
@@ -135,6 +138,14 @@ internal class RoundViewModel : ViewModelBase
             Finals.GenerateListing(series, round);
             MessageBox.Show("Opening Final Listings In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.finallist.html") { UseShellExecute = true });
+
+            Finals.GenerateCommentary(round);
+            MessageBox.Show("Opening Commentary In Default Browser\r\nPlease Print.");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.finalcommentary.html") { UseShellExecute = true });
+
+            Finals.GenerateCallup(round);
+            MessageBox.Show("Opening Call Up In Default Browser\r\nPlease Print.");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.finalcallup.html") { UseShellExecute = true });
 
             round.Save();
         },
