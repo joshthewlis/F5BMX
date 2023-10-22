@@ -6,6 +6,7 @@ using F5BMX.Models;
 using System;
 using System.Linq;
 using System.Text.Json.Serialization;
+using System.Windows;
 using System.Windows.Input;
 
 namespace F5BMX.ViewModels;
@@ -55,6 +56,7 @@ internal class RoundViewModel : ViewModelBase
         () =>
         {
             Registration.GenerateEntryList(series, round);
+            MessageBox.Show("Opening Entry List In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.entrylist.html") { UseShellExecute = true });
         },
         () => { return round.registrationStatus == RegistrationStatus.Closed && round.motosStatus == StageStatus.NotGenerated; }
@@ -79,7 +81,17 @@ internal class RoundViewModel : ViewModelBase
         () =>
         {
             Motos.GenerateMotoListing(series, round);
+            MessageBox.Show("Opening Moto Listings In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motolist.html") { UseShellExecute = true });
+
+            Motos.GenerateMotoCommentary(series, round);
+            MessageBox.Show("Opening Commentary In Default Browser\r\nPlease Print.");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.commentary.html") { UseShellExecute = true });
+
+            Motos.GenerateMotoCallup(series, round);
+            MessageBox.Show("Opening Call Up In Default Browser\r\nPlease Print.");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.callup.html") { UseShellExecute = true });
+
             round.motosStatus = StageStatus.SheetsPrinted;
             round.Save();
         },
@@ -88,7 +100,7 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnEnterMotoResults => new RelayCommand(
         () =>
         {
-            if(enterResultsViewModel == null)
+            if (enterResultsViewModel == null)
                 enterResultsViewModel = new EnterResultsViewModel(round);
 
             new Views.EnterResults() { DataContext = enterResultsViewModel }.ShowDialog();
@@ -105,6 +117,32 @@ internal class RoundViewModel : ViewModelBase
             round.Save();
         },
         () => { return round.motosStatus == StageStatus.ResultsEntered; }
+    );
+    #endregion
+
+    #region FinalControlButtons
+    public ICommand btnGenerateFinals => new RelayCommand(
+        () => {
+            Finals.Generate(round);
+        },
+        () => { return round.finalsStatus == StageStatus.NotGenerated; }
+    );
+    public ICommand btnPrintFinalSheets => new RelayCommand(
+        () => {
+            
+        },
+        () => { return round.finalsStatus == StageStatus.Generated; }
+    );
+    public ICommand btnEnterFinalResults => new RelayCommand(
+        () => {
+            Finals.Generate(round);
+        },
+        () => { return round.finalsStatus == StageStatus.SheetsPrinted || round.finalsStatus == StageStatus.ResultsEntered; }
+    );
+    public ICommand btnFinalizeFinals => new RelayCommand(
+        () => {
+        },
+        () => { return round.finalsStatus == StageStatus.ResultsEntered; }
     );
     #endregion
 }

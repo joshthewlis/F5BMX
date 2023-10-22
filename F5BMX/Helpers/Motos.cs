@@ -132,8 +132,8 @@ internal static class Motos
 
     public static void GenerateMotoListing(Series series, Round round)
     {
-        StringBuilder entryList = new StringBuilder();
-        entryList.Append(@"
+        StringBuilder html = new StringBuilder();
+        html.Append(@"
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,6 +152,8 @@ internal static class Motos
         margin-top: 5mm;
         width: 100%;
         page-break-inside: avoid;
+
+        border-collapse: collapse;
     }
 
     table thead tr.formulaName td {
@@ -171,6 +173,7 @@ internal static class Motos
     table tbody tr td {
         text-align: center;
         border-top: solid 1px black;
+        border-bottom: solid 1px black;
     }
 
     table tbody tr:nth-child(odd) td {
@@ -181,18 +184,18 @@ internal static class Motos
 
 <body>
 <h1>");
-        entryList.AppendFormat("F5BMX - {0} - {1}", series.year, series.name);
-        entryList.Append(@"</h1><h2>");
-        entryList.AppendFormat("Round {0} - Race Listings", round.roundNumber);
-        entryList.Append(@"</h2>");
+        html.AppendFormat("F5BMX - {0} - {1}", series.year, series.name);
+        html.Append(@"</h1><h2>");
+        html.AppendFormat("Round {0} - Race Listings", round.roundNumber);
+        html.Append(@"</h2>");
 
-        foreach (var formula in round.formulas)
+        foreach (var formula in round.formulas.OrderByDescending(x => x.order))
         {
             // SKIP FORMULAS WITH NO RIDERS
             if (formula.riders.Count == 0)
                 continue;
 
-            entryList.AppendFormat(@"
+            html.AppendFormat(@"
 <table>
     <thead>
         <tr class=""formulaName"">
@@ -214,25 +217,261 @@ internal static class Motos
                 var riderMoto2 = formula.moto2.Where(x => x.riderList.Contains(rider.id)).FirstOrDefault();
                 var riderMoto3 = formula.moto3.Where(x => x.riderList.Contains(rider.id)).FirstOrDefault();
 
-                entryList.AppendLine("<tr>");
-                entryList.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
-                entryList.AppendLine($"<td>{rider.plateNumber}</td>");
-                entryList.AppendLine($"<td>Moto {riderMoto1?.raceNumber} -- Gate {riderMoto1?.findRiderGate(rider.id)}</td>");
-                entryList.AppendLine($"<td>Moto {riderMoto2?.raceNumber} -- Gate {riderMoto2?.findRiderGate(rider.id)}</td>");
-                entryList.AppendLine($"<td>Moto {riderMoto3?.raceNumber} -- Gate {riderMoto3?.findRiderGate(rider.id)}</td>");
-                entryList.AppendLine("</tr>");
+                html.AppendLine("<tr>");
+                html.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
+                html.AppendLine($"<td>{rider.plateNumber}</td>");
+                html.AppendLine($"<td>Moto {riderMoto1?.raceNumber} -- Gate {riderMoto1?.findRiderGate(rider.id)}</td>");
+                html.AppendLine($"<td>Moto {riderMoto2?.raceNumber} -- Gate {riderMoto2?.findRiderGate(rider.id)}</td>");
+                html.AppendLine($"<td>Moto {riderMoto3?.raceNumber} -- Gate {riderMoto3?.findRiderGate(rider.id)}</td>");
+                html.AppendLine("</tr>");
             }
 
-            entryList.AppendLine(@"
+            html.AppendLine(@"
     </tbody>
 </table>");
         }
 
-        entryList.AppendLine(@"
+        html.AppendLine(@"
 </body>
 </html>");
 
-        HTML.WriteFile($"round{round.roundNumber}.motolist", entryList.ToString());
+        HTML.WriteFile($"round{round.roundNumber}.motolist", html.ToString());
     }
 
+    public static void GenerateMotoCommentary(Series series, Round round)
+    {
+        StringBuilder html = new StringBuilder();
+        html.Append(@"
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    html, body {
+        width: 210mm;
+        font-family: ""Tahoma"";
+    }
+
+    h1, h2 {
+        text-align: center;
+        margin: 0;
+    }
+
+    table {
+        width: 100%;
+        page-break-inside: avoid;
+    margin-bottom: 10mm;
+
+        border-collapse: collapse;
+    }
+
+    table thead tr.formulaName td {
+        font-size: 1.8em;
+        font-weight: bold;
+        text-align: center;
+
+        background-color: black;
+        color: white;
+    }
+
+    table thead tr.tableHeading td {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    table tbody tr td {
+        font-size: 1.6em;
+        text-align: center;
+        border-top: solid 1px black;
+        border-bottom: solid 1px black;
+        height: 15mm;
+    }
+
+    table tbody tr:nth-child(odd) td {
+        background-color: lightgrey;
+    }
+    </style>
+</head>
+
+<body>");
+
+        for (int moto = 1; moto <= round.numberOfMotos; moto++)
+        {
+            foreach (var formula in round.formulas.OrderBy(x => x.order))
+            {
+                List<Race> races = new List<Race>();
+
+                if (moto == 1)
+                    races = formula.moto1;
+                else if (moto == 2)
+                    races = formula.moto2;
+                else if (moto == 3)
+                    races = formula.moto3;
+
+                foreach (var race in races.OrderBy(x => x.raceNumber))
+                {
+                    // SKIP FORMULAS WITH NO RIDERS
+                    if (formula.riders.Count == 0)
+                        continue;
+
+                    html.AppendFormat(@"
+<table>
+    <thead>
+        <tr class=""formulaName"">
+            <td colspan=""4"">Moto {0} - {1}</td>
+        </tr>
+        <tr class=""tableHeading"">
+            <td width=""20%"">Plate</td>
+            <td width=""50%"">Name</td>
+            <td width=""30%"">Club</td>
+        </tr>
+    </thead>
+    <tbody>", race.raceNumber, formula.name);
+
+                    for (uint gate = 1; gate <= round.numberOfGates; gate++)
+                    {
+                        RoundRider rider;
+                        if (race.gates.ContainsKey(gate))
+                            rider = formula.riders.Where(x => x.id == race.gates[gate]).First();
+                        else
+                            rider = new RoundRider();
+
+                        html.AppendLine("<tr>");
+                        html.AppendLine($"<td>{rider.plateNumber}</td>");
+                        html.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
+                        html.AppendLine($"<td>{rider.club}</td>");
+                        html.AppendLine("</tr>");
+                    }
+
+                    html.AppendLine(@"
+    </tbody>
+</table>");
+                }
+            }
+        }
+
+        html.AppendLine(@"
+</body>
+</html>");
+
+        HTML.WriteFile($"round{round.roundNumber}.commentary", html.ToString());
+    }
+
+
+    public static void GenerateMotoCallup(Series series, Round round)
+    {
+        StringBuilder html = new StringBuilder();
+        html.Append(@"
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    html, body {
+        width: 210mm;
+        font-family: ""Tahoma"";
+    }
+
+    h1, h2 {
+        text-align: center;
+        margin: 0;
+    }
+
+    table {
+        width: 100%;
+        page-break-inside: avoid;
+        margin-bottom: 10mm;
+
+        border-collapse: collapse;
+    }
+
+    table thead tr.formulaName td {
+        font-size: 1.6em;
+        font-weight: bold;
+        text-align: center;
+
+        background-color: black;
+        color: white;
+    }
+
+    table thead tr.tableHeading td {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    table tbody tr td {
+        text-align: center;
+        border-top: solid 1px black;
+        border-bottom: solid 1px black;
+    }
+
+    table tbody tr:nth-child(odd) td {
+        background-color: lightgrey;
+    }
+    </style>
+</head>
+
+<body>");
+
+        for (int moto = 1; moto <= round.numberOfMotos; moto++)
+        {
+            foreach (var formula in round.formulas.OrderBy(x => x.order))
+            {
+                List<Race> races = new List<Race>();
+
+                if (moto == 1)
+                    races = formula.moto1;
+                else if (moto == 2)
+                    races = formula.moto2;
+                else if (moto == 3)
+                    races = formula.moto3;
+
+                foreach (var race in races.OrderBy(x => x.raceNumber))
+                {
+                    // SKIP FORMULAS WITH NO RIDERS
+                    if (formula.riders.Count == 0)
+                        continue;
+
+                    html.AppendFormat(@"
+<table>
+    <thead>
+        <tr class=""formulaName"">
+            <td colspan=""4"">Moto {0} - {1}</td>
+        </tr>
+        <tr class=""tableHeading"">
+            <td width=""15%"">Gate</td>
+            <td width=""15%"">Plate</td>
+            <td width=""35%"">Name</td>
+            <td width=""35%"">Club</td>
+        </tr>
+    </thead>
+    <tbody>", race.raceNumber, formula.name);
+
+                    for (uint gate = 1; gate <= round.numberOfGates; gate++)
+                    {
+                        RoundRider rider;
+                        if (race.gates.ContainsKey(gate))
+                            rider = formula.riders.Where(x => x.id == race.gates[gate]).First();
+                        else
+                            rider = new RoundRider();
+
+                        html.AppendLine("<tr>");
+                        html.AppendLine($"<td>{gate}</td>");
+                        html.AppendLine($"<td>{rider.plateNumber}</td>");
+                        html.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
+                        html.AppendLine($"<td>{rider.club}</td>");
+                        html.AppendLine("</tr>");
+                    }
+
+                    html.AppendLine(@"
+    </tbody>
+</table>");
+                }
+            }
+        }
+
+        html.AppendLine(@"
+</body>
+</html>");
+
+        HTML.WriteFile($"round{round.roundNumber}.callup", html.ToString());
+    }
 }
