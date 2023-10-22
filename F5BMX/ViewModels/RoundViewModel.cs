@@ -5,6 +5,7 @@ using F5BMX.Helpers;
 using F5BMX.Models;
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Windows.Input;
 
 namespace F5BMX.ViewModels;
@@ -30,6 +31,9 @@ internal class RoundViewModel : ViewModelBase
     public bool registrationEnabled => round.motosStatus == StageStatus.NotGenerated;
     public bool motosEnabled => round.registrationStatus == RegistrationStatus.Closed && round.finalsStatus == StageStatus.NotGenerated;
     public bool finalsEnabled => round.motosStatus == StageStatus.Finished;
+
+    [JsonIgnore]
+    public EnterResultsViewModel enterResultsViewModel { get; set; }
 
     private void NotifyEnabled()
     {
@@ -72,7 +76,8 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.registrationStatus == RegistrationStatus.Closed && round.motosStatus == StageStatus.NotGenerated; }
     );
     public ICommand btnPrintMotoSheets => new RelayCommand(
-        () => {
+        () =>
+        {
             Motos.GenerateMotoListing(series, round);
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motolist.html") { UseShellExecute = true });
             round.motosStatus = StageStatus.SheetsPrinted;
@@ -81,15 +86,24 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.motosStatus == StageStatus.Generated; }
     );
     public ICommand btnEnterMotoResults => new RelayCommand(
-        () => {
-            new Views.EnterResults() { DataContext = new EnterResultsViewModel(round) }.ShowDialog();
+        () =>
+        {
+            if(enterResultsViewModel == null)
+                enterResultsViewModel = new EnterResultsViewModel(round);
+
+            new Views.EnterResults() { DataContext = enterResultsViewModel }.ShowDialog();
             round.motosStatus = StageStatus.ResultsEntered;
             round.Save();
         },
         () => { return round.motosStatus == StageStatus.SheetsPrinted || round.motosStatus == StageStatus.ResultsEntered; }
     );
     public ICommand btnFinalizeMotos => new RelayCommand(
-        () => { },
+        () =>
+        {
+            round.motosStatus = StageStatus.Finished;
+            NotifyPropertyChanged(nameof(finalsEnabled));
+            round.Save();
+        },
         () => { return round.motosStatus == StageStatus.ResultsEntered; }
     );
     #endregion
