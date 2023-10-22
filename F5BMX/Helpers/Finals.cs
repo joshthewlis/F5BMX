@@ -136,11 +136,14 @@ internal static class Finals
                         position = (uint)pointsAllocation.Length-1; // ENSURES EVERYONE GETS MINIMUM 3 POINTS
 
                     riderResult.rider.finalPosition = position;
-                    riderResult.rider.roundPoints = pointsAllocation[position];
-                    seriesRider.seriesPoints += pointsAllocation[position];
+                    riderResult.rider.roundPoints = pointsAllocation[position-1];
+                    seriesRider.seriesPoints += pointsAllocation[position-1];
                 }
             }
         }
+
+        // Save Series Riders
+        JSON.WriteFile("riders", series.riders);
     }
 
     public static void GenerateListing(Series series, Round round)
