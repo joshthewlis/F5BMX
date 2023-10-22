@@ -17,7 +17,7 @@ internal class RoundViewModel : ViewModelBase
     public RoundViewModel() : this(new Series(), 0)
     { }
 
-    public RoundViewModel(Series series, int roundNumber)
+    public RoundViewModel(Series series, uint roundNumber)
     {
         this.series = series;
 

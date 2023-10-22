@@ -94,7 +94,7 @@ internal class CreateSeriesViewModel : ViewModelBase
         Directories.CreateSeriesDirectory(series.year, series.name);
 
         // CREATE ROUNDS STATUS
-        for (int i = 1; i <= series.numberOfRounds; i++)
+        for (uint i = 1; i <= series.numberOfRounds; i++)
             series.rounds.Add(new SeriesRoundStatus() { roundNumber = i });
 
         // WRITE SERIES JSON FILE

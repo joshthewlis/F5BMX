@@ -12,7 +12,7 @@ internal class Round : ModelBase
 
     public Round() { }
 
-    public Round(int roundNumber, List<SeriesFormula> seriesFormulas)
+    public Round(uint roundNumber, List<SeriesFormula> seriesFormulas)
     {
         this.roundNumber = roundNumber;
 
@@ -20,9 +20,9 @@ internal class Round : ModelBase
             this.formulas.Add(new RoundFormula(formula));
     }
 
-    public int roundNumber { get; init; }
-    public int numberOfGates { get; set; } = 8;
-    public int numberOfMotos { get; set; } = 3;
+    public uint roundNumber { get; init; }
+    public uint numberOfGates { get; set; } = 8;
+    public uint numberOfMotos { get; set; } = 3;
 
     public RegistrationStatusEnum registrationStatus { get; set; } = RegistrationStatusEnum.Open;
     public StageStatusEnum motosStatus { get; set; } = StageStatusEnum.NotGenerated;

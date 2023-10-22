@@ -11,7 +11,7 @@ namespace F5BMX.Helpers;
 internal static class Motos
 {
 
-    private static uint[,] getGateNumbers(int numberOfGates)
+    private static uint[,] getGateNumbers(uint numberOfGates)
     {
         switch (numberOfGates)
         {
@@ -131,9 +131,9 @@ internal static class Motos
         }
     }
 
-    public static void Finalize(List<RaceResult> raceResults, int numberOfMotos)
+    public static void Finalize(List<RaceResult> raceResults, uint numberOfMotos)
     {
-        int numberOfMotoPerRounds = raceResults.Count / numberOfMotos;
+        uint numberOfMotoPerRounds = (uint)raceResults.Count / numberOfMotos;
 
         foreach (var raceResult in raceResults)
         {

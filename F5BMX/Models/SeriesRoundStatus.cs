@@ -3,7 +3,7 @@
 internal class SeriesRoundStatus
 {
 
-    public int roundNumber { get; set; }
+    public uint roundNumber { get; set; }
     public bool complete { get; set; }
 
 }

@@ -85,7 +85,7 @@ internal static class Finals
             // GENERATE THE RACE CLASSES
             int numberOfRaces = (int)Math.Ceiling((double)formula.riders.Count / round.numberOfGates);
 
-            for (int i = 0; i < numberOfRaces; i++)
+            for (uint i = 0; i < numberOfRaces; i++)
                 formula.final.Add(new Race() { finalNumber = i });
 
             // FILL THE RACES
@@ -133,7 +133,7 @@ internal static class Finals
 
                     var position = startingPosition + riderResult.result;
                     if (position > pointsAllocation.Length-1)
-                        position = pointsAllocation.Length-1; // ENSURES EVERYONE GETS MINIMUM 3 POINTS
+                        position = (uint)pointsAllocation.Length-1; // ENSURES EVERYONE GETS MINIMUM 3 POINTS
 
                     riderResult.rider.finalPosition = position;
                     riderResult.rider.roundPoints = pointsAllocation[position];
