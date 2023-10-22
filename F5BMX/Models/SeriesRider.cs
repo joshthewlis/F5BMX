@@ -16,7 +16,7 @@ namespace F5BMX.Models
         public string club { get; set; } = String.Empty;
         public string plateNumber { get; set; } = String.Empty;
         public int yearOfBirth { get => _yearOfBirth; set { _yearOfBirth = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(yearAge)); } }
-        public int seriesPoints { get; set; }
+        public uint seriesPoints { get; set; }
         public Guid formulaID { get; set; }
 
         [JsonIgnore]

@@ -31,8 +31,9 @@ internal class RoundRider : ModelBase, IRider
 
 
     public uint[] motoPositions { get; set; } = new uint[3];
-    public uint finalNumber { get; set; }
-    public uint finalpos { get; set; }
+    public uint finalPosition { get; set; }
+
+    public uint roundPoints { get; set; }
 
     /*
     public void setMotoPos(uint moto, uint pos)

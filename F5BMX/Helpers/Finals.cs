@@ -10,7 +10,7 @@ namespace F5BMX.Helpers;
 internal static class Finals
 {
 
-    private static int[] pointsAllocation =
+    private static uint[] pointsAllocation =
     {
         90,
         86,
@@ -135,6 +135,8 @@ internal static class Finals
                     if (position > pointsAllocation.Length-1)
                         position = pointsAllocation.Length-1; // ENSURES EVERYONE GETS MINIMUM 3 POINTS
 
+                    riderResult.rider.finalPosition = position;
+                    riderResult.rider.roundPoints = pointsAllocation[position];
                     seriesRider.seriesPoints += pointsAllocation[position];
                 }
             }
