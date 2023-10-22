@@ -32,7 +32,7 @@ namespace F5BMX.ViewModels
         public Round round { get; set; }
 
         #region Enumerator
-        private List<RaceResult> races;
+        public List<RaceResult> races;
         private int idx = 0;
         public RaceResult race => races[idx];
         #endregion

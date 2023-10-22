@@ -91,8 +91,8 @@
 
         <GroupBox Grid.Row="5" Header="Finals Control" IsEnabled="{Binding Path=finalsEnabled}">
             <UniformGrid Columns="4">
-                <Button>Generate Finals</Button>
-                <Button>Generate Sheets</Button>
+                <Button Command="{Binding Path=btnGenerateFinals}">Generate Finals</Button>
+                <Button Command="{Binding Path=btnPrintFinalSheets}">Generate Sheets</Button>
                 <Button>Enter Results</Button>
                 <Button>Finalize Finals</Button>
             </UniformGrid>

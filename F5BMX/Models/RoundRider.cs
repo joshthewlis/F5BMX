@@ -30,7 +30,7 @@ internal class RoundRider : ModelBase, IRider
     public int yearOfBirth { get; set; }
 
 
-    public uint[] motoPositions { get; set; } = new uint[4];
+    public uint[] motoPositions { get; set; } = new uint[3];
     public uint finalNumber { get; set; }
     public uint finalpos { get; set; }
 

@@ -80,15 +80,15 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnPrintMotoSheets => new RelayCommand(
         () =>
         {
-            Motos.GenerateMotoListing(series, round);
+            Motos.GenerateListing(series, round);
             MessageBox.Show("Opening Moto Listings In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.motolist.html") { UseShellExecute = true });
 
-            Motos.GenerateMotoCommentary(series, round);
+            Motos.GenerateCommentary(series, round);
             MessageBox.Show("Opening Commentary In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.commentary.html") { UseShellExecute = true });
 
-            Motos.GenerateMotoCallup(series, round);
+            Motos.GenerateCallup(series, round);
             MessageBox.Show("Opening Call Up In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.callup.html") { UseShellExecute = true });
 
@@ -112,6 +112,7 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnFinalizeMotos => new RelayCommand(
         () =>
         {
+            Motos.Finalize(enterResultsViewModel.races);
             round.motosStatus = StageStatus.Finished;
             NotifyPropertyChanged(nameof(finalsEnabled));
             round.Save();
@@ -124,18 +125,23 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnGenerateFinals => new RelayCommand(
         () => {
             Finals.Generate(round);
+            round.finalsStatus = StageStatus.Generated;
+            round.Save();
         },
         () => { return round.finalsStatus == StageStatus.NotGenerated; }
     );
     public ICommand btnPrintFinalSheets => new RelayCommand(
         () => {
-            
+            Finals.GenerateListing(series, round);
+            MessageBox.Show("Opening Final Listings In Default Browser\r\nPlease Print.");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.finallist.html") { UseShellExecute = true });
+
+            round.Save();
         },
         () => { return round.finalsStatus == StageStatus.Generated; }
     );
     public ICommand btnEnterFinalResults => new RelayCommand(
         () => {
-            Finals.Generate(round);
         },
         () => { return round.finalsStatus == StageStatus.SheetsPrinted || round.finalsStatus == StageStatus.ResultsEntered; }
     );

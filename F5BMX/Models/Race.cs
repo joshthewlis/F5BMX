@@ -13,6 +13,8 @@ internal class Race
         this.gates = new Dictionary<uint, Guid>();
     }
 
+    [JsonIgnore]
+    public int finalNumber { get; set; }
     public int raceNumber { get; set; }
 
     public Dictionary<uint, Guid> gates { get; set; }
