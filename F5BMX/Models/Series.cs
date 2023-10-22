@@ -13,14 +13,14 @@ internal class Series : ViewModelBase
     public Series()
     {
         this.year = DateTime.Now.Year;
-        this.numberOfRounds = 5;
+        this.numberOfRounds = 6;
         this.formulas = new ObservableCollection<SeriesFormula>()
         {
-            new SeriesFormula(1, "Formula 5", 4, 7),
-            new SeriesFormula(2, "Formula 4", 8, 10),
-            new SeriesFormula(3, "Formula 3", 11, 14),
-            new SeriesFormula(4, "Formula 2", 15, 17),
-            new SeriesFormula(5, "Formula 1", 18, 99),
+            new SeriesFormula(1, "Formula 5", 4, 7, true),
+            new SeriesFormula(2, "Formula 4", 8, 10, true),
+            new SeriesFormula(3, "Formula 3", 11, 14, true),
+            new SeriesFormula(4, "Formula 2", 15, 17, true),
+            new SeriesFormula(5, "Formula 1", 18, 99, true),
         };
         this.rounds = new List<SeriesRoundStatus>();
         this.riders = JSON.ReadCollection<ObservableCollection<SeriesRider>>("riders");

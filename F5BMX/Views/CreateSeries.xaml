@@ -32,7 +32,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.ColumnSpan="4" Style="{StaticResource PageTitle}">F5BMX - Create Series</Label>
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Style="{StaticResource WindowTitle}">F5BMX - Create Series</TextBlock>
 
         <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource FormLabel}">Year:</Label>
         <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=series.year}" IsEnabled="False" />
@@ -102,6 +102,7 @@
                     <DataGridTextColumn Header="Start Min Age" Binding="{Binding Path=minAge}" />
                     <DataGridTextColumn Header="Start Max Age" Binding="{Binding Path=maxAge}" />
                     <DataGridCheckBoxColumn Header="Dash for Cash" Binding="{Binding Path=dashForCash}" />
+                    <DataGridCheckBoxColumn Header="Promotion" Binding="{Binding Path=promotion}" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -124,18 +125,27 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                    <Label Grid.Row="0" Style="{StaticResource FormLabel}">Order</Label>
-                    <TextBox Grid.Row="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=order}" IsEnabled="False" />
-                    <Label Grid.Row="2" Style="{StaticResource FormLabel}">Name</Label>
-                    <TextBox Grid.Row="3" Style="{StaticResource FormTextBox}" Text="{Binding Path=name}" />
-                    <Label Grid.Row="4" Style="{StaticResource FormLabel}">Min Age</Label>
-                    <TextBox Grid.Row="5" Style="{StaticResource FormTextBox}" Text="{Binding Path=minAge}" />
-                    <Label Grid.Row="6" Style="{StaticResource FormLabel}">Max Age</Label>
-                    <TextBox Grid.Row="7" Style="{StaticResource FormTextBox}" Text="{Binding Path=maxAge}" />
+                    <Label Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Order</Label>
+                    <TextBox Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=order}" IsEnabled="False" />
+                    <Label Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Name</Label>
+                    <TextBox Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=name}" />
+                    <Label Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Min Age</Label>
+                    <TextBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=minAge}" />
+                    <Label Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Max Age</Label>
+                    <TextBox Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=maxAge}" />
+                    
                     <Label Grid.Row="8" Style="{StaticResource FormLabel}">Dash for Cash</Label>
                     <CheckBox Grid.Row="9" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=dashForCash}" />
+                    <Label Grid.Row="8" Grid.Column="1" Style="{StaticResource FormLabel}">Promotion</Label>
+                    <CheckBox Grid.Row="9" Grid.Column="1" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=promotion}" />
                 </Grid>
             </GroupBox>
 
