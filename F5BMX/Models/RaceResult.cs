@@ -15,27 +15,19 @@ namespace F5BMX.Models
             raceNumber = race.raceNumber;
             this.motoRound = motoRound;
             formulaName = formula.name;
-            gate1 = formula.riders.Where(x => x.id == race.gate1).FirstOrDefault();
-            gate2 = formula.riders.Where(x => x.id == race.gate2).FirstOrDefault();
-            gate3 = formula.riders.Where(x => x.id == race.gate3).FirstOrDefault();
-            gate4 = formula.riders.Where(x => x.id == race.gate4).FirstOrDefault();
-            gate5 = formula.riders.Where(x => x.id == race.gate5).FirstOrDefault();
-            gate6 = formula.riders.Where(x => x.id == race.gate6).FirstOrDefault();
-            gate7 = formula.riders.Where(x => x.id == race.gate7).FirstOrDefault();
-            gate8 = formula.riders.Where(x => x.id == race.gate8).FirstOrDefault();
+
+            this.gates = new Dictionary<int, RoundRiderResult>();
+            foreach (KeyValuePair<int, Guid> kvp in race.gates)
+                this.gates[kvp.Key] = new RoundRiderResult(formula.riders.Where(x => x.id == kvp.Value).FirstOrDefault());
         }
 
         public int raceNumber { get; init; }
         public uint motoRound { get; init; }
         public string formulaName { get; init; }
-        public RoundRider? gate1 { get; init; }
-        public RoundRider? gate2 { get; init; }
-        public RoundRider? gate3 { get; init; }
-        public RoundRider? gate4 { get; init; }
-        public RoundRider? gate5 { get; init; }
-        public RoundRider? gate6 { get; init; }
-        public RoundRider? gate7 { get; init; }
-        public RoundRider? gate8 { get; init; }
+
+        public Dictionary<int, RoundRiderResult> gates { get; init; }
+
+        public uint nextResult { get; set; } = 1;
 
     }
 }

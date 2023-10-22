@@ -51,8 +51,8 @@ internal static class Motos
 
     public static void Generate(Round round)
     {
-        var formulaRaceOrder = round.formulas.OrderBy(x => x.order);
         var gateNumbers = getGateNumbers(round.numberOfGates);
+        var formulaRaceOrder = round.formulas.OrderBy(x => x.order);
 
         // ASSIGN RIDERS
         foreach (var formula in formulaRaceOrder)

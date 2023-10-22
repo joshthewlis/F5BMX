@@ -4,6 +4,7 @@ using F5BMX.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -43,14 +44,43 @@ namespace F5BMX.ViewModels
         );
 
         public ICommand btnNextRace => new RelayCommand(
-            () => { idx++; NotifyPropertyChanged(nameof(race)); }, 
-            () => { return idx < races.Count-1; }
+            () => { idx++; NotifyPropertyChanged(nameof(race)); },
+            () => { return idx < races.Count - 1; }
         );
+        public ICommand btnReset => new RelayCommand(reset);
+        private void reset()
+        {
+            race.nextResult = 0;
 
+            foreach(var riderResult in race.gates)
+                riderResult.Value.result = 0;
+        }
         public ICommand btnClose => new RelayCommand<IClosable>(
             (IClosable window) => { window.Close(); },
             () => { return idx == races.Count; }
         );
+        #endregion
+
+        #region Rider Buttons
+        public ICommand btnRiderResult => new RelayCommand<string>(riderResult);
+        private void riderResult(string gate)
+        {
+            int pos = int.Parse(gate);
+            race.gates[pos].result = race.nextResult;
+            race.nextResult++;
+        }
+        public ICommand btnRiderDNF => new RelayCommand<string>(riderDNF);
+        private void riderDNF(string gate)
+        {
+            int pos = int.Parse(gate);
+            race.gates[pos].result = (uint)race.gates.Count;
+        }
+        public ICommand btnRiderDNS => new RelayCommand<string>(riderDNS);
+        private void riderDNS(string gate)
+        {
+            int pos = int.Parse(gate);
+            race.gates[pos].result = 99;
+        }
         #endregion
 
     }
