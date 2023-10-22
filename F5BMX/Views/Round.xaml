@@ -98,7 +98,7 @@
             </UniformGrid>
         </GroupBox>
 
-        <GroupBox Grid.Row="6" Header="Results">
+        <GroupBox Grid.Row="6" Header="Results" IsEnabled="{Binding Path=resultsEnabled}">
             <UniformGrid Columns="4">
                 <Button>Round Standings</Button>
                 <Button>Series Standings</Button>

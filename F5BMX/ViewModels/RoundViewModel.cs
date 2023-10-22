@@ -32,6 +32,7 @@ internal class RoundViewModel : ViewModelBase
     public bool registrationEnabled => round.motosStatus == StageStatusEnum.NotGenerated;
     public bool motosEnabled => round.registrationStatus == RegistrationStatusEnum.Closed && round.finalsStatus == StageStatusEnum.NotGenerated;
     public bool finalsEnabled => round.motosStatus == StageStatusEnum.Finished;
+    public bool resultsEnabled => round.finalsStatus == StageStatusEnum.Finished;
 
     [JsonIgnore]
     public EnterResultsViewModel? motoResultsViewModel { get; set; }
@@ -107,7 +108,6 @@ internal class RoundViewModel : ViewModelBase
 
             new Views.EnterResults() { DataContext = motoResultsViewModel }.ShowDialog();
             round.motosStatus = StageStatusEnum.ResultsEntered;
-            round.Save();
         },
         () => { return round.motosStatus == StageStatusEnum.SheetsPrinted || round.motosStatus == StageStatusEnum.ResultsEntered; }
     );
@@ -161,12 +161,17 @@ internal class RoundViewModel : ViewModelBase
 
             new Views.EnterResults() { DataContext = finalResultsViewModel }.ShowDialog();
             round.finalsStatus = StageStatusEnum.ResultsEntered;
-            round.Save();
         },
         () => { return round.finalsStatus == StageStatusEnum.SheetsPrinted || round.finalsStatus == StageStatusEnum.ResultsEntered; }
     );
     public ICommand btnFinalizeFinals => new RelayCommand(
         () => {
+            if (finalResultsViewModel == null)
+                return;
+
+            Finals.Finalize(series, round, finalResultsViewModel.races);
+            round.finalsStatus = StageStatusEnum.Finished;
+            round.Save();
         },
         () => { return round.finalsStatus == StageStatusEnum.ResultsEntered; }
     );
