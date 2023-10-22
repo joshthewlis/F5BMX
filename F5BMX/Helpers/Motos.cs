@@ -1,5 +1,6 @@
 ﻿using F5BMX.Core.IO;
 using F5BMX.Models;
+using F5BMX.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,7 +131,14 @@ internal static class Motos
         }
     }
 
-    public static void GenerateMotoListing(Series series, Round round)
+    public static void Finalize(List<RaceResult> raceResults)
+    {
+        foreach(var raceResult in raceResults)
+            foreach(var riderResult in raceResult.gates)
+                riderResult.Value.rider.motoPositions[raceResult.motoRound-1] = riderResult.Value.result;
+    }
+
+    public static void GenerateListing(Series series, Round round)
     {
         StringBuilder html = new StringBuilder();
         html.Append(@"
@@ -186,7 +194,7 @@ internal static class Motos
 <h1>");
         html.AppendFormat("F5BMX - {0} - {1}", series.year, series.name);
         html.Append(@"</h1><h2>");
-        html.AppendFormat("Round {0} - Race Listings", round.roundNumber);
+        html.AppendFormat("Round {0} - Moto Listings", round.roundNumber);
         html.Append(@"</h2>");
 
         foreach (var formula in round.formulas.OrderByDescending(x => x.order))
@@ -238,7 +246,7 @@ internal static class Motos
         HTML.WriteFile($"round{round.roundNumber}.motolist", html.ToString());
     }
 
-    public static void GenerateMotoCommentary(Series series, Round round)
+    public static void GenerateCommentary(Series series, Round round)
     {
         StringBuilder html = new StringBuilder();
         html.Append(@"
@@ -357,7 +365,7 @@ internal static class Motos
     }
 
 
-    public static void GenerateMotoCallup(Series series, Round round)
+    public static void GenerateCallup(Series series, Round round)
     {
         StringBuilder html = new StringBuilder();
         html.Append(@"
