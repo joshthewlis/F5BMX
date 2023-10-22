@@ -10,6 +10,67 @@ namespace F5BMX.Helpers;
 internal static class Finals
 {
 
+    private static int[] pointsAllocation =
+    {
+        90,
+        86,
+        82,
+        78,
+        75,
+        73,
+        71,
+        69,
+        67,
+        65,
+        63,
+        61,
+        59,
+        57,
+        55,
+        53,
+        51,
+        49,
+        47,
+        45,
+        43,
+        41,
+        39,
+        37,
+        35,
+        34,
+        33,
+        32,
+        31,
+        30,
+        29,
+        28,
+        27,
+        26,
+        25,
+        24,
+        23,
+        22,
+        21,
+        20,
+        19,
+        18,
+        17,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3
+    };
+
     public static void Generate(Round round)
     {
 
@@ -51,6 +112,31 @@ internal static class Finals
             {
                 race.raceNumber = raceNumber;
                 raceNumber++;
+            }
+        }
+    }
+
+    public static void Finalize(Series series, Round round, List<RaceResult> raceResults)
+    {
+        // ADD SERIES POINTS
+        foreach(var formula in round.formulas)
+        {
+            foreach(var race in formula.final)
+            {
+                var raceResult = raceResults.Where(x => x.raceNumber == race.raceNumber).First();
+
+                var startingPosition = race.finalNumber * round.numberOfGates;
+
+                foreach(var riderResult in raceResult.gates.Values)
+                {
+                    var seriesRider = series.riders.Where(x => x.id == riderResult.rider.id).First();
+
+                    var position = startingPosition + riderResult.result;
+                    if (position > pointsAllocation.Length-1)
+                        position = pointsAllocation.Length-1; // ENSURES EVERYONE GETS MINIMUM 3 POINTS
+
+                    seriesRider.seriesPoints += pointsAllocation[position];
+                }
             }
         }
     }
