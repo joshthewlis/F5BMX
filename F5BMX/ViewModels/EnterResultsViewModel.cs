@@ -18,12 +18,12 @@ namespace F5BMX.ViewModels
         {
             this.round = round;
 
-            var tmpRaces = new List<RaceResult>();
+            var tmpRaces = new List<MotoRaceResult>();
             foreach (var formula in round.formulas)
             {
-                formula.moto1.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, 1, moto)); });
-                formula.moto2.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, 2, moto)); });
-                formula.moto3.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, 3, moto)); });
+                formula.moto1.ForEach(moto => { tmpRaces.Add(new MotoRaceResult(formula, 1, moto)); });
+                formula.moto2.ForEach(moto => { tmpRaces.Add(new MotoRaceResult(formula, 2, moto)); });
+                formula.moto3.ForEach(moto => { tmpRaces.Add(new MotoRaceResult(formula, 3, moto)); });
             }
 
             this.races = tmpRaces.OrderBy(x => x.raceNumber).ToList();
@@ -32,9 +32,9 @@ namespace F5BMX.ViewModels
         public Round round { get; set; }
 
         #region Enumerator
-        public List<RaceResult> races;
+        public List<MotoRaceResult> races;
         private int idx = 0;
-        public RaceResult race => races[idx];
+        public MotoRaceResult race => races[idx];
         #endregion
 
         #region Buttons

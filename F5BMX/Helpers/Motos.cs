@@ -131,7 +131,7 @@ internal static class Motos
         }
     }
 
-    public static void Finalize(List<RaceResult> raceResults)
+    public static void Finalize(List<MotoRaceResult> raceResults)
     {
         foreach(var raceResult in raceResults)
             foreach(var riderResult in raceResult.gates)

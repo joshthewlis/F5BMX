@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace F5BMX.Models
 {
-    internal class RaceResult : ModelBase
+    internal class MotoRaceResult : ModelBase
     {
 
-        public RaceResult(RoundFormula formula, uint motoRound, Race race)
+        public MotoRaceResult(RoundFormula formula, uint motoRound, Race race)
         {
             raceNumber = race.raceNumber;
             this.motoRound = motoRound;
