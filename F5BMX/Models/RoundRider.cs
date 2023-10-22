@@ -1,4 +1,5 @@
 ﻿using F5BMX.Core;
+using F5BMX.Enums;
 using F5BMX.Interfaces;
 using System;
 using System.Text.Json.Serialization;
@@ -34,6 +35,8 @@ internal class RoundRider : ModelBase, IRider
     public uint finalPosition { get; set; }
 
     public uint roundPoints { get; set; }
+
+    public PromotionEnum promotion { get; set; } = PromotionEnum.NoChange;
 
     /*
     public void setMotoPos(uint moto, uint pos)

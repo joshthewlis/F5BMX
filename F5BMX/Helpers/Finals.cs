@@ -1,5 +1,6 @@
 ﻿using F5BMX.Core.IO;
 using F5BMX.Models;
+using F5BMX.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,31 +119,64 @@ internal static class Finals
 
     public static void Finalize(Series series, Round round, List<RaceResult> raceResults)
     {
-        // ADD SERIES POINTS
-        foreach(var formula in round.formulas)
+        foreach (var formula in round.formulas)
         {
-            foreach(var race in formula.final)
+            // ADD SERIES POINTS
+            foreach (var race in formula.final)
             {
                 var raceResult = raceResults.Where(x => x.raceNumber == race.raceNumber).First();
 
                 var startingPosition = race.finalNumber * round.numberOfGates;
 
-                foreach(var riderResult in raceResult.gates.Values)
+                foreach (var riderResult in raceResult.gates.Values)
                 {
                     var seriesRider = series.riders.Where(x => x.id == riderResult.rider.id).First();
 
                     var position = startingPosition + riderResult.result;
-                    if (position > pointsAllocation.Length-1)
-                        position = (uint)pointsAllocation.Length-1; // ENSURES EVERYONE GETS MINIMUM 3 POINTS
+                    if (position > pointsAllocation.Length - 1)
+                        position = (uint)pointsAllocation.Length - 1; // ENSURES EVERYONE GETS MINIMUM 3 POINTS
 
                     riderResult.rider.finalPosition = position;
-                    riderResult.rider.roundPoints = pointsAllocation[position-1];
-                    seriesRider.seriesPoints += pointsAllocation[position-1];
+                    riderResult.rider.roundPoints = pointsAllocation[position - 1];
+                    seriesRider.seriesPoints += pointsAllocation[position - 1];
+                }
+            }
+
+            // TRY MOVE FORMULAS
+            var seriesFormula = series.formulas.Where(x => x.id == formula.id).First();
+            if (seriesFormula.promotion == true)
+            {
+                // ATTEMPT TO MOVE POSITION 1 RIDER UP A FORMULA
+                var firstRider = formula.riders.Where(x => x.finalPosition == 1).First();
+                var nextFormula = series.formulas.Where(x => x.order == formula.order + 1).FirstOrDefault();
+                if (nextFormula != null)
+                {
+                    if (nextFormula.promotion == true)
+                    {
+                        var seriesRider = series.riders.Where(x => x.id == firstRider.id).First();
+
+                        firstRider.promotion = Enums.PromotionEnum.Up;
+                        seriesRider.formulaID = nextFormula.id;
+                    }
+                }
+
+                // ATTEMPT TO MOVE LAST POSITION DOWN A FORMULA
+                var lastRider = formula.riders.Where(x => x.finalPosition == 1).First();
+                var prevFormula = series.formulas.Where(x => x.order == formula.order - 1).FirstOrDefault();
+                if (prevFormula != null)
+                {
+                    if (prevFormula.promotion == true)
+                    {
+                        var seriesRider = series.riders.Where(x => x.id == lastRider.id).First();
+
+                        lastRider.promotion = Enums.PromotionEnum.Down;
+                        seriesRider.formulaID = prevFormula.id;
+                    }
                 }
             }
         }
 
-        // Save Series Riders
+        // Save Changes to Series Riders
         JSON.WriteFile("riders", series.riders);
     }
 
