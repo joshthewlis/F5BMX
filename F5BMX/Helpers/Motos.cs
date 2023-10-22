@@ -246,7 +246,7 @@ internal static class Motos
         HTML.WriteFile($"round{round.roundNumber}.motolist", html.ToString());
     }
 
-    public static void GenerateCommentary(Series series, Round round)
+    public static void GenerateCommentary(Round round)
     {
         StringBuilder html = new StringBuilder();
         html.Append(@"
@@ -361,11 +361,11 @@ internal static class Motos
 </body>
 </html>");
 
-        HTML.WriteFile($"round{round.roundNumber}.commentary", html.ToString());
+        HTML.WriteFile($"round{round.roundNumber}.motocommentary", html.ToString());
     }
 
 
-    public static void GenerateCallup(Series series, Round round)
+    public static void GenerateCallup(Round round)
     {
         StringBuilder html = new StringBuilder();
         html.Append(@"
@@ -480,6 +480,7 @@ internal static class Motos
 </body>
 </html>");
 
-        HTML.WriteFile($"round{round.roundNumber}.callup", html.ToString());
+        HTML.WriteFile($"round{round.roundNumber}.motocallup", html.ToString());
     }
+
 }
