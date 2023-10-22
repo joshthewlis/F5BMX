@@ -18,7 +18,7 @@ namespace F5BMX.Models
 
             this.gates = new Dictionary<uint, RoundRiderResult>();
             foreach (KeyValuePair<uint, Guid> kvp in race.gates)
-                this.gates[kvp.Key] = new RoundRiderResult(formula.riders.Where(x => x.id == kvp.Value).FirstOrDefault());
+                this.gates[kvp.Key] = new RoundRiderResult(formula.riders.Where(x => x.id == kvp.Value).First());
         }
 
         public int raceNumber { get; init; }

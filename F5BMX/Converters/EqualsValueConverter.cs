@@ -21,7 +21,7 @@ namespace F5BMX.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return int.Parse(parameter.ToString());
+            return int.Parse((string)parameter);
         }
 
     }
