@@ -51,7 +51,8 @@
         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" FontSize="24">
             <Run Text="Round" />
             <Run Text="{Binding Path=round.roundNumber}" />
-            <Run Text="- Race" />
+            <Run Text="- " />
+            <Run Text="{Binding Path=enterResultsTypeEnum}" />
             <Run Text="{Binding Path=race.raceNumber}" />
         </TextBlock>
 

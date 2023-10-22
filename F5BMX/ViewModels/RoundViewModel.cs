@@ -160,7 +160,7 @@ internal class RoundViewModel : ViewModelBase
                 finalResultsViewModel = new EnterResultsViewModel(round, EnterResultsTypeEnum.Final);
 
             new Views.EnterResults() { DataContext = finalResultsViewModel }.ShowDialog();
-            round.motosStatus = StageStatusEnum.ResultsEntered;
+            round.finalsStatus = StageStatusEnum.ResultsEntered;
             round.Save();
         },
         () => { return round.finalsStatus == StageStatusEnum.SheetsPrinted || round.finalsStatus == StageStatusEnum.ResultsEntered; }
