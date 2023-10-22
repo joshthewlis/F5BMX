@@ -16,8 +16,8 @@ namespace F5BMX.Models
             this.motoRound = motoRound;
             formulaName = formula.name;
 
-            this.gates = new Dictionary<int, RoundRiderResult>();
-            foreach (KeyValuePair<int, Guid> kvp in race.gates)
+            this.gates = new Dictionary<uint, RoundRiderResult>();
+            foreach (KeyValuePair<uint, Guid> kvp in race.gates)
                 this.gates[kvp.Key] = new RoundRiderResult(formula.riders.Where(x => x.id == kvp.Value).FirstOrDefault());
         }
 
@@ -25,7 +25,7 @@ namespace F5BMX.Models
         public uint motoRound { get; init; }
         public string formulaName { get; init; }
 
-        public Dictionary<int, RoundRiderResult> gates { get; init; }
+        public Dictionary<uint, RoundRiderResult> gates { get; init; }
 
         public uint nextResult { get; set; } = 1;
 

@@ -10,20 +10,20 @@ internal class Race
 
     public Race()
     {
-        this.gates = new Dictionary<int, Guid>();
+        this.gates = new Dictionary<uint, Guid>();
     }
 
     public int raceNumber { get; set; }
 
-    public Dictionary<int, Guid> gates { get; set; }
+    public Dictionary<uint, Guid> gates { get; set; }
 
-    public void setGateRider(int gate, Guid rider)
+    public void setGateRider(uint gate, Guid rider)
     {
         this.gates[gate] = rider;
         return;
     }
 
-    public int findRiderGate(Guid rider)
+    public uint findRiderGate(Guid rider)
     {
         return this.gates.FirstOrDefault(x => x.Value == rider).Key;
     }

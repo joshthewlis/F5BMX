@@ -55,31 +55,37 @@ namespace F5BMX.ViewModels
             foreach(var riderResult in race.gates)
                 riderResult.Value.result = 0;
         }
-        public ICommand btnClose => new RelayCommand<IClosable>(
-            (IClosable window) => { window.Close(); },
-            () => { return idx == races.Count; }
-        );
+        public ICommand btnFinish => new RelayCommand<IClosable>(finish, canFinish);
+        private void finish(IClosable window)
+        {
+            window.Close();
+        }
+        private bool canFinish()
+        {
+            foreach (var race in races)
+                if (race.gates.Where(x => x.Value.result == 0).Any())
+                    return false;
+
+            return idx == races.Count - 1;
+        }
         #endregion
 
         #region Rider Buttons
-        public ICommand btnRiderResult => new RelayCommand<string>(riderResult);
-        private void riderResult(string gate)
+        public ICommand btnRiderResult => new RelayCommand<uint>(riderResult);
+        private void riderResult(uint gate)
         {
-            int pos = int.Parse(gate);
-            race.gates[pos].result = race.nextResult;
+            race.gates[gate].result = race.nextResult;
             race.nextResult++;
         }
-        public ICommand btnRiderDNF => new RelayCommand<string>(riderDNF);
-        private void riderDNF(string gate)
+        public ICommand btnRiderDNF => new RelayCommand<uint>(riderDNF);
+        private void riderDNF(uint gate)
         {
-            int pos = int.Parse(gate);
-            race.gates[pos].result = (uint)race.gates.Count;
+            race.gates[gate].result = (uint)race.gates.Count;
         }
-        public ICommand btnRiderDNS => new RelayCommand<string>(riderDNS);
-        private void riderDNS(string gate)
+        public ICommand btnRiderDNS => new RelayCommand<uint>(riderDNS);
+        private void riderDNS(uint gate)
         {
-            int pos = int.Parse(gate);
-            race.gates[pos].result = 99;
+            race.gates[gate].result = 99;
         }
         #endregion
 

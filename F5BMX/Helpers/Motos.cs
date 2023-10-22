@@ -10,12 +10,12 @@ namespace F5BMX.Helpers;
 internal static class Motos
 {
 
-    private static int[,] getGateNumbers(int numberOfGates)
+    private static uint[,] getGateNumbers(int numberOfGates)
     {
         switch (numberOfGates)
         {
             case 8:
-                return new int[,] {
+                return new uint[,] {
                         { 1, 6, 4},
                         { 2, 5, 7},
                         { 3, 8, 6},
@@ -27,7 +27,7 @@ internal static class Motos
                     };
 
             case 6:
-                return new int[,] {
+                return new uint[,] {
                         { 1, 4, 6},
                         { 2, 3, 5},
                         { 3, 6, 1},
@@ -37,7 +37,7 @@ internal static class Motos
                     };
 
             case 4:
-                return new int[,] {
+                return new uint[,] {
                         { 1, 4, 3},
                         { 2, 3, 1},
                         { 3, 2, 4},

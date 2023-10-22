@@ -1,4 +1,5 @@
-﻿using System;
+﻿using F5BMX.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace F5BMX.Views
     /// <summary>
     /// Interaction logic for EnterResults.xaml
     /// </summary>
-    public partial class EnterResults : Window
+    public partial class EnterResults : Window, IClosable
     {
         public EnterResults()
         {
