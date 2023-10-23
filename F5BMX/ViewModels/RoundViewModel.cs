@@ -21,8 +21,9 @@ internal class RoundViewModel : ViewModelBase
     {
         this.series = series;
 
-        var round = JSON.ReadModel<Round>($"round{roundNumber}");
-        this.round = round != null ? round : new Round(roundNumber, series.formulas.ToList());
+        this.round = JSON.ReadModel<Round>($"round{roundNumber}");
+        if (series.numberOfRounds == roundNumber)
+            round.finalRound = true;
     }
 
     public Series series { get; set; }
@@ -128,7 +129,8 @@ internal class RoundViewModel : ViewModelBase
 
     #region FinalControlButtons
     public ICommand btnGenerateFinals => new RelayCommand(
-        () => {
+        () =>
+        {
             Finals.Generate(round);
             round.finalsStatus = StageStatusEnum.Generated;
             round.Save();
@@ -136,7 +138,8 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.finalsStatus == StageStatusEnum.NotGenerated; }
     );
     public ICommand btnPrintFinalSheets => new RelayCommand(
-        () => {
+        () =>
+        {
             Finals.GenerateListing(series, round);
             MessageBox.Show("Opening Final Listings In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.finallist.html") { UseShellExecute = true });
@@ -155,7 +158,8 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.finalsStatus == StageStatusEnum.Generated; }
     );
     public ICommand btnEnterFinalResults => new RelayCommand(
-        () => {
+        () =>
+        {
             if (finalResultsViewModel == null)
                 finalResultsViewModel = new EnterResultsViewModel(round, EnterResultsTypeEnum.Final);
 
@@ -165,7 +169,8 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.finalsStatus == StageStatusEnum.SheetsPrinted || round.finalsStatus == StageStatusEnum.ResultsEntered; }
     );
     public ICommand btnFinalizeFinals => new RelayCommand(
-        () => {
+        () =>
+        {
             if (finalResultsViewModel == null)
                 return;
 
@@ -174,6 +179,22 @@ internal class RoundViewModel : ViewModelBase
             round.Save();
         },
         () => { return round.finalsStatus == StageStatusEnum.ResultsEntered; }
+    );
+    #endregion
+
+    #region ResultsButtons
+    public ICommand btnRoundStandings => new RelayCommand(
+        () =>
+        {
+            Reports.RoundStandings(series, round);
+            MessageBox.Show("Opening Round Standings In Default Browser\r\nPlease Print.");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.standings.html") { UseShellExecute = true });
+        },
+        () => { return round.finalsStatus == StageStatusEnum.Finished; }
+    );
+    public ICommand btnSeriesStandings => new RelayCommand(
+        () => { },
+        () => { return round.finalsStatus == StageStatusEnum.Finished; }
     );
     #endregion
 }

@@ -143,34 +143,37 @@ internal static class Finals
             }
 
             // TRY MOVE FORMULAS
-            var seriesFormula = series.formulas.Where(x => x.id == formula.id).First();
-            if (seriesFormula.promotion == true)
+            if (round.finalRound == false)
             {
-                // ATTEMPT TO MOVE POSITION 1 RIDER UP A FORMULA
-                var firstRider = formula.riders.Where(x => x.finalPosition == 1).First();
-                var nextFormula = series.formulas.Where(x => x.order == formula.order + 1).FirstOrDefault();
-                if (nextFormula != null)
+                var seriesFormula = series.formulas.Where(x => x.id == formula.id).First();
+                if (seriesFormula.promotion == true)
                 {
-                    if (nextFormula.promotion == true)
+                    // ATTEMPT TO MOVE POSITION 1 RIDER UP A FORMULA
+                    var firstRider = formula.riders.Where(x => x.finalPosition == 1).First();
+                    var nextFormula = series.formulas.Where(x => x.order == formula.order + 1).FirstOrDefault();
+                    if (nextFormula != null)
                     {
-                        var seriesRider = series.riders.Where(x => x.id == firstRider.id).First();
+                        if (nextFormula.promotion == true)
+                        {
+                            var seriesRider = series.riders.Where(x => x.id == firstRider.id).First();
 
-                        firstRider.promotion = Enums.PromotionEnum.Up;
-                        seriesRider.formulaID = nextFormula.id;
+                            firstRider.promotion = Enums.PromotionEnum.Up;
+                            seriesRider.formulaID = nextFormula.id;
+                        }
                     }
-                }
 
-                // ATTEMPT TO MOVE LAST POSITION DOWN A FORMULA
-                var lastRider = formula.riders.Where(x => x.finalPosition == 1).First();
-                var prevFormula = series.formulas.Where(x => x.order == formula.order - 1).FirstOrDefault();
-                if (prevFormula != null)
-                {
-                    if (prevFormula.promotion == true)
+                    // ATTEMPT TO MOVE LAST POSITION DOWN A FORMULA
+                    var lastRider = formula.riders.Where(x => x.finalPosition == 1).First();
+                    var prevFormula = series.formulas.Where(x => x.order == formula.order - 1).FirstOrDefault();
+                    if (prevFormula != null)
                     {
-                        var seriesRider = series.riders.Where(x => x.id == lastRider.id).First();
+                        if (prevFormula.promotion == true)
+                        {
+                            var seriesRider = series.riders.Where(x => x.id == lastRider.id).First();
 
-                        lastRider.promotion = Enums.PromotionEnum.Down;
-                        seriesRider.formulaID = prevFormula.id;
+                            lastRider.promotion = Enums.PromotionEnum.Down;
+                            seriesRider.formulaID = prevFormula.id;
+                        }
                     }
                 }
             }

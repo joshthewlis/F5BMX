@@ -39,6 +39,11 @@
 
         <GroupBox Grid.Row="2" Header="Round Settings" IsEnabled="{Binding Path=roundSettingsEnabled}">
             <Grid>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type RadioButton}">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -54,20 +59,19 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource FormLabel}">Gates on Track?</Label>
-                <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource FormLabel}">Number of Motos</Label>
-                <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource FormLabel}">Dash for Cash</Label>
-                <Label Grid.Row="0" Grid.Column="3" Style="{StaticResource FormLabel}">Test</Label>
+                <RadioButton Grid.Row="1" Grid.Column="0" GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=8}">8 Man</RadioButton>
+                <RadioButton Grid.Row="2" Grid.Column="0" GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=6}">6 Man</RadioButton>
+                <RadioButton Grid.Row="3" Grid.Column="0" GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=4}">4 Man</RadioButton>
 
-                <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
-                    <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=8}">8 Man</RadioButton>
-                    <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=6}">6 Man</RadioButton>
-                    <RadioButton GroupName="numberOfGates" IsChecked="{Binding Path=round.numberOfGates, Converter={StaticResource EqualsValueConverter}, ConverterParameter=4}">4 Man</RadioButton>
-                </StackPanel>
+                <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource FormLabel}">Number of Motos</Label>
+                <RadioButton Grid.Row="1" Grid.Column="1" GroupName="numberOfMotos" IsChecked="{Binding Path=round.numberOfMotos, Converter={StaticResource EqualsValueConverter}, ConverterParameter=3}">3 Motos</RadioButton>
+                <RadioButton Grid.Row="2" Grid.Column="1" GroupName="numberOfMotos" IsChecked="{Binding Path=round.numberOfMotos, Converter={StaticResource EqualsValueConverter}, ConverterParameter=2}">2 Motos</RadioButton>
+
+                <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource FormLabel}">Dash for Cash</Label>
                 
-                <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
-                    <RadioButton GroupName="numberOfMotos" IsChecked="{Binding Path=round.numberOfMotos, Converter={StaticResource EqualsValueConverter}, ConverterParameter=3}">3 Motos</RadioButton>
-                    <RadioButton GroupName="numberOfMotos" IsChecked="{Binding Path=round.numberOfMotos, Converter={StaticResource EqualsValueConverter}, ConverterParameter=2}">2 Motos</RadioButton>
-                </StackPanel>
+                
+                <Label Grid.Row="0" Grid.Column="3" Style="{StaticResource FormLabel}">Final Round?</Label>
+                <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" IsChecked="{Binding Path=round.finalRound}" IsEnabled="False" />
             </Grid>
         </GroupBox>
 
@@ -100,8 +104,8 @@
 
         <GroupBox Grid.Row="6" Header="Results" IsEnabled="{Binding Path=resultsEnabled}">
             <UniformGrid Columns="4">
-                <Button>Round Standings</Button>
-                <Button>Series Standings</Button>
+                <Button Command="{Binding Path=btnRoundStandings}">Round Standings</Button>
+                <Button Command="{Binding Path=btnSeriesStandings}">Series Standings</Button>
             </UniformGrid>
         </GroupBox>
     </Grid>

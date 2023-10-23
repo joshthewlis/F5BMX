@@ -14,16 +14,20 @@ internal class Round : ModelBase
 
     public Round() { }
 
-    public Round(uint roundNumber, List<SeriesFormula> seriesFormulas)
+    public Round(uint roundNumber, List<SeriesFormula> seriesFormulas, bool finalRound)
     {
         this.roundNumber = roundNumber;
 
         foreach (var formula in seriesFormulas.OrderByDescending(x => x.order))
             this.formulas.Add(new RoundFormula(formula));
+
+        this.finalRound = finalRound;
     }
 
     public DateOnly date { get; init; } = DateOnly.FromDateTime(DateTime.Now);
     public uint roundNumber { get; init; }
+    public bool finalRound { get; set; }
+
     public uint numberOfGates { get; set; } = 8;
     public uint numberOfMotos { get; set; } = 3;
 
