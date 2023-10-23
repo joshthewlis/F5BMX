@@ -9,19 +9,14 @@ namespace F5BMX.Core.IO;
 static class JSON
 {
 
-    public static T ReadModel<T>(string fileName) where T : IModel, new()
+    public static T? ReadModel<T>(string fileName) where T : IModel
     {
         var file = $"{Directories.baseDirectory}\\{fileName}.json";
 
         if (File.Exists(file) == false)
-            return new T();
+            return default;
 
-        var json = JsonSerializer.Deserialize<T>(File.ReadAllText(file));
-
-        if (json == null)
-            return new T();
-
-        return json;
+        return JsonSerializer.Deserialize<T>(File.ReadAllText(file));
     }
     public static T ReadCollection<T>(string fileName) where T : ICollection
     {
