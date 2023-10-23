@@ -139,7 +139,7 @@ internal static class Motos
         {
             foreach (var riderResult in raceResult.gates)
             {
-                int motoRound = (int)Math.Floor((double)raceResult.raceNumber-1 / numberOfMotoPerRounds);
+                int motoRound = (int)Math.Floor(((double)raceResult.raceNumber-1) / numberOfMotoPerRounds);
 
                 riderResult.Value.rider.motoPositions[motoRound] = riderResult.Value.result;
             }
