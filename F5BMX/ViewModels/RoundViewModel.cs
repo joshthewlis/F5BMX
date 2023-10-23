@@ -203,7 +203,7 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnRoundStandings => new RelayCommand(
         () =>
         {
-            Reports.RoundStandings(series, round);
+            Standings.Round(series, round);
             MessageBox.Show("Opening Round Standings In Default Browser\r\nPlease Print.");
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{round.roundNumber}.standings.html") { UseShellExecute = true });
         },

@@ -7,10 +7,10 @@ using System.Text;
 
 namespace F5BMX.Helpers;
 
-internal static class Reports
+internal static class Standings
 {
 
-    public static void RoundStandings(Series series, Round round)
+    public static void Round(Series series, Round round)
     {
         StringBuilder html = new StringBuilder();
         html.Append(@"
@@ -115,7 +115,7 @@ internal static class Reports
         HTML.WriteFile($"round{round.roundNumber}.standings", html.ToString());
     }
 
-    public static void SeriesStandings(Series series)
+    public static void Series(Series series)
     {
 
     }
