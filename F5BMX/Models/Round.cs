@@ -1,6 +1,8 @@
 ﻿using F5BMX.Core;
 using F5BMX.Enums;
 using F5BMX.Interfaces;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,6 +22,7 @@ internal class Round : ModelBase
             this.formulas.Add(new RoundFormula(formula));
     }
 
+    public DateOnly date { get; init; } = DateOnly.FromDateTime(DateTime.Now);
     public uint roundNumber { get; init; }
     public uint numberOfGates { get; set; } = 8;
     public uint numberOfMotos { get; set; } = 3;
