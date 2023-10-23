@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading;
 using System.Windows;
 
 namespace F5BMX
@@ -13,5 +9,11 @@ namespace F5BMX
     /// </summary>
     public partial class App : Application
     {
+
+        public App() : base()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+        }
+
     }
 }
