@@ -29,6 +29,7 @@ internal class RoundRider : ModelBase, IRider
     public string club { get; set; }
     public string plateNumber { get; set; }
     public int yearOfBirth { get; set; }
+    public int yearAge => DateTime.Now.Year - yearOfBirth;
 
 
     public uint[] motoPositions { get; set; } = new uint[3];

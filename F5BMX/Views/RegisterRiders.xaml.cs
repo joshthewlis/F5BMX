@@ -46,5 +46,12 @@ namespace F5BMX.Views
             viewModel.unregisterRider(selectedRider);
         }
 
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            if (textBox.Text == "0")
+                textBox.Text = "";
+        }
+
     }
 }
