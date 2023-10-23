@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Converter="clr-namespace:F5BMX.Converters"
+        xmlns:Enums="clr-namespace:F5BMX.Enums"
         xmlns:ViewModels="clr-namespace:F5BMX.ViewModels"
         mc:Ignorable="d"
         Title="SelectRound"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
-    
+
     <d:Window.DataContext>
         <ViewModels:SelectRoundViewModel />
     </d:Window.DataContext>
@@ -22,7 +23,7 @@
             <Setter Property="Margin" Value="5" />
         </Style>
     </Window.Resources>
-    
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -50,12 +51,34 @@
                     <RadioButton GroupName="round" IsEnabled="{Binding Path=complete, Converter={StaticResource InverseBooleanConverter}}"
                                  Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.btnSelectRound}"
                                  CommandParameter="{Binding}">
-                        <TextBlock>
-                            <Run Text="Round " />
-                            <Run Text="{Binding Path=roundNumber}" />
-                            <Run Text=" - " />
-                            <Run Text="{Binding Path=complete}" />
-                        </TextBlock>
+                        <StackPanel>
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type TextBlock}" x:Key="ButtonTextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                </Style>
+                            </StackPanel.Resources>
+
+                            <TextBlock Style="{StaticResource ButtonTextBlock}" Text="{Binding Path=roundNumber, StringFormat={}Round {0}}" />
+                            <TextBlock Style="{StaticResource ButtonTextBlock}" Text="{Binding Path=date}" />
+                            <TextBlock Text="{Binding Path=status}">
+                                <TextBlock.Resources>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource ButtonTextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=status}" Value="{x:Static Enums:SeriesRoundStatusEnum.Incomplete}">
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=status}" Value="{x:Static Enums:SeriesRoundStatusEnum.InProgress}">
+                                                <Setter Property="Foreground" Value="Yellow" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=status}" Value="{x:Static Enums:SeriesRoundStatusEnum.Complete}">
+                                                <Setter Property="Foreground" Value="Green" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Resources>
+                            </TextBlock>
+                        </StackPanel>
                     </RadioButton>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

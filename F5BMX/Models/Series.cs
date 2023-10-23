@@ -22,7 +22,7 @@ internal class Series : ViewModelBase
             new SeriesFormula(4, "Formula 2", 15, 17, true),
             new SeriesFormula(5, "Formula 1", 18, 99, true),
         };
-        this.rounds = new List<SeriesRoundStatus>();
+        this.rounds = new List<SeriesRoundInformation>();
         this.riders = JSON.ReadCollection<ObservableCollection<SeriesRider>>("riders");
         if (this.riders == null)
             this.riders = new ObservableCollection<SeriesRider>();
@@ -56,7 +56,7 @@ internal class Series : ViewModelBase
 
 
     public ObservableCollection<SeriesFormula> formulas { get; set; }
-    public List<SeriesRoundStatus> rounds { get; set; }
+    public List<SeriesRoundInformation> rounds { get; set; }
 
     [JsonIgnore]
     public ObservableCollection<SeriesRider> riders { get; set; }

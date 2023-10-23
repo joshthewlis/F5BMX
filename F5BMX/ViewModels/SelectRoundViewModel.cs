@@ -21,17 +21,12 @@ internal class SelectRoundViewModel
     }
 
     public Series series { get; set; }
-    public SeriesRoundStatus? selectedRound { get; set; }
+    public SeriesRoundInformation? selectedRound { get; set; }
 
 
     #region Buttons
-    public ICommand btnSelectRound => new RelayCommand<SeriesRoundStatus>(selectRound);
-    private void selectRound(SeriesRoundStatus selectedRound)
-    {
-        this.selectedRound = selectedRound;
-    }
-
-    public ICommand btnLoadRound => new RelayCommand<IClosable>(loadRound, canLoadRound);
+    public ICommand btnSelectRound => new RelayCommand<SeriesRoundInformation>((SeriesRoundInformation selectedRound) => { this.selectedRound = selectedRound; });
+    public ICommand btnLoadRound => new RelayCommand<IClosable>(loadRound, () => { return selectedRound == null ? false : true; });
     private void loadRound(IClosable window)
     {
         if (selectedRound != null)
@@ -39,13 +34,6 @@ internal class SelectRoundViewModel
             new Views.Round() { DataContext = new RoundViewModel(series, selectedRound.roundNumber) }.Show();
             window.Close();
         }
-    }
-    private bool canLoadRound()
-    {
-        if (selectedRound == null)
-            return false;
-
-        return true;
     }
     #endregion
 
