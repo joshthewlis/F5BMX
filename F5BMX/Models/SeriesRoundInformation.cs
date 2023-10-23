@@ -9,5 +9,6 @@ internal class SeriesRoundInformation
     public uint roundNumber { get; set; }
     public DateOnly date { get; set; }
     public SeriesRoundStatusEnum status { get; set; } = SeriesRoundStatusEnum.Incomplete;
+    public Guid? dashForCashFormulaID { get; set; }
 
 }

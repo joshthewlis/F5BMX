@@ -3,6 +3,7 @@ using F5BMX.Core.IO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace F5BMX.Models;
@@ -42,18 +43,30 @@ internal class Series : ViewModelBase
         this.name = yearName[1].Replace("_", " ");
     }
 
-    private int _year;
-    private string _name = String.Empty;
     private int _numberOfRounds;
-    private string? _coordinator;
-    private string? _coordinatorEmail;
 
-    public int year { get => _year; init => _year = value; }
-    public string name { get => _name; set => _name = value; }
+    public int year { get; init; }
+    public string name { get; set; }
     public int numberOfRounds { get => _numberOfRounds; set { _numberOfRounds = value; NotifyPropertyChanged(); } }
-    public string? coordinator { get => _coordinator; set => _coordinator = value; }
-    public string? coordinatorEmail { get => _coordinatorEmail; set => _coordinatorEmail = value; }
+    public string? coordinator { get; set; }
+    public string? coordinatorEmail { get; set; }
+    public bool dashForCash { get; set; }
 
+    [JsonIgnore]
+    public string dashForCashFormulas
+    {
+        get
+        {
+            string tmp = String.Empty;
+            rounds.Where(x => x.dashForCashFormulaID != null).ToList()
+                .ForEach(round => tmp += $"{formulas.Where(x => x.id == round.dashForCashFormulaID).FirstOrDefault()}, ");
+
+            if (tmp.Length > 0)
+                return tmp.Substring(0, tmp.Length - 2);
+
+            return String.Empty;
+        }
+    }
 
     public ObservableCollection<SeriesFormula> formulas { get; set; }
     public List<SeriesRoundInformation> rounds { get; set; }

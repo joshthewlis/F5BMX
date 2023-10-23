@@ -48,6 +48,10 @@
         <Setter Property="MinWidth" Value="150" />
     </Style>
 
+    <Style x:Key="FormCheckBox" TargetType="{x:Type CheckBox}">
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
     <Style x:Key="HorizontalRule" TargetType="{x:Type Rectangle}">
         <Setter Property="Margin" Value="5" />
 

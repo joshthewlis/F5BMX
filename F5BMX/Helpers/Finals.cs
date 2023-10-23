@@ -181,6 +181,12 @@ internal static class Finals
                     }
                 }
             }
+
+            // DASH FOR CASH
+            if(series.dashForCash == true)
+            {
+
+            }
         }
 
         // Save Changes to Series Riders

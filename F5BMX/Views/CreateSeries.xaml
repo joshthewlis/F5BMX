@@ -43,9 +43,18 @@
         <Rectangle Grid.Row="2" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
 
         <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource FormLabel}">Number of Rounds:</Label>
+        <Grid Grid.Row="3" Grid.Column="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Slider Grid.Column="0" Padding="0" Margin="0" Minimum="1" Maximum="10" Value="{Binding Path=series.numberOfRounds}" />
+            <TextBox Grid.Column="1" Width="30" Text="{Binding Path=series.numberOfRounds}" IsEnabled="False" />
+        </Grid>
 
-        <Slider Grid.Row="3" Grid.Column="1" Padding="0" Margin="0" Minimum="1" Maximum="10" Value="{Binding Path=series.numberOfRounds}" />
-        <TextBox Grid.Row="3" Grid.Column="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=series.numberOfRounds}" IsEnabled="False" />
+        <Label Grid.Row="3" Grid.Column="2" Style="{StaticResource FormLabel}">Dash for Cash?:</Label>
+        <CheckBox Grid.Row="3" Grid.Column="3" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=series.dashForCash}" />
 
         <Rectangle Grid.Row="4" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
 
@@ -128,6 +137,7 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
@@ -141,7 +151,7 @@
                     <TextBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=minAge}" />
                     <Label Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Max Age</Label>
                     <TextBox Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=maxAge}" />
-                    
+
                     <Label Grid.Row="8" Style="{StaticResource FormLabel}">Dash for Cash</Label>
                     <CheckBox Grid.Row="9" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=dashForCash}" />
                     <Label Grid.Row="8" Grid.Column="1" Style="{StaticResource FormLabel}">Promotion</Label>

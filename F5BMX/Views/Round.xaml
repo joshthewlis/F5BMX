@@ -27,6 +27,7 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Style="{StaticResource WindowTitle}">Formula 5 BMX Event Manager</TextBlock>
@@ -42,10 +43,10 @@
                 <Grid.Resources>
                     <Style TargetType="{x:Type RadioButton}">
                         <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
@@ -67,15 +68,42 @@
                 <RadioButton Grid.Row="1" Grid.Column="1" GroupName="numberOfMotos" IsChecked="{Binding Path=round.numberOfMotos, Converter={StaticResource EqualsValueConverter}, ConverterParameter=3}">3 Motos</RadioButton>
                 <RadioButton Grid.Row="2" Grid.Column="1" GroupName="numberOfMotos" IsChecked="{Binding Path=round.numberOfMotos, Converter={StaticResource EqualsValueConverter}, ConverterParameter=2}">2 Motos</RadioButton>
 
-                <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource FormLabel}">Dash for Cash</Label>
-                
-                
-                <Label Grid.Row="0" Grid.Column="3" Style="{StaticResource FormLabel}">Final Round?</Label>
-                <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" IsChecked="{Binding Path=round.finalRound}" IsEnabled="False" />
+                <Label Grid.Row="0" Grid.Column="2" Style="{StaticResource FormLabel}">Final Round?</Label>
+                <CheckBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" IsChecked="{Binding Path=round.finalRound}" IsEnabled="False" />
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="3" Header="Registration" IsEnabled="{Binding Path=registrationEnabled}">
+        <GroupBox Grid.Row="3" Header="Dash For Cash Settings">
+            <Grid>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Padding" Value="5,0" />
+                        <Setter Property="Margin" Value="5,0" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource FormLabel}">Previous Dash for Cash</Label>
+                <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Padding="5" Text="{Binding Path=series.dashForCashFormulas}" />
+
+                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource FormLabel}">Current for Round</Label>
+                <TextBlock Grid.Row="1" Grid.Column="1" Padding="5" Text="{Binding Path=dashForCashFormula.name}" />
+                <Button Grid.Row="1" Grid.Column="2" Command="{Binding Path=btnDashForCashPick}">Pick</Button>
+                <Button Grid.Row="1" Grid.Column="3" Command="{Binding Path=btnDashForCashRandom}">Random</Button>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="4" Header="Registration" IsEnabled="{Binding Path=registrationEnabled}">
             <UniformGrid Columns="4">
                 <Button Command="{Binding Path=btnRegisterRiders}">Register Riders</Button>
                 <Button Command="{Binding Path=btnCloseRegistration}">Close Registration</Button>
@@ -84,7 +112,7 @@
             </UniformGrid>
         </GroupBox>
 
-        <GroupBox Grid.Row="4" Header="Motos Control" IsEnabled="{Binding Path=motosEnabled}">
+        <GroupBox Grid.Row="5" Header="Motos Control" IsEnabled="{Binding Path=motosEnabled}">
             <UniformGrid Columns="4">
                 <Button Command="{Binding Path=btnGenerateMotos}">Generate Motos</Button>
                 <Button Command="{Binding Path=btnPrintMotoSheets}">Generate Sheets</Button>
@@ -93,7 +121,7 @@
             </UniformGrid>
         </GroupBox>
 
-        <GroupBox Grid.Row="5" Header="Finals Control" IsEnabled="{Binding Path=finalsEnabled}">
+        <GroupBox Grid.Row="6" Header="Finals Control" IsEnabled="{Binding Path=finalsEnabled}">
             <UniformGrid Columns="4">
                 <Button Command="{Binding Path=btnGenerateFinals}">Generate Finals</Button>
                 <Button Command="{Binding Path=btnPrintFinalSheets}">Generate Sheets</Button>
@@ -102,7 +130,7 @@
             </UniformGrid>
         </GroupBox>
 
-        <GroupBox Grid.Row="6" Header="Results" IsEnabled="{Binding Path=resultsEnabled}">
+        <GroupBox Grid.Row="7" Header="Results" IsEnabled="{Binding Path=resultsEnabled}">
             <UniformGrid Columns="4">
                 <Button Command="{Binding Path=btnRoundStandings}">Round Standings</Button>
                 <Button Command="{Binding Path=btnSeriesStandings}">Series Standings</Button>

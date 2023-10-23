@@ -38,6 +38,12 @@ internal class RoundViewModel : ViewModelBase
     public EnterResultsViewModel? motoResultsViewModel { get; set; }
     [JsonIgnore]
     public EnterResultsViewModel? finalResultsViewModel { get; set; }
+    [JsonIgnore]
+    public RoundFormula dashForCashFormula
+    {
+        get => round.formulas.Where(x => x.id == round.dashForCashFormulaID).FirstOrDefault();
+        set { round.dashForCashFormulaID = value.id; NotifyPropertyChanged(); }
+    }
 
     private void NotifyEnabled()
     {
@@ -47,6 +53,21 @@ internal class RoundViewModel : ViewModelBase
         NotifyPropertyChanged(nameof(finalsEnabled));
         NotifyPropertyChanged(nameof(resultsEnabled));
     }
+
+    #region DashForCashButtons
+    public ICommand btnDashForCashPick => new RelayCommand(
+        () => {  },
+        () => { return true; }
+    );
+    public ICommand btnDashForCashRandom => new RelayCommand(
+        () => 
+        {
+            var tmp = DashForCash.RandomDashForCashFormula(series);
+            dashForCashFormula = round.formulas.Where(x => x.id == tmp).First(); 
+        },
+        () => { return dashForCashFormula == null ? true : false; }
+    );
+    #endregion
 
     #region RegistrationButtons
     public ICommand btnRegisterRiders => new RelayCommand(
@@ -210,7 +231,7 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.finalsStatus == StageStatusEnum.Finished; }
     );
     public ICommand btnSeriesStandings => new RelayCommand(
-        () => 
+        () =>
         {
             Standings.Series(series, round);
             MessageBox.Show("Opening Series Standings In Default Browser\r\nPlease Print.");

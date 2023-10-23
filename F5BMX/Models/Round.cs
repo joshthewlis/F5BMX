@@ -1,11 +1,13 @@
 ﻿using F5BMX.Core;
 using F5BMX.Enums;
+using F5BMX.Helpers;
 using F5BMX.Interfaces;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace F5BMX.Models;
 
@@ -30,6 +32,8 @@ internal class Round : ModelBase
 
     public uint numberOfGates { get; set; } = 8;
     public uint numberOfMotos { get; set; } = 3;
+
+    public Guid dashForCashFormulaID { get; set; }
 
     public RegistrationStatusEnum registrationStatus { get; set; } = RegistrationStatusEnum.Open;
     public StageStatusEnum motosStatus { get; set; } = StageStatusEnum.NotGenerated;
