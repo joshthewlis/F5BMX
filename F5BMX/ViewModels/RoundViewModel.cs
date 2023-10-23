@@ -21,9 +21,8 @@ internal class RoundViewModel : ViewModelBase
     {
         this.series = series;
 
-        this.round = JSON.ReadModel<Round>($"round{roundNumber}");
-        if (series.numberOfRounds == roundNumber)
-            round.finalRound = true;
+        var round = JSON.ReadModel<Round>($"round{roundNumber}");
+        this.round = round != null ? round : new Round(roundNumber, series.formulas.ToList(), series.numberOfRounds == roundNumber);
     }
 
     public Series series { get; set; }
@@ -42,9 +41,11 @@ internal class RoundViewModel : ViewModelBase
 
     private void NotifyEnabled()
     {
+        NotifyPropertyChanged(nameof(roundSettingsEnabled));
         NotifyPropertyChanged(nameof(registrationEnabled));
         NotifyPropertyChanged(nameof(motosEnabled));
         NotifyPropertyChanged(nameof(finalsEnabled));
+        NotifyPropertyChanged(nameof(resultsEnabled));
     }
 
     #region RegistrationButtons
@@ -53,7 +54,17 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.registrationStatus == RegistrationStatusEnum.Open; }
     );
     public ICommand btnCloseRegistration => new RelayCommand(
-        () => { round.registrationStatus = RegistrationStatusEnum.Closed; NotifyEnabled(); },
+        () =>
+        {
+            round.registrationStatus = RegistrationStatusEnum.Closed;
+            round.Save();
+
+            series.rounds[(int)round.roundNumber - 1].status = SeriesRoundStatusEnum.InProgress;
+            series.rounds[(int)round.roundNumber - 1].date = DateOnly.FromDateTime(DateTime.Now);
+            series.Save();
+
+            NotifyEnabled();
+        },
         () => { return round.registrationStatus == RegistrationStatusEnum.Open; }
     );
     public ICommand btnPrintRiderList => new RelayCommand(
@@ -120,8 +131,9 @@ internal class RoundViewModel : ViewModelBase
 
             Motos.Finalize(motoResultsViewModel.races, round.numberOfMotos);
             round.motosStatus = StageStatusEnum.Finished;
-            NotifyPropertyChanged(nameof(finalsEnabled));
             round.Save();
+
+            NotifyEnabled();
         },
         () => { return round.motosStatus == StageStatusEnum.ResultsEntered; }
     );
@@ -177,6 +189,11 @@ internal class RoundViewModel : ViewModelBase
             Finals.Finalize(series, round, finalResultsViewModel.races);
             round.finalsStatus = StageStatusEnum.Finished;
             round.Save();
+
+            series.rounds[(int)round.roundNumber - 1].status = SeriesRoundStatusEnum.Complete;
+            series.Save();
+
+            NotifyEnabled();
         },
         () => { return round.finalsStatus == StageStatusEnum.ResultsEntered; }
     );
