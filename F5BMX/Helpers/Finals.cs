@@ -121,6 +121,10 @@ internal static class Finals
     {
         foreach (var formula in round.formulas)
         {
+            // IGNORE FORMULAS WITH NO RIDERS
+            if (formula.riders.Count == 0)
+                continue;
+
             // ADD SERIES POINTS
             foreach (var race in formula.final)
             {
@@ -163,7 +167,7 @@ internal static class Finals
                     }
 
                     // ATTEMPT TO MOVE LAST POSITION DOWN A FORMULA
-                    var lastRider = formula.riders.Where(x => x.finalPosition == 1).First();
+                    var lastRider = formula.riders.Where(x => x.finalPosition == formula.riders.Count).First();
                     var prevFormula = series.formulas.Where(x => x.order == formula.order - 1).FirstOrDefault();
                     if (prevFormula != null)
                     {
