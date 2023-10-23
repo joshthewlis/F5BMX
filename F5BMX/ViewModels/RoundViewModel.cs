@@ -210,7 +210,12 @@ internal class RoundViewModel : ViewModelBase
         () => { return round.finalsStatus == StageStatusEnum.Finished; }
     );
     public ICommand btnSeriesStandings => new RelayCommand(
-        () => { },
+        () => 
+        {
+            Standings.Series(series, round);
+            MessageBox.Show("Opening Series Standings In Default Browser\r\nPlease Print.");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/series.standings.round{round.roundNumber}.html") { UseShellExecute = true });
+        },
         () => { return round.finalsStatus == StageStatusEnum.Finished; }
     );
     #endregion
