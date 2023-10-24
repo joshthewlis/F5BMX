@@ -1,0 +1,34 @@
+﻿<Window x:Class="F5BMX.Views.PickDashForCash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ViewModels="clr-namespace:F5BMX.ViewModels"
+        mc:Ignorable="d"
+        Title="PickDashForCash"
+        MinWidth="450"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen">
+    
+    <d:Window.DataContext>
+        <ViewModels:PickDashForCashViewModel />
+    </d:Window.DataContext>
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Style="{StaticResource FormLabel}" HorizontalContentAlignment="Center">Previous Dash for Cash</Label>
+        <TextBlock Grid.Row="1" Margin="5" Text="{Binding Path=previousDashForCash}" />
+
+        <ComboBox Grid.Row="2" MaxWidth="250" ItemsSource="{Binding Path=formulasEligble}" DisplayMemberPath="name" SelectedItem="{Binding Path=selectedFormula}" />
+
+        <Button Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center"
+                Command="{Binding Path=btnPick}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Pick</Button>
+        
+    </Grid>
+</Window>

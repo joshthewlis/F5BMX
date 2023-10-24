@@ -15,7 +15,9 @@ internal class RoundViewModel : ViewModelBase
 {
 
     public RoundViewModel() : this(new Series(), 0)
-    { }
+    {
+        series.dashForCash = true;
+    }
 
     public RoundViewModel(Series series, uint roundNumber)
     {
@@ -28,6 +30,8 @@ internal class RoundViewModel : ViewModelBase
     public Series series { get; set; }
     public Round round { get; set; }
 
+    public Visibility dashForCashVisible => series.dashForCash == true ? Visibility.Visible : Visibility.Collapsed;
+    public bool dashForCashEnabled => round.motosStatus == StageStatusEnum.NotGenerated;
     public bool roundSettingsEnabled => round.motosStatus == StageStatusEnum.NotGenerated;
     public bool registrationEnabled => round.motosStatus == StageStatusEnum.NotGenerated;
     public bool motosEnabled => round.registrationStatus == RegistrationStatusEnum.Closed && round.finalsStatus == StageStatusEnum.NotGenerated;
@@ -39,14 +43,15 @@ internal class RoundViewModel : ViewModelBase
     [JsonIgnore]
     public EnterResultsViewModel? finalResultsViewModel { get; set; }
     [JsonIgnore]
-    public RoundFormula dashForCashFormula
+    public RoundFormula? dashForCashFormula
     {
         get => round.formulas.Where(x => x.id == round.dashForCashFormulaID).FirstOrDefault();
-        set { round.dashForCashFormulaID = value.id; NotifyPropertyChanged(); }
+        set { if (value == null) return; round.dashForCashFormulaID = value.id; NotifyPropertyChanged(); }
     }
 
     private void NotifyEnabled()
     {
+        NotifyPropertyChanged(nameof(dashForCashEnabled));
         NotifyPropertyChanged(nameof(roundSettingsEnabled));
         NotifyPropertyChanged(nameof(registrationEnabled));
         NotifyPropertyChanged(nameof(motosEnabled));
@@ -56,16 +61,21 @@ internal class RoundViewModel : ViewModelBase
 
     #region DashForCashButtons
     public ICommand btnDashForCashPick => new RelayCommand(
-        () => {  },
-        () => { return true; }
+        () => 
+        {
+            new Views.PickDashForCash()
+            {
+                DataContext = new PickDashForCashViewModel(round, series.dashForCashFormulas, round.formulas.Where(x => x.dashForCash == true).ToList())
+            }.ShowDialog();
+            NotifyPropertyChanged(nameof(dashForCashFormula));
+        }
     );
     public ICommand btnDashForCashRandom => new RelayCommand(
         () => 
         {
             var tmp = DashForCash.RandomDashForCashFormula(series);
             dashForCashFormula = round.formulas.Where(x => x.id == tmp).First(); 
-        },
-        () => { return dashForCashFormula == null ? true : false; }
+        }
     );
     #endregion
 
@@ -107,9 +117,18 @@ internal class RoundViewModel : ViewModelBase
     public ICommand btnGenerateMotos => new RelayCommand(
         () =>
         {
+            if(series.dashForCash == true && dashForCashFormula == null)
+            {
+                var msg = MessageBox.Show("No Dash for Cash has been selected.\r\nDo you want to continue?", "Caption", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (msg == MessageBoxResult.No)
+                    return;
+            }
+
             Motos.Generate(round);
             round.motosStatus = StageStatusEnum.Generated;
             round.Save();
+
+            NotifyEnabled();
         },
         () => { return round.registrationStatus == RegistrationStatusEnum.Closed && round.motosStatus == StageStatusEnum.NotGenerated; }
     );
@@ -211,6 +230,7 @@ internal class RoundViewModel : ViewModelBase
             round.finalsStatus = StageStatusEnum.Finished;
             round.Save();
 
+            series.rounds[(int)round.roundNumber - 1].dashForCashFormulaID = dashForCashFormula.id;
             series.rounds[(int)round.roundNumber - 1].status = SeriesRoundStatusEnum.Complete;
             series.Save();
 

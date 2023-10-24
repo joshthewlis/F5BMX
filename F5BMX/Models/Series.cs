@@ -59,7 +59,7 @@ internal class Series : ViewModelBase
         {
             string tmp = String.Empty;
             rounds.Where(x => x.dashForCashFormulaID != null).ToList()
-                .ForEach(round => tmp += $"{formulas.Where(x => x.id == round.dashForCashFormulaID).FirstOrDefault()}, ");
+                .ForEach(round => tmp += $"{formulas.Where(x => x.id == round.dashForCashFormulaID).FirstOrDefault().name}, ");
 
             if (tmp.Length > 0)
                 return tmp.Substring(0, tmp.Length - 2);

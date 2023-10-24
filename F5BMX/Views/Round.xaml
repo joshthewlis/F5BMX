@@ -14,6 +14,11 @@
         <ViewModel:RoundViewModel />
     </d:Window.DataContext>
     <Window.Resources>
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+        
         <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <Converters:EqualsValueConverter x:Key="EqualsValueConverter" />
     </Window.Resources>
@@ -73,7 +78,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Grid.Row="3" Header="Dash For Cash Settings">
+        <GroupBox Grid.Row="3" Header="Dash For Cash Settings" IsEnabled="{Binding Path=dashForCashEnabled}" Visibility="{Binding Path=dashForCashVisible}">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="{x:Type Button}">
