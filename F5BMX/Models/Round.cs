@@ -18,32 +18,32 @@ internal class Round : ModelBase
 
     public Round(uint roundNumber, List<SeriesFormula> seriesFormulas, bool finalRound)
     {
-        this.roundNumber = roundNumber;
+        this.RoundNumber = roundNumber;
 
-        foreach (var formula in seriesFormulas.OrderByDescending(x => x.order))
+        foreach (var formula in seriesFormulas.OrderByDescending(x => x.Order))
             this.formulas.Add(new RoundFormula(formula));
 
-        this.finalRound = finalRound;
+        this.FinalRound = finalRound;
     }
 
-    public DateOnly date { get; init; } = DateOnly.FromDateTime(DateTime.Now);
-    public uint roundNumber { get; init; }
-    public bool finalRound { get; set; }
+    public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.Now);
+    public uint RoundNumber { get; init; }
+    public bool FinalRound { get; set; }
 
-    public uint numberOfGates { get; set; } = 8;
-    public uint numberOfMotos { get; set; } = 3;
+    public uint NumberOfGates { get; set; } = 8;
+    public uint NumberOfMotos { get; set; } = 3;
 
-    public Guid dashForCashFormulaID { get; set; }
+    public Guid DashForCashFormulaID { get; set; }
 
-    public RegistrationStatusEnum registrationStatus { get; set; } = RegistrationStatusEnum.Open;
-    public StageStatusEnum motosStatus { get; set; } = StageStatusEnum.NotGenerated;
-    public StageStatusEnum finalsStatus { get; set; } = StageStatusEnum.NotGenerated;
+    public RegistrationStatusEnum RegistrationStatus { get; set; } = RegistrationStatusEnum.Open;
+    public StageStatusEnum MotosStatus { get; set; } = StageStatusEnum.NotGenerated;
+    public StageStatusEnum FinalsStatus { get; set; } = StageStatusEnum.NotGenerated;
 
     public ObservableCollection<RoundFormula> formulas { get; set; } = new ObservableCollection<RoundFormula>();
 
     public void Save()
     {
-        base.Save($"round{roundNumber}");
+        base.Save($"round{RoundNumber}");
     }
 
 }

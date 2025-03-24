@@ -10,17 +10,17 @@ namespace F5BMX.Models
 
         private int _yearOfBirth;
 
-        public Guid id { get; init; } = Guid.NewGuid();
-        public string firstName { get; set; } = String.Empty;
-        public string lastName { get; set; } = String.Empty;
-        public string club { get; set; } = String.Empty;
-        public string plateNumber { get; set; } = String.Empty;
-        public int yearOfBirth { get => _yearOfBirth; set { _yearOfBirth = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(yearAge)); } }
-        public uint seriesPoints { get; set; }
-        public Guid formulaID { get; set; }
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public string FirstName { get; set; } = String.Empty;
+        public string LastName { get; set; } = String.Empty;
+        public string Club { get; set; } = String.Empty;
+        public string PlateNumber { get; set; } = String.Empty;
+        public int YearOfBirth { get => _yearOfBirth; set { _yearOfBirth = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(yearAge)); } }
+        public uint SeriesPoints { get; set; }
+        public Guid FormulaID { get; set; }
 
         [JsonIgnore]
-        public int yearAge { get => DateTime.Now.Year - yearOfBirth; }
+        public int yearAge { get => DateTime.Now.Year - YearOfBirth; }
 
     }
 }

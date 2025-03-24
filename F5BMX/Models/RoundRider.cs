@@ -15,29 +15,29 @@ internal class RoundRider : ModelBase, IRider
 
     public RoundRider(SeriesRider seriesRider)
     {
-        this.id = seriesRider.id;
-        this.firstName = seriesRider.firstName;
-        this.lastName = seriesRider.lastName;
-        this.club = seriesRider.club;
-        this.plateNumber = seriesRider.plateNumber;
-        this.yearOfBirth = seriesRider.yearOfBirth;
+        this.ID = seriesRider.ID;
+        this.FirstName = seriesRider.FirstName;
+        this.LastName = seriesRider.LastName;
+        this.Club = seriesRider.Club;
+        this.PlateNumber = seriesRider.PlateNumber;
+        this.YearOfBirth = seriesRider.YearOfBirth;
     }
 
-    public Guid id { get; init; }
-    public string firstName { get; set; }
-    public string lastName { get; set; }
-    public string club { get; set; }
-    public string plateNumber { get; set; }
-    public int yearOfBirth { get; set; }
-    public int yearAge => DateTime.Now.Year - yearOfBirth;
+    public Guid ID { get; init; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Club { get; set; }
+    public string PlateNumber { get; set; }
+    public int YearOfBirth { get; set; }
+    public int YearAge => DateTime.Now.Year - YearOfBirth;
 
 
-    public uint[] motoPositions { get; set; } = new uint[3];
-    public uint finalPosition { get; set; }
+    public uint[] MotoPositions { get; set; } = new uint[3];
+    public uint FinalPosition { get; set; }
 
-    public uint roundPoints { get; set; }
+    public uint RoundPoints { get; set; }
 
-    public PromotionEnum promotion { get; set; } = PromotionEnum.NoChange;
+    public PromotionEnum Promotion { get; set; } = PromotionEnum.NoChange;
 
     /*
     public void setMotoPos(uint moto, uint pos)

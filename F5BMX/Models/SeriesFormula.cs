@@ -16,22 +16,22 @@ internal class SeriesFormula : ViewModelBase
 
     public SeriesFormula(uint order, string name, uint minAge, uint maxAge, bool promotion)
     {
-        this.order = order;
-        this.name = name;
-        this.minAge = minAge;
-        this.maxAge = maxAge;
-        this.promotion = promotion;
+        Order = order;
+        Name = name;
+        MinAge = minAge;
+        MaxAge = maxAge;
+        Promotion = promotion;
     }
 
     private uint _order;
 
-    public Guid id { get; init; } = Guid.NewGuid();
-    public uint order { get => _order; set { _order = value; NotifyPropertyChanged(); } }
-    public string name { get; set; }
-    public uint minAge { get; set; }
-    public uint maxAge { get; set; }
-    public bool dashForCash { get; set; }
-    public bool promotion { get; set; }
+    public Guid ID { get; init; } = Guid.NewGuid();
+    public uint Order { get => _order; set { _order = value; NotifyPropertyChanged(); } }
+    public string Name { get; set; }
+    public uint MinAge { get; set; }
+    public uint MaxAge { get; set; }
+    public bool DashForCash { get; set; }
+    public bool Promotion { get; set; }
 
 
 }

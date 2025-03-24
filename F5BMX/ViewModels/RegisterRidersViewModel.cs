@@ -40,7 +40,7 @@ internal class RegisterRidersViewModel : ViewModelBase
         var rider = (SeriesRider)e.Item;
         foreach (var formula in round.formulas)
         {
-            if (formula.riders.Where(x => x.id == rider.id).Count() > 0)
+            if (formula.Riders.Where(x => x.ID == rider.id).Count() > 0)
             {
                 e.Accepted = false;
                 return;
@@ -111,7 +111,7 @@ internal class RegisterRidersViewModel : ViewModelBase
 
             if (selectedRider != null)
             {
-                var formula = round.formulas.Where(x => x.id == selectedRider.formulaID).FirstOrDefault();
+                var formula = round.formulas.Where(x => x.ID == selectedRider.formulaID).FirstOrDefault();
                 if (formula != null)
                     formula.riders.Add(new RoundRider(selectedRider));
             }
@@ -135,8 +135,8 @@ internal class RegisterRidersViewModel : ViewModelBase
             return;
 
         foreach (var formula in round.formulas)
-            if (formula.riders.Contains(selectedRegisteredRider))
-                formula.riders.Remove(selectedRegisteredRider);
+            if (formula.Riders.Contains(selectedRegisteredRider))
+                formula.Riders.Remove(selectedRegisteredRider);
 
         Save();
     }
@@ -150,8 +150,8 @@ internal class RegisterRidersViewModel : ViewModelBase
     public void unregisterRider(IRider rider)
     {
         foreach (var formula in round.formulas)
-            if (formula.riders.Contains(rider))
-                formula.riders.Remove((RoundRider)rider);
+            if (formula.Riders.Contains(rider))
+                formula.Riders.Remove((RoundRider)rider);
 
         Save();
     }

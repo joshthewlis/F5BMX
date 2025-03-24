@@ -64,12 +64,12 @@ internal static class Standings
 
 <body>
 <h1>F5BMX - Round Standings</h1>");
-        html.AppendFormat("<h2>{0} - {1} - Round {2} - {3}</h2>", series.Year, series.Name, round.roundNumber, round.date);
+        html.AppendFormat("<h2>{0} - {1} - Round {2} - {3}</h2>", series.Year, series.Name, round.RoundNumber, round.Date);
 
-        foreach (var formula in round.formulas.OrderByDescending(x => x.order))
+        foreach (var formula in round.formulas.OrderByDescending(x => x.Order))
         {
             // SKIP FORMULAS WITH NO RIDERS
-            if (formula.riders.Count == 0)
+            if (formula.Riders.Count == 0)
                 continue;
 
             html.AppendFormat(@"
@@ -85,20 +85,20 @@ internal static class Standings
             <td width=""20%"">Remarks</td>
         </tr>
     </thead>
-    <tbody>", formula.name, formula.riders.Count);
+    <tbody>", formula.Name, formula.Riders.Count);
 
-            foreach(var rider in formula.riders.OrderBy(x => x.finalPosition))
+            foreach(var rider in formula.Riders.OrderBy(x => x.FinalPosition))
             {
                 string promotion = String.Empty;
-                if (rider.promotion == PromotionEnum.Up)
+                if (rider.Promotion == PromotionEnum.Up)
                     promotion = "Promoted";
-                else if (rider.promotion == PromotionEnum.Down)
+                else if (rider.Promotion == PromotionEnum.Down)
                     promotion = "Demoted";
 
                 html.AppendLine("<tr>");
-                html.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
-                html.AppendLine($"<td>{rider.club}</td>");
-                html.AppendLine($"<td>{rider.roundPoints}</td>");
+                html.AppendLine($"<td>{rider.FirstName} {rider.LastName}</td>");
+                html.AppendLine($"<td>{rider.Club}</td>");
+                html.AppendLine($"<td>{rider.RoundPoints}</td>");
                 html.AppendLine($"<td>{promotion}</td>");
                 html.AppendLine("</tr>");
             }
@@ -112,7 +112,7 @@ internal static class Standings
 </body>
 </html>");
 
-        HTML.WriteFile($"round{round.roundNumber}.standings", html.ToString());
+        HTML.WriteFile($"round{round.RoundNumber}.standings", html.ToString());
     }
 
     public static void Series(Series series, Round round)
@@ -170,7 +170,7 @@ internal static class Standings
 <body>
 <h1>F5BMX - Series Standings</h1>"
         );
-        html.AppendFormat("<h2>{0} - {1} - AFTER Round {2} - {3}</h2>", series.Year, series.Name, round.roundNumber, round.date);
+        html.AppendFormat("<h2>{0} - {1} - AFTER Round {2} - {3}</h2>", series.Year, series.Name, round.RoundNumber, round.Date);
 
         foreach (var formula in series.Formulas.OrderByDescending(x => x.order))
         {
@@ -213,7 +213,7 @@ internal static class Standings
 </html>"
         );
 
-        HTML.WriteFile($"series.standings.round{round.roundNumber}", html.ToString());
+        HTML.WriteFile($"series.standings.round{round.RoundNumber}", html.ToString());
     }
 
 }

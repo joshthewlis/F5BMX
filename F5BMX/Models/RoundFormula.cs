@@ -15,31 +15,31 @@ internal class RoundFormula : ViewModelBase
 
     public RoundFormula(SeriesFormula seriesFormula)
     {
-        this.id = seriesFormula.id;
-        this.order = seriesFormula.order;
-        this.name = seriesFormula.name;
-        this.minAge = seriesFormula.minAge;
-        this.maxAge = seriesFormula.maxAge;
-        this.dashForCash = seriesFormula.dashForCash;
+        ID = seriesFormula.ID;
+        Order = seriesFormula.Order;
+        Name = seriesFormula.Name;
+        MinAge = seriesFormula.MinAge;
+        MaxAge = seriesFormula.MaxAge;
+        DashForCash = seriesFormula.DashForCash;
 
-        this.riders = new ObservableCollection<RoundRider>();
-        this.moto1 = new List<Race>();
-        this.moto2 = new List<Race>();
-        this.moto3 = new List<Race>();
-        this.final = new List<Race>();
+        Riders = new ObservableCollection<RoundRider>();
+        Moto1 = new List<Race>();
+        Moto2 = new List<Race>();
+        Moto3 = new List<Race>();
+        Final = new List<Race>();
     }
 
-    public Guid id { get; set; }
-    public uint order { get; set; }
-    public string name { get; set; }
-    public uint minAge { get; set; }
-    public uint maxAge { get; set; }
-    public bool dashForCash { get; set; }
+    public Guid ID { get; set; }
+    public uint Order { get; set; }
+    public string Name { get; set; }
+    public uint MinAge { get; set; }
+    public uint MaxAge { get; set; }
+    public bool DashForCash { get; set; }
 
-    public ObservableCollection<RoundRider> riders { get; init; }
-    public List<Race> moto1 { get; init; }
-    public List<Race> moto2 { get; init; }
-    public List<Race> moto3 { get; init; }
-    public List<Race> final { get; init; }
+    public ObservableCollection<RoundRider> Riders { get; init; }
+    public List<Race> Moto1 { get; init; }
+    public List<Race> Moto2 { get; init; }
+    public List<Race> Moto3 { get; init; }
+    public List<Race> Final { get; init; }
 
 }

@@ -31,12 +31,12 @@ internal class RoundViewModel : ViewModelBase
     public Round Round { get; set; }
 
     public Visibility DashForCashVisible => Series.DashForCash == true ? Visibility.Visible : Visibility.Collapsed;
-    public bool DashForCashEnabled => Round.motosStatus == StageStatusEnum.NotGenerated;
-    public bool RoundSettingsEnabled => Round.motosStatus == StageStatusEnum.NotGenerated;
-    public bool RegistrationEnabled => Round.motosStatus == StageStatusEnum.NotGenerated;
-    public bool MotosEnabled => Round.registrationStatus == RegistrationStatusEnum.Closed && Round.finalsStatus == StageStatusEnum.NotGenerated;
-    public bool FinalsEnabled => Round.motosStatus == StageStatusEnum.Finished;
-    public bool ResultsEnabled => Round.finalsStatus == StageStatusEnum.Finished;
+    public bool DashForCashEnabled => Round.MotosStatus == StageStatusEnum.NotGenerated;
+    public bool RoundSettingsEnabled => Round.MotosStatus == StageStatusEnum.NotGenerated;
+    public bool RegistrationEnabled => Round.MotosStatus == StageStatusEnum.NotGenerated;
+    public bool MotosEnabled => Round.RegistrationStatus == RegistrationStatusEnum.Closed && Round.FinalsStatus == StageStatusEnum.NotGenerated;
+    public bool FinalsEnabled => Round.MotosStatus == StageStatusEnum.Finished;
+    public bool ResultsEnabled => Round.FinalsStatus == StageStatusEnum.Finished;
 
     [JsonIgnore]
     public EnterResultsViewModel? MotoResultsViewModel { get; set; }
@@ -45,8 +45,8 @@ internal class RoundViewModel : ViewModelBase
     [JsonIgnore]
     public RoundFormula? DashForCashFormula
     {
-        get => Round.formulas.Where(x => x.id == Round.dashForCashFormulaID).FirstOrDefault();
-        set { if (value == null) return; Round.dashForCashFormulaID = value.id; NotifyPropertyChanged(); }
+        get => Round.formulas.Where(x => x.ID == Round.DashForCashFormulaID).FirstOrDefault();
+        set { if (value == null) return; Round.DashForCashFormulaID = value.ID; NotifyPropertyChanged(); }
     }
 
     private void NotifyEnabled()
@@ -65,7 +65,7 @@ internal class RoundViewModel : ViewModelBase
         {
             new Views.PickDashForCash()
             {
-                DataContext = new PickDashForCashViewModel(Round, Series.DashForCashFormulas, Round.formulas.Where(x => x.dashForCash == true).ToList())
+                DataContext = new PickDashForCashViewModel(Round, Series.DashForCashFormulas, Round.formulas.Where(x => x.DashForCash == true).ToList())
             }.ShowDialog();
             NotifyPropertyChanged(nameof(DashForCashFormula));
         }
@@ -74,7 +74,7 @@ internal class RoundViewModel : ViewModelBase
         () => 
         {
             var tmp = DashForCash.RandomDashForCashFormula(Series);
-            DashForCashFormula = Round.formulas.Where(x => x.id == tmp).First(); 
+            DashForCashFormula = Round.formulas.Where(x => x.ID == tmp).First(); 
         }
     );
     #endregion
@@ -82,34 +82,34 @@ internal class RoundViewModel : ViewModelBase
     #region RegistrationButtons
     public ICommand BtnRegisterRiders => new RelayCommand(
         () => { new Views.RegisterRiders() { DataContext = new RegisterRidersViewModel(Series, Round) }.Show(); },
-        () => { return Round.registrationStatus == RegistrationStatusEnum.Open; }
+        () => { return Round.RegistrationStatus == RegistrationStatusEnum.Open; }
     );
     public ICommand BtnCloseRegistration => new RelayCommand(
         () =>
         {
-            Round.registrationStatus = RegistrationStatusEnum.Closed;
+            Round.RegistrationStatus = RegistrationStatusEnum.Closed;
             Round.Save();
 
-            Series.Rounds[(int)Round.roundNumber - 1].Status = SeriesRoundStatusEnum.InProgress;
-            Series.Rounds[(int)Round.roundNumber - 1].Date = DateOnly.FromDateTime(DateTime.Now);
+            Series.Rounds[(int)Round.RoundNumber - 1].Status = SeriesRoundStatusEnum.InProgress;
+            Series.Rounds[(int)Round.RoundNumber - 1].Date = DateOnly.FromDateTime(DateTime.Now);
             Series.Save();
 
             NotifyEnabled();
         },
-        () => { return Round.registrationStatus == RegistrationStatusEnum.Open; }
+        () => { return Round.RegistrationStatus == RegistrationStatusEnum.Open; }
     );
     public ICommand BtnPrintRiderList => new RelayCommand(
         () =>
         {
             Registration.GenerateEntryList(Series, Round);
             MessageBox.Show("Opening Entry List In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.roundNumber}.entrylist.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.RoundNumber}.entrylist.html") { UseShellExecute = true });
         },
-        () => { return Round.registrationStatus == RegistrationStatusEnum.Closed && Round.motosStatus == StageStatusEnum.NotGenerated; }
+        () => { return Round.RegistrationStatus == RegistrationStatusEnum.Closed && Round.MotosStatus == StageStatusEnum.NotGenerated; }
     );
     public ICommand BtnReOpenRegistration => new RelayCommand(
-        () => { Round.registrationStatus = RegistrationStatusEnum.Open; NotifyEnabled(); },
-        () => { return Round.registrationStatus == RegistrationStatusEnum.Closed && Round.motosStatus == StageStatusEnum.NotGenerated; }
+        () => { Round.RegistrationStatus = RegistrationStatusEnum.Open; NotifyEnabled(); },
+        () => { return Round.RegistrationStatus == RegistrationStatusEnum.Closed && Round.MotosStatus == StageStatusEnum.NotGenerated; }
     );
     #endregion
 
@@ -125,32 +125,32 @@ internal class RoundViewModel : ViewModelBase
             }
 
             Motos.Generate(Round);
-            Round.motosStatus = StageStatusEnum.Generated;
+            Round.MotosStatus = StageStatusEnum.Generated;
             Round.Save();
 
             NotifyEnabled();
         },
-        () => { return Round.registrationStatus == RegistrationStatusEnum.Closed && Round.motosStatus == StageStatusEnum.NotGenerated; }
+        () => { return Round.RegistrationStatus == RegistrationStatusEnum.Closed && Round.MotosStatus == StageStatusEnum.NotGenerated; }
     );
     public ICommand BtnPrintMotoSheets => new RelayCommand(
         () =>
         {
             Motos.GenerateListing(Series, Round);
             MessageBox.Show("Opening Moto Listings In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.roundNumber}.motolist.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.RoundNumber}.motolist.html") { UseShellExecute = true });
 
             Motos.GenerateCommentary(Round);
             MessageBox.Show("Opening Commentary In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.roundNumber}.motocommentary.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.RoundNumber}.motocommentary.html") { UseShellExecute = true });
 
             Motos.GenerateCallup(Round);
             MessageBox.Show("Opening Call Up In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.roundNumber}.motocallup.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.RoundNumber}.motocallup.html") { UseShellExecute = true });
 
-            Round.motosStatus = StageStatusEnum.SheetsPrinted;
+            Round.MotosStatus = StageStatusEnum.SheetsPrinted;
             Round.Save();
         },
-        () => { return Round.motosStatus == StageStatusEnum.Generated; }
+        () => { return Round.MotosStatus == StageStatusEnum.Generated; }
     );
     public ICommand BtnEnterMotoResults => new RelayCommand(
         () =>
@@ -158,9 +158,9 @@ internal class RoundViewModel : ViewModelBase
             MotoResultsViewModel ??= new EnterResultsViewModel(Round, EnterResultsTypeEnum.Moto);
 
             new Views.EnterResults() { DataContext = MotoResultsViewModel }.ShowDialog();
-            Round.motosStatus = StageStatusEnum.ResultsEntered;
+            Round.MotosStatus = StageStatusEnum.ResultsEntered;
         },
-        () => { return Round.motosStatus == StageStatusEnum.SheetsPrinted || Round.motosStatus == StageStatusEnum.ResultsEntered; }
+        () => { return Round.MotosStatus == StageStatusEnum.SheetsPrinted || Round.MotosStatus == StageStatusEnum.ResultsEntered; }
     );
     public ICommand BtnFinalizeMotos => new RelayCommand(
         () =>
@@ -168,13 +168,13 @@ internal class RoundViewModel : ViewModelBase
             if (MotoResultsViewModel == null)
                 return;
 
-            Motos.Finalize(MotoResultsViewModel.Races, Round.numberOfMotos);
-            Round.motosStatus = StageStatusEnum.Finished;
+            Motos.Finalize(MotoResultsViewModel.Races, Round.NumberOfMotos);
+            Round.MotosStatus = StageStatusEnum.Finished;
             Round.Save();
 
             NotifyEnabled();
         },
-        () => { return Round.motosStatus == StageStatusEnum.ResultsEntered; }
+        () => { return Round.MotosStatus == StageStatusEnum.ResultsEntered; }
     );
     #endregion
 
@@ -183,30 +183,30 @@ internal class RoundViewModel : ViewModelBase
         () =>
         {
             Finals.Generate(Round);
-            Round.finalsStatus = StageStatusEnum.Generated;
+            Round.FinalsStatus = StageStatusEnum.Generated;
             Round.Save();
         },
-        () => { return Round.finalsStatus == StageStatusEnum.NotGenerated; }
+        () => { return Round.FinalsStatus == StageStatusEnum.NotGenerated; }
     );
     public ICommand BtnPrintFinalSheets => new RelayCommand(
         () =>
         {
             Finals.GenerateListing(Series, Round);
             MessageBox.Show("Opening Final Listings In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.roundNumber}.finallist.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.RoundNumber}.finallist.html") { UseShellExecute = true });
 
             Finals.GenerateCommentary(Round);
             MessageBox.Show("Opening Commentary In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.roundNumber}.finalcommentary.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.RoundNumber}.finalcommentary.html") { UseShellExecute = true });
 
             Finals.GenerateCallup(Round);
             MessageBox.Show("Opening Call Up In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.roundNumber}.finalcallup.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.RoundNumber}.finalcallup.html") { UseShellExecute = true });
 
-            Round.finalsStatus = StageStatusEnum.SheetsPrinted;
+            Round.FinalsStatus = StageStatusEnum.SheetsPrinted;
             Round.Save();
         },
-        () => { return Round.finalsStatus == StageStatusEnum.Generated; }
+        () => { return Round.FinalsStatus == StageStatusEnum.Generated; }
     );
     public ICommand BtnEnterFinalResults => new RelayCommand(
         () =>
@@ -214,9 +214,9 @@ internal class RoundViewModel : ViewModelBase
             FinalResultsViewModel ??= new EnterResultsViewModel(Round, EnterResultsTypeEnum.Final);
 
             new Views.EnterResults() { DataContext = FinalResultsViewModel }.ShowDialog();
-            Round.finalsStatus = StageStatusEnum.ResultsEntered;
+            Round.FinalsStatus = StageStatusEnum.ResultsEntered;
         },
-        () => { return Round.finalsStatus == StageStatusEnum.SheetsPrinted || Round.finalsStatus == StageStatusEnum.ResultsEntered; }
+        () => { return Round.FinalsStatus == StageStatusEnum.SheetsPrinted || Round.FinalsStatus == StageStatusEnum.ResultsEntered; }
     );
     public ICommand BtnFinalizeFinals => new RelayCommand(
         () =>
@@ -225,16 +225,16 @@ internal class RoundViewModel : ViewModelBase
                 return;
 
             Finals.Finalize(Series, Round, FinalResultsViewModel.Races);
-            Round.finalsStatus = StageStatusEnum.Finished;
+            Round.FinalsStatus = StageStatusEnum.Finished;
             Round.Save();
 
-            Series.Rounds[(int)Round.roundNumber - 1].DashForCashFormulaID = DashForCashFormula?.id;
-            Series.Rounds[(int)Round.roundNumber - 1].Status = SeriesRoundStatusEnum.Complete;
+            Series.Rounds[(int)Round.RoundNumber - 1].DashForCashFormulaID = DashForCashFormula?.ID;
+            Series.Rounds[(int)Round.RoundNumber - 1].Status = SeriesRoundStatusEnum.Complete;
             Series.Save();
 
             NotifyEnabled();
         },
-        () => { return Round.finalsStatus == StageStatusEnum.ResultsEntered; }
+        () => { return Round.FinalsStatus == StageStatusEnum.ResultsEntered; }
     );
     #endregion
 
@@ -244,18 +244,18 @@ internal class RoundViewModel : ViewModelBase
         {
             Standings.Round(Series, Round);
             MessageBox.Show("Opening Round Standings In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.roundNumber}.standings.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/round{Round.RoundNumber}.standings.html") { UseShellExecute = true });
         },
-        () => { return Round.finalsStatus == StageStatusEnum.Finished; }
+        () => { return Round.FinalsStatus == StageStatusEnum.Finished; }
     );
     public ICommand BtnSeriesStandings => new RelayCommand(
         () =>
         {
             Standings.Series(Series, Round);
             MessageBox.Show("Opening Series Standings In Default Browser\r\nPlease Print.");
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/series.standings.round{Round.roundNumber}.html") { UseShellExecute = true });
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"{Directories.baseDirectory}/series.standings.round{Round.RoundNumber}.html") { UseShellExecute = true });
         },
-        () => { return Round.finalsStatus == StageStatusEnum.Finished; }
+        () => { return Round.FinalsStatus == StageStatusEnum.Finished; }
     );
     #endregion
 }

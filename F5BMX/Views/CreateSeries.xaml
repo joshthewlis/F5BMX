@@ -35,10 +35,10 @@
         <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Style="{StaticResource WindowTitle}">F5BMX - Create Series</TextBlock>
 
         <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource FormLabel}">Year:</Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=series.year}" IsEnabled="False" />
+        <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=Series.Year}" IsEnabled="False" />
 
         <Label Grid.Row="1" Grid.Column="2" Style="{StaticResource FormLabel}">Name:</Label>
-        <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource FormTextBox}" Text="{Binding Path=series.name}" />
+        <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource FormTextBox}" Text="{Binding Path=Series.Name}" />
 
         <Rectangle Grid.Row="2" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
 
@@ -49,20 +49,20 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             
-            <Slider Grid.Column="0" Padding="0" Margin="0" Minimum="1" Maximum="10" Value="{Binding Path=series.numberOfRounds}" />
-            <TextBox Grid.Column="1" Width="30" Text="{Binding Path=series.numberOfRounds}" IsEnabled="False" />
+            <Slider Grid.Column="0" Padding="0" Margin="0" Minimum="1" Maximum="10" Value="{Binding Path=Series.NumberOfRounds}" />
+            <TextBox Grid.Column="1" Width="30" Text="{Binding Path=Series.NumberOfRounds}" IsEnabled="False" />
         </Grid>
 
         <Label Grid.Row="3" Grid.Column="2" Style="{StaticResource FormLabel}">Dash for Cash?:</Label>
-        <CheckBox Grid.Row="3" Grid.Column="3" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=series.dashForCash}" />
+        <CheckBox Grid.Row="3" Grid.Column="3" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=Series.DashForCash}" />
 
         <Rectangle Grid.Row="4" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
 
         <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource FormLabel}">Co-Ordinator:</Label>
-        <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=series.coordinator}" />
+        <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource FormTextBox}" Text="{Binding Path=Series.Coordinator}" />
 
         <Label Grid.Row="5" Grid.Column="2" Style="{StaticResource FormLabel}">Co-Ordinator Email:</Label>
-        <TextBox Grid.Row="5" Grid.Column="3" Style="{StaticResource FormTextBox}" Text="{Binding Path=series.coordinatorEmail}" />
+        <TextBox Grid.Row="5" Grid.Column="3" Style="{StaticResource FormTextBox}" Text="{Binding Path=Series.CoordinatorEmail}" />
 
         <Rectangle Grid.Row="6" Grid.ColumnSpan="4" Style="{StaticResource HorizontalRule}" />
 
@@ -83,7 +83,7 @@
                     <Setter Property="HorizontalAlignment" Value="Center" />
                 </Style>
 
-                <CollectionViewSource x:Key="cvsFormulas" Source="{Binding Path=series.formulas}" IsLiveSortingRequested="True">
+                <CollectionViewSource x:Key="cvsFormulas" Source="{Binding Path=Series.Formulas}" IsLiveSortingRequested="True">
                     <CollectionViewSource.SortDescriptions>
                         <scm:SortDescription PropertyName="order" Direction="Ascending" />
                     </CollectionViewSource.SortDescriptions>
@@ -103,15 +103,15 @@
 
             <DataGrid x:Name="grdFormulas" Grid.RowSpan="4" Grid.Column="0" MinHeight="200" Style="{StaticResource FormDataGrid}"
                   AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource ResourceKey=cvsFormulas}}"
-                  SelectionMode="Single" SelectedItem="{Binding Path=selectedFormula}"
+                  SelectionMode="Single" SelectedItem="{Binding Path=SelectedFormula}"
                   IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Race Order" Binding="{Binding Path=order}" />
-                    <DataGridTextColumn Header="Name" Binding="{Binding Path=name}" />
-                    <DataGridTextColumn Header="Start Min Age" Binding="{Binding Path=minAge}" />
-                    <DataGridTextColumn Header="Start Max Age" Binding="{Binding Path=maxAge}" />
-                    <DataGridCheckBoxColumn Header="Dash for Cash" Binding="{Binding Path=dashForCash}" />
-                    <DataGridCheckBoxColumn Header="Promotion" Binding="{Binding Path=promotion}" />
+                    <DataGridTextColumn Header="Race Order" Binding="{Binding Path=Order}" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                    <DataGridTextColumn Header="Start Min Age" Binding="{Binding Path=MinAge}" />
+                    <DataGridTextColumn Header="Start Max Age" Binding="{Binding Path=MaxAge}" />
+                    <DataGridCheckBoxColumn Header="Dash for Cash" Binding="{Binding Path=DashForCash}" />
+                    <DataGridCheckBoxColumn Header="Promotion" Binding="{Binding Path=Promotion}" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -121,7 +121,7 @@
                 <Button Command="{Binding Path=BtnMoveDown}">Move Down</Button>
             </StackPanel>
 
-            <GroupBox Grid.Row="1" Grid.Column="1" Header="Formula" DataContext="{Binding Path=selectedFormulaEditor}">
+            <GroupBox Grid.Row="1" Grid.Column="1" Header="Formula" DataContext="{Binding Path=SelectedFormulaEditor}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -144,18 +144,18 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Order</Label>
-                    <TextBox Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=order}" IsEnabled="False" />
+                    <TextBox Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=Order}" IsEnabled="False" />
                     <Label Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Name</Label>
-                    <TextBox Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=name}" />
+                    <TextBox Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=Name}" />
                     <Label Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Min Age</Label>
-                    <TextBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=minAge}" />
+                    <TextBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=MinAge}" />
                     <Label Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource FormLabel}">Max Age</Label>
-                    <TextBox Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=maxAge}" />
+                    <TextBox Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource FormTextBox}" Text="{Binding Path=MaxAge}" />
 
                     <Label Grid.Row="8" Style="{StaticResource FormLabel}">Dash for Cash</Label>
-                    <CheckBox Grid.Row="9" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=dashForCash}" />
+                    <CheckBox Grid.Row="9" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=DashForCash}" />
                     <Label Grid.Row="8" Grid.Column="1" Style="{StaticResource FormLabel}">Promotion</Label>
-                    <CheckBox Grid.Row="9" Grid.Column="1" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=promotion}" />
+                    <CheckBox Grid.Row="9" Grid.Column="1" Style="{StaticResource FormCheckBox}" IsChecked="{Binding Path=Promotion}" />
                 </Grid>
             </GroupBox>
 

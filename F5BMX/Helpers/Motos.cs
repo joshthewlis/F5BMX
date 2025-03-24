@@ -52,41 +52,41 @@ internal static class Motos
 
     public static void Generate(Round round)
     {
-        var gateNumbers = getGateNumbers(round.numberOfGates);
-        var formulaRaceOrder = round.formulas.OrderBy(x => x.order);
+        var gateNumbers = getGateNumbers(round.NumberOfGates);
+        var formulaRaceOrder = round.formulas.OrderBy(x => x.Order);
 
         // ASSIGN RIDERS
         foreach (var formula in formulaRaceOrder)
         {
             // CLEAR IF THERE ARE ANY EXISTING MOTOS
-            formula.moto1.Clear();
-            formula.moto2.Clear();
-            formula.moto3.Clear();
+            formula.Moto1.Clear();
+            formula.Moto2.Clear();
+            formula.Moto3.Clear();
 
             // GENERATE THE RACE CLASSES
-            int numberOfRaces = (int)Math.Ceiling((double)formula.riders.Count / round.numberOfGates);
+            int numberOfRaces = (int)Math.Ceiling((double)formula.Riders.Count / round.NumberOfGates);
 
             for (int i = 0; i < numberOfRaces; i++)
             {
-                formula.moto1.Add(new Race());
-                formula.moto2.Add(new Race());
+                formula.Moto1.Add(new Race());
+                formula.Moto2.Add(new Race());
 
-                if (round.numberOfMotos == 3)
-                    formula.moto3.Add(new Race());
+                if (round.NumberOfMotos == 3)
+                    formula.Moto3.Add(new Race());
             }
 
             // FILL RACE CLASSES WITH RIDERS
             Random rng = new Random();
             int fillIndex = 0;
             int gateNumber = 0;
-            var randomRiderOrder = formula.riders.OrderBy(x => rng.Next()).ToList();
+            var randomRiderOrder = formula.Riders.OrderBy(x => rng.Next()).ToList();
             foreach (var rider in randomRiderOrder)
             {
-                formula.moto1[fillIndex].setGateRider(gateNumbers[gateNumber, 0], rider.id);
-                formula.moto2[fillIndex].setGateRider(gateNumbers[gateNumber, 1], rider.id);
+                formula.Moto1[fillIndex].setGateRider(gateNumbers[gateNumber, 0], rider.ID);
+                formula.Moto2[fillIndex].setGateRider(gateNumbers[gateNumber, 1], rider.ID);
 
-                if (round.numberOfMotos == 3)
-                    formula.moto3[fillIndex].setGateRider(gateNumbers[gateNumber, 2], rider.id);
+                if (round.NumberOfMotos == 3)
+                    formula.Moto3[fillIndex].setGateRider(gateNumbers[gateNumber, 2], rider.ID);
 
                 fillIndex++;
                 if (fillIndex >= numberOfRaces)
@@ -107,25 +107,25 @@ internal static class Motos
         int raceNumber = 1;
         foreach (var formula in formulaRaceOrder)
         {
-            foreach (var race in formula.moto1)
+            foreach (var race in formula.Moto1)
             {
-                race.raceNumber = raceNumber;
+                race.RaceNumber = raceNumber;
                 raceNumber++;
             }
         }
         foreach (var formula in formulaRaceOrder)
         {
-            foreach (var race in formula.moto2)
+            foreach (var race in formula.Moto2)
             {
-                race.raceNumber = raceNumber;
+                race.RaceNumber = raceNumber;
                 raceNumber++;
             }
         }
         foreach (var formula in formulaRaceOrder)
         {
-            foreach (var race in formula.moto3)
+            foreach (var race in formula.Moto3)
             {
-                race.raceNumber = raceNumber;
+                race.RaceNumber = raceNumber;
                 raceNumber++;
             }
         }
@@ -202,13 +202,13 @@ internal static class Motos
 <h1>");
         html.AppendFormat("F5BMX - {0} - {1}", series.Year, series.Name);
         html.Append(@"</h1><h2>");
-        html.AppendFormat("Round {0} - Moto Listings", round.roundNumber);
+        html.AppendFormat("Round {0} - Moto Listings", round.RoundNumber);
         html.Append(@"</h2>");
 
-        foreach (var formula in round.formulas.OrderByDescending(x => x.order))
+        foreach (var formula in round.formulas.OrderByDescending(x => x.Order))
         {
             // SKIP FORMULAS WITH NO RIDERS
-            if (formula.riders.Count == 0)
+            if (formula.Riders.Count == 0)
                 continue;
 
             html.AppendFormat(@"
@@ -225,20 +225,20 @@ internal static class Motos
             <td width=""20%"">Moto 3</td>
         </tr>
     </thead>
-    <tbody>", formula.name, formula.riders.Count);
+    <tbody>", formula.Name, formula.Riders.Count);
 
-            foreach (var rider in formula.riders)
+            foreach (var rider in formula.Riders)
             {
-                var riderMoto1 = formula.moto1.Where(x => x.riderList.Contains(rider.id)).FirstOrDefault();
-                var riderMoto2 = formula.moto2.Where(x => x.riderList.Contains(rider.id)).FirstOrDefault();
-                var riderMoto3 = formula.moto3.Where(x => x.riderList.Contains(rider.id)).FirstOrDefault();
+                var riderMoto1 = formula.Moto1.Where(x => x.riderList.Contains(rider.ID)).FirstOrDefault();
+                var riderMoto2 = formula.Moto2.Where(x => x.riderList.Contains(rider.ID)).FirstOrDefault();
+                var riderMoto3 = formula.Moto3.Where(x => x.riderList.Contains(rider.ID)).FirstOrDefault();
 
                 html.AppendLine("<tr>");
-                html.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
-                html.AppendLine($"<td>{rider.plateNumber}</td>");
-                html.AppendLine($"<td>Moto {riderMoto1?.raceNumber} -- Gate {riderMoto1?.findRiderGate(rider.id)}</td>");
-                html.AppendLine($"<td>Moto {riderMoto2?.raceNumber} -- Gate {riderMoto2?.findRiderGate(rider.id)}</td>");
-                html.AppendLine($"<td>Moto {riderMoto3?.raceNumber} -- Gate {riderMoto3?.findRiderGate(rider.id)}</td>");
+                html.AppendLine($"<td>{rider.FirstName} {rider.LastName}</td>");
+                html.AppendLine($"<td>{rider.PlateNumber}</td>");
+                html.AppendLine($"<td>Moto {riderMoto1?.RaceNumber} -- Gate {riderMoto1?.findRiderGate(rider.ID)}</td>");
+                html.AppendLine($"<td>Moto {riderMoto2?.RaceNumber} -- Gate {riderMoto2?.findRiderGate(rider.ID)}</td>");
+                html.AppendLine($"<td>Moto {riderMoto3?.RaceNumber} -- Gate {riderMoto3?.findRiderGate(rider.ID)}</td>");
                 html.AppendLine("</tr>");
             }
 
@@ -251,7 +251,7 @@ internal static class Motos
 </body>
 </html>");
 
-        HTML.WriteFile($"round{round.roundNumber}.motolist", html.ToString());
+        HTML.WriteFile($"round{round.RoundNumber}.motolist", html.ToString());
     }
 
     public static void GenerateCommentary(Round round)
@@ -310,23 +310,23 @@ internal static class Motos
 
 <body>");
 
-        for (int moto = 1; moto <= round.numberOfMotos; moto++)
+        for (int moto = 1; moto <= round.NumberOfMotos; moto++)
         {
-            foreach (var formula in round.formulas.OrderBy(x => x.order))
+            foreach (var formula in round.formulas.OrderBy(x => x.Order))
             {
                 List<Race> races = new List<Race>();
 
                 if (moto == 1)
-                    races = formula.moto1;
+                    races = formula.Moto1;
                 else if (moto == 2)
-                    races = formula.moto2;
+                    races = formula.Moto2;
                 else if (moto == 3)
-                    races = formula.moto3;
+                    races = formula.Moto3;
 
-                foreach (var race in races.OrderBy(x => x.raceNumber))
+                foreach (var race in races.OrderBy(x => x.RaceNumber))
                 {
                     // SKIP FORMULAS WITH NO RIDERS
-                    if (formula.riders.Count == 0)
+                    if (formula.Riders.Count == 0)
                         continue;
 
                     html.AppendFormat(@"
@@ -341,20 +341,20 @@ internal static class Motos
             <td width=""30%"">Club</td>
         </tr>
     </thead>
-    <tbody>", race.raceNumber, formula.name);
+    <tbody>", race.RaceNumber, formula.Name);
 
-                    for (uint gate = 1; gate <= round.numberOfGates; gate++)
+                    for (uint gate = 1; gate <= round.NumberOfGates; gate++)
                     {
                         RoundRider rider;
-                        if (race.gates.ContainsKey(gate))
-                            rider = formula.riders.Where(x => x.id == race.gates[gate]).First();
+                        if (race.Gates.ContainsKey(gate))
+                            rider = formula.Riders.Where(x => x.ID == race.Gates[gate]).First();
                         else
                             rider = new RoundRider();
 
                         html.AppendLine("<tr>");
-                        html.AppendLine($"<td>{rider.plateNumber}</td>");
-                        html.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
-                        html.AppendLine($"<td>{rider.club}</td>");
+                        html.AppendLine($"<td>{rider.PlateNumber}</td>");
+                        html.AppendLine($"<td>{rider.FirstName} {rider.LastName}</td>");
+                        html.AppendLine($"<td>{rider.Club}</td>");
                         html.AppendLine("</tr>");
                     }
 
@@ -369,7 +369,7 @@ internal static class Motos
 </body>
 </html>");
 
-        HTML.WriteFile($"round{round.roundNumber}.motocommentary", html.ToString());
+        HTML.WriteFile($"round{round.RoundNumber}.motocommentary", html.ToString());
     }
 
 
@@ -427,23 +427,23 @@ internal static class Motos
 
 <body>");
 
-        for (int moto = 1; moto <= round.numberOfMotos; moto++)
+        for (int moto = 1; moto <= round.NumberOfMotos; moto++)
         {
-            foreach (var formula in round.formulas.OrderBy(x => x.order))
+            foreach (var formula in round.formulas.OrderBy(x => x.Order))
             {
                 List<Race> races = new List<Race>();
 
                 if (moto == 1)
-                    races = formula.moto1;
+                    races = formula.Moto1;
                 else if (moto == 2)
-                    races = formula.moto2;
+                    races = formula.Moto2;
                 else if (moto == 3)
-                    races = formula.moto3;
+                    races = formula.Moto3;
 
-                foreach (var race in races.OrderBy(x => x.raceNumber))
+                foreach (var race in races.OrderBy(x => x.RaceNumber))
                 {
                     // SKIP FORMULAS WITH NO RIDERS
-                    if (formula.riders.Count == 0)
+                    if (formula.Riders.Count == 0)
                         continue;
 
                     html.AppendFormat(@"
@@ -459,21 +459,21 @@ internal static class Motos
             <td width=""35%"">Club</td>
         </tr>
     </thead>
-    <tbody>", race.raceNumber, formula.name);
+    <tbody>", race.RaceNumber, formula.Name);
 
-                    for (uint gate = 1; gate <= round.numberOfGates; gate++)
+                    for (uint gate = 1; gate <= round.NumberOfGates; gate++)
                     {
                         RoundRider rider;
-                        if (race.gates.ContainsKey(gate))
-                            rider = formula.riders.Where(x => x.id == race.gates[gate]).First();
+                        if (race.Gates.ContainsKey(gate))
+                            rider = formula.Riders.Where(x => x.ID == race.Gates[gate]).First();
                         else
                             rider = new RoundRider();
 
                         html.AppendLine("<tr>");
                         html.AppendLine($"<td>{gate}</td>");
-                        html.AppendLine($"<td>{rider.plateNumber}</td>");
-                        html.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
-                        html.AppendLine($"<td>{rider.club}</td>");
+                        html.AppendLine($"<td>{rider.PlateNumber}</td>");
+                        html.AppendLine($"<td>{rider.FirstName} {rider.LastName}</td>");
+                        html.AppendLine($"<td>{rider.Club}</td>");
                         html.AppendLine("</tr>");
                     }
 
@@ -488,7 +488,7 @@ internal static class Motos
 </body>
 </html>");
 
-        HTML.WriteFile($"round{round.roundNumber}.motocallup", html.ToString());
+        HTML.WriteFile($"round{round.RoundNumber}.motocallup", html.ToString());
     }
 
 }

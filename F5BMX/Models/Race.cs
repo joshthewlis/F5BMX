@@ -10,27 +10,27 @@ internal class Race
 
     public Race()
     {
-        this.gates = new Dictionary<uint, Guid>();
+        Gates = new Dictionary<uint, Guid>();
     }
 
 
-    public uint finalNumber { get; set; }
-    public int raceNumber { get; set; }
+    public uint FinalNumber { get; set; }
+    public int RaceNumber { get; set; }
 
-    public Dictionary<uint, Guid> gates { get; set; }
+    public Dictionary<uint, Guid> Gates { get; set; }
 
     public void setGateRider(uint gate, Guid rider)
     {
-        this.gates[gate] = rider;
+        Gates[gate] = rider;
         return;
     }
 
     public uint findRiderGate(Guid rider)
     {
-        return this.gates.FirstOrDefault(x => x.Value == rider).Key;
+        return Gates.FirstOrDefault(x => x.Value == rider).Key;
     }
 
     [JsonIgnore]
-    public List<Guid> riderList => this.gates.Values.ToList();
+    public List<Guid> riderList => Gates.Values.ToList();
 
 }

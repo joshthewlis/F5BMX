@@ -25,13 +25,13 @@ namespace F5BMX.ViewModels
             {
                 if(enterResultsTypeEnum == EnterResultsTypeEnum.Moto)
                 {
-                    formula.moto1.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
-                    formula.moto2.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
-                    formula.moto3.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
+                    formula.Moto1.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
+                    formula.Moto2.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
+                    formula.Moto3.ForEach(moto => { tmpRaces.Add(new RaceResult(formula, moto)); });
                 }
                 else
                 {
-                    formula.final.ForEach(final => { tmpRaces.Add(new RaceResult(formula, final)); });
+                    formula.Final.ForEach(final => { tmpRaces.Add(new RaceResult(formula, final)); });
                 }
             }
 

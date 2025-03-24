@@ -58,13 +58,13 @@ internal static class Registration
 <h1>");
         entryList.AppendFormat("F5BMX - {0} - {1}", series.Year, series.Name);
         entryList.Append(@"</h1><h2>");
-        entryList.AppendFormat("Round {0} - Entry List", round.roundNumber);
+        entryList.AppendFormat("Round {0} - Entry List", round.RoundNumber);
         entryList.Append(@"</h2>");
 
         foreach (var formula in round.formulas)
         {
             // SKIP FORMULAS WITH NO RIDERS
-            if (formula.riders.Count == 0)
+            if (formula.Riders.Count == 0)
                 continue;
 
             entryList.AppendFormat(@"
@@ -80,15 +80,15 @@ internal static class Registration
             <td width=""20%"">Series Points</td>
         </tr>
     </thead>
-    <tbody>", formula.name, formula.riders.Count);
+    <tbody>", formula.Name, formula.Riders.Count);
 
-            foreach (var rider in formula.riders)
+            foreach (var rider in formula.Riders)
             {
                 entryList.AppendLine("<tr>");
-                entryList.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
-                entryList.AppendLine($"<td>{rider.club}</td>");
-                entryList.AppendLine($"<td>{rider.plateNumber}</td>");
-                entryList.AppendLine($"<td>{series.Riders.Where(x => x.id == rider.id).FirstOrDefault()?.seriesPoints}</td>");
+                entryList.AppendLine($"<td>{rider.FirstName} {rider.LastName}</td>");
+                entryList.AppendLine($"<td>{rider.Club}</td>");
+                entryList.AppendLine($"<td>{rider.PlateNumber}</td>");
+                entryList.AppendLine($"<td>{series.Riders.Where(x => x.id == rider.ID).FirstOrDefault()?.seriesPoints}</td>");
                 entryList.AppendLine("</tr>");
             }
 
@@ -101,7 +101,7 @@ internal static class Registration
 </body>
 </html>");
 
-        HTML.WriteFile($"round{round.roundNumber}.entrylist", entryList.ToString());
+        HTML.WriteFile($"round{round.RoundNumber}.entrylist", entryList.ToString());
     }
 
 }
