@@ -19,100 +19,100 @@ internal class CreateSeriesViewModel : ViewModelBase
     private void CreateSeriesViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == "selectedFormula")
-            selectedFormulaEditor = selectedFormula?.Clone<SeriesFormula>();
+            SelectedFormulaEditor = SelectedFormula?.Clone<SeriesFormula>();
     }
 
-    public Series series { get; init; } = new Series();
+    public Series Series { get; init; } = new Series();
 
     private SeriesFormula? _selectedFormula;
-    public SeriesFormula? selectedFormula { get => _selectedFormula; set { _selectedFormula = value; NotifyPropertyChanged(); } }
+    public SeriesFormula? SelectedFormula { get => _selectedFormula; set { _selectedFormula = value; NotifyPropertyChanged(); } }
 
 
     private SeriesFormula? _selectedFormulaEditor;
-    public SeriesFormula? selectedFormulaEditor { get => _selectedFormulaEditor; set { _selectedFormulaEditor = value; NotifyPropertyChanged(); } }
+    public SeriesFormula? SelectedFormulaEditor { get => _selectedFormulaEditor; set { _selectedFormulaEditor = value; NotifyPropertyChanged(); } }
 
     #region FormulaEditorButtons
-    public ICommand btnMoveUp => new RelayCommand(moveUp, canMoveUp);
-    public void moveUp()
+    public ICommand BtnMoveUp => new RelayCommand(MoveUp, CanMoveUp);
+    public void MoveUp()
     {
-        var formulaAbove = series.formulas?.Where(x => x.order == selectedFormula?.order - 1).FirstOrDefault();
+        var formulaAbove = Series.Formulas?.Where(x => x.order == SelectedFormula?.order - 1).FirstOrDefault();
 
-        if (selectedFormula != null && formulaAbove != null)
+        if (SelectedFormula != null && formulaAbove != null)
         {
-            selectedFormula.order--;
+            SelectedFormula.order--;
             formulaAbove.order++;
         }
     }
-    private bool canMoveUp()
+    private bool CanMoveUp()
     {
-        return selectedFormula?.order != 1;
+        return SelectedFormula?.order != 1;
     }
 
-    public ICommand btnCreateFormula => new RelayCommand(createFormula);
-    private void createFormula()
+    public ICommand BtnCreateFormula => new RelayCommand(CreateFormula);
+    private void CreateFormula()
     {
-        selectedFormulaEditor = new SeriesFormula((uint)series.formulas.Count + 1);
+        SelectedFormulaEditor = new SeriesFormula((uint)Series.Formulas.Count + 1);
     }
 
-    public ICommand btnMoveDown => new RelayCommand(moveDown, canMoveDown);
-    private void moveDown()
+    public ICommand BtnMoveDown => new RelayCommand(MoveDown, CanMoveDown);
+    private void MoveDown()
     {
-        var formulaBelow = series.formulas?.Where(x => x.order == selectedFormula?.order + 1).FirstOrDefault();
-        if (selectedFormula != null && formulaBelow != null)
+        var formulaBelow = Series.Formulas?.Where(x => x.order == SelectedFormula?.order + 1).FirstOrDefault();
+        if (SelectedFormula != null && formulaBelow != null)
         {
-            selectedFormula.order++;
+            SelectedFormula.order++;
             formulaBelow.order--;
         }
     }
-    private bool canMoveDown()
+    private bool CanMoveDown()
     {
-        return selectedFormula?.order != series.formulas.Count;
+        return SelectedFormula?.order != Series.Formulas.Count;
     }
 
-    public ICommand btnCreateUpdate => new RelayCommand(createUpdateFormula);
-    private void createUpdateFormula()
+    public ICommand BtnCreateUpdate => new RelayCommand(CreateUpdateFormula);
+    private void CreateUpdateFormula()
     {
         PropertyChanged -= CreateSeriesViewModel_PropertyChanged;
-        if (selectedFormula != null && selectedFormulaEditor != null)
+        if (SelectedFormula != null && SelectedFormulaEditor != null)
         {
-            if (selectedFormula?.order == selectedFormulaEditor?.order)
-                if (selectedFormula != null)
-                    series.formulas?.Remove(selectedFormula);
+            if (SelectedFormula?.order == SelectedFormulaEditor?.order)
+                if (SelectedFormula != null)
+                    Series.Formulas?.Remove(SelectedFormula);
 
-            if (selectedFormulaEditor != null)
-                series.formulas?.Add(selectedFormulaEditor);
+            if (SelectedFormulaEditor != null)
+                Series.Formulas?.Add(SelectedFormulaEditor);
 
-            selectedFormula = selectedFormulaEditor;
+            SelectedFormula = SelectedFormulaEditor;
         }
         PropertyChanged += CreateSeriesViewModel_PropertyChanged;
     }
 
-    public ICommand btnCreateSeries => new RelayCommand<IClosable>(createSeries, canCreateSeries);
-    private void createSeries(IClosable window)
+    public ICommand BtnCreateSeries => new RelayCommand<IClosable>(CreateSeries, CanCreateSeries);
+    private void CreateSeries(IClosable window)
     {
         // CREATE DIRECTORY
-        Directories.CreateSeriesDirectory(series.year, series.name);
+        Directories.CreateSeriesDirectory(Series.Year, Series.Name);
 
         // CREATE ROUNDS STATUS
-        for (uint i = 1; i <= series.numberOfRounds; i++)
-            series.rounds.Add(new SeriesRoundInformation() { roundNumber = i });
+        for (uint i = 1; i <= Series.NumberOfRounds; i++)
+            Series.Rounds.Add(new SeriesRoundInformation() { roundNumber = i });
 
         // WRITE SERIES JSON FILE
-        JSON.WriteFile<Series>($"{series.year}-{series.name.Replace(" ", "_")}/series", series);
+        JSON.WriteFile<Series>($"{Series.Year}-{Series.Name.Replace(" ", "_")}/series", Series);
 
         // CLOSE WINDOW
         window.Close();
     }
-    private bool canCreateSeries()
+    private bool CanCreateSeries()
     {
-        if (series.name == null)
+        if (Series.Name == null)
             return false;
-        if (series.coordinator == null)
+        if (Series.Coordinator == null)
             return false;
-        if (series.coordinatorEmail == null)
+        if (Series.CoordinatorEmail == null)
             return false;
 
-        if (series.formulas?.Count == 0)
+        if (Series.Formulas?.Count == 0)
             return false;
 
         return true;

@@ -56,7 +56,7 @@ internal static class Registration
 
 <body>
 <h1>");
-        entryList.AppendFormat("F5BMX - {0} - {1}", series.year, series.name);
+        entryList.AppendFormat("F5BMX - {0} - {1}", series.Year, series.Name);
         entryList.Append(@"</h1><h2>");
         entryList.AppendFormat("Round {0} - Entry List", round.roundNumber);
         entryList.Append(@"</h2>");
@@ -88,7 +88,7 @@ internal static class Registration
                 entryList.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
                 entryList.AppendLine($"<td>{rider.club}</td>");
                 entryList.AppendLine($"<td>{rider.plateNumber}</td>");
-                entryList.AppendLine($"<td>{series.riders.Where(x => x.id == rider.id).FirstOrDefault()?.seriesPoints}</td>");
+                entryList.AppendLine($"<td>{series.Riders.Where(x => x.id == rider.id).FirstOrDefault()?.seriesPoints}</td>");
                 entryList.AppendLine("</tr>");
             }
 

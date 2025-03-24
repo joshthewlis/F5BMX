@@ -64,7 +64,7 @@ internal static class Standings
 
 <body>
 <h1>F5BMX - Round Standings</h1>");
-        html.AppendFormat("<h2>{0} - {1} - Round {2} - {3}</h2>", series.year, series.name, round.roundNumber, round.date);
+        html.AppendFormat("<h2>{0} - {1} - Round {2} - {3}</h2>", series.Year, series.Name, round.roundNumber, round.date);
 
         foreach (var formula in round.formulas.OrderByDescending(x => x.order))
         {
@@ -170,11 +170,11 @@ internal static class Standings
 <body>
 <h1>F5BMX - Series Standings</h1>"
         );
-        html.AppendFormat("<h2>{0} - {1} - AFTER Round {2} - {3}</h2>", series.year, series.name, round.roundNumber, round.date);
+        html.AppendFormat("<h2>{0} - {1} - AFTER Round {2} - {3}</h2>", series.Year, series.Name, round.roundNumber, round.date);
 
-        foreach (var formula in series.formulas.OrderByDescending(x => x.order))
+        foreach (var formula in series.Formulas.OrderByDescending(x => x.order))
         {
-            var riders = series.riders.Where(x => x.formulaID == formula.id).ToList();
+            var riders = series.Riders.Where(x => x.formulaID == formula.id).ToList();
 
             // SKIP FORMULAS WITH NO RIDERS
             if (riders.Count == 0)

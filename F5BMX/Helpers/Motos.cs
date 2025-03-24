@@ -200,7 +200,7 @@ internal static class Motos
 
 <body>
 <h1>");
-        html.AppendFormat("F5BMX - {0} - {1}", series.year, series.name);
+        html.AppendFormat("F5BMX - {0} - {1}", series.Year, series.Name);
         html.Append(@"</h1><h2>");
         html.AppendFormat("Round {0} - Moto Listings", round.roundNumber);
         html.Append(@"</h2>");

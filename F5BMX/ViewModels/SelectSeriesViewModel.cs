@@ -21,7 +21,7 @@ internal class SelectSeriesViewModel : ViewModelBase
     public string selectedSeries { get; set; } = string.Empty;
 
     #region Buttons
-    public ICommand btnCreateSeries => new RelayCommand(createSeries);
+    public ICommand BtnCreateSeries => new RelayCommand(createSeries);
     private void createSeries()
     {
         new CreateSeries().ShowDialog();
@@ -29,7 +29,7 @@ internal class SelectSeriesViewModel : ViewModelBase
         NotifyPropertyChanged(nameof(series));
     }
 
-    public ICommand btnLoadSeries => new RelayCommand<IClosable>(loadSeries, canLoadSeries);
+    public ICommand BtnLoadSeries => new RelayCommand<IClosable>(loadSeries, canLoadSeries);
     private void loadSeries(IClosable window)
     {
         new SelectRound() { DataContext = new SelectRoundViewModel(selectedSeries) }.Show();

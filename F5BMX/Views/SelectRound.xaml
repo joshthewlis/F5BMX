@@ -35,9 +35,9 @@
         <TextBlock Grid.Row="0" Style="{StaticResource WindowTitle}">F5BMX - Select Round</TextBlock>
 
         <TextBlock Grid.Row="1" Style="{StaticResource WindowHeading1}">
-            <Run Text="{Binding Path=series.year}" />
+            <Run Text="{Binding Path=Series.Year}" />
             <Run Text=" - " />
-            <Run Text="{Binding Path=series.name}" />
+            <Run Text="{Binding Path=Series.Name}" />
         </TextBlock>
 
         <ItemsControl Grid.Row="2" MinHeight="100" MinWidth="500" Margin="10" ItemsSource="{Binding Path=series.rounds}">
@@ -49,7 +49,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <RadioButton GroupName="round" IsEnabled="{Binding Path=complete, Converter={StaticResource InverseBooleanConverter}}"
-                                 Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.btnSelectRound}"
+                                 Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.BtnSelectRound}"
                                  CommandParameter="{Binding}">
                         <StackPanel>
                             <StackPanel.Resources>
@@ -85,7 +85,7 @@
         </ItemsControl>
 
         <StackPanel Grid.Row="3" HorizontalAlignment="Center">
-            <Button Command="{Binding Path=btnLoadRound}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Open Round</Button>
+            <Button Command="{Binding Path=BtnLoadRound}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Open Round</Button>
         </StackPanel>
     </Grid>
 </Window>

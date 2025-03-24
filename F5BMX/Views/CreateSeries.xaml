@@ -116,9 +116,9 @@
             </DataGrid>
 
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Command="{Binding Path=btnMoveUp}">Move Up</Button>
-                <Button Command="{Binding Path=btnCreateFormula}">Create</Button>
-                <Button Command="{Binding Path=btnMoveDown}">Move Down</Button>
+                <Button Command="{Binding Path=BtnMoveUp}">Move Up</Button>
+                <Button Command="{Binding Path=BtnCreateFormula}">Create</Button>
+                <Button Command="{Binding Path=BtnMoveDown}">Move Down</Button>
             </StackPanel>
 
             <GroupBox Grid.Row="1" Grid.Column="1" Header="Formula" DataContext="{Binding Path=selectedFormulaEditor}">
@@ -160,12 +160,12 @@
             </GroupBox>
 
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Command="{Binding Path=btnCreateUpdate}">Create / Update</Button>
+                <Button Command="{Binding Path=BtnCreateUpdate}">Create / Update</Button>
             </StackPanel>
         </Grid>
 
         <StackPanel Grid.Row="8" Grid.ColumnSpan="4" HorizontalAlignment="Center">
-            <Button Command="{Binding Path=btnCreateSeries}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Create Series</Button>
+            <Button Command="{Binding Path=BtnCreateSeries}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Create Series</Button>
         </StackPanel>
     </Grid>
 </Window>

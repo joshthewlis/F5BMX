@@ -55,7 +55,7 @@
             <Rectangle Grid.Row="2" Style="{StaticResource HorizontalRule}" />
 
             <StackPanel Grid.Row="3">
-                <Button Command="{Binding Path=btnNewRider}">New Rider</Button>
+                <Button Command="{Binding Path=BtnNewRider}">New Rider</Button>
             </StackPanel>
 
             <Grid Grid.Row="4" DataContext="{Binding Path=selectedRider}"
@@ -117,7 +117,7 @@
             </Grid>
 
             <StackPanel Grid.Row="5">
-                <Button Command="{Binding Path=btnRegisterRider}">Register Rider</Button>
+                <Button Command="{Binding Path=BtnRegisterRider}">Register Rider</Button>
             </StackPanel>
         </Grid>
 

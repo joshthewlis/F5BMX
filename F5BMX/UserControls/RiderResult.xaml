@@ -46,7 +46,7 @@
         </Grid.ColumnDefinitions>
 
         <Button Grid.Row="1" Grid.Column="0" Content="{Binding Path=rider.plateNumber}"
-                Command="{Binding Path=DataContext.btnRiderResult, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                Command="{Binding Path=DataContext.BtnRiderResult, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                 CommandParameter="{Binding Path=GateNumber, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
         <TextBlock Grid.Row="1" Grid.Column="1">
             <Run Text="{Binding Path=rider.firstName}" />
@@ -59,9 +59,9 @@
                     <Setter Property="Padding" Value="0" />
                 </Style>
             </StackPanel.Resources>
-            <Button Command="{Binding Path=DataContext.btnRiderDNF, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+            <Button Command="{Binding Path=DataContext.BtnRiderDNF, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                     CommandParameter="{Binding Path=GateNumber, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">DNF</Button>
-            <Button Command="{Binding Path=DataContext.btnRiderDNS, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+            <Button Command="{Binding Path=DataContext.BtnRiderDNS, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                     CommandParameter="{Binding Path=GateNumber, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">DNS</Button>
         </StackPanel>
     </Grid>

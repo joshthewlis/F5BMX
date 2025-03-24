@@ -103,42 +103,42 @@
 
                 <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource FormLabel}">Current for Round</Label>
                 <TextBlock Grid.Row="1" Grid.Column="1" Padding="5" Text="{Binding Path=dashForCashFormula.name}" />
-                <Button Grid.Row="1" Grid.Column="2" Command="{Binding Path=btnDashForCashPick}">Pick</Button>
-                <Button Grid.Row="1" Grid.Column="3" Command="{Binding Path=btnDashForCashRandom}">Random</Button>
+                <Button Grid.Row="1" Grid.Column="2" Command="{Binding Path=BtnDashForCashPick}">Pick</Button>
+                <Button Grid.Row="1" Grid.Column="3" Command="{Binding Path=BtnDashForCashRandom}">Random</Button>
             </Grid>
         </GroupBox>
 
         <GroupBox Grid.Row="4" Header="Registration" IsEnabled="{Binding Path=registrationEnabled}">
             <UniformGrid Columns="4">
-                <Button Command="{Binding Path=btnRegisterRiders}">Register Riders</Button>
-                <Button Command="{Binding Path=btnCloseRegistration}">Close Registration</Button>
-                <Button Command="{Binding Path=btnPrintRiderList}">Print Rider List</Button>
-                <Button Command="{Binding Path=btnReOpenRegistration}">Re-Open Registration</Button>
+                <Button Command="{Binding Path=BtnRegisterRiders}">Register Riders</Button>
+                <Button Command="{Binding Path=BtnCloseRegistration}">Close Registration</Button>
+                <Button Command="{Binding Path=BtnPrintRiderList}">Print Rider List</Button>
+                <Button Command="{Binding Path=BtnReOpenRegistration}">Re-Open Registration</Button>
             </UniformGrid>
         </GroupBox>
 
         <GroupBox Grid.Row="5" Header="Motos Control" IsEnabled="{Binding Path=motosEnabled}">
             <UniformGrid Columns="4">
-                <Button Command="{Binding Path=btnGenerateMotos}">Generate Motos</Button>
-                <Button Command="{Binding Path=btnPrintMotoSheets}">Generate Sheets</Button>
-                <Button Command="{Binding Path=btnEnterMotoResults}">Enter Results</Button>
-                <Button Command="{Binding Path=btnFinalizeMotos}">Finalize Motos</Button>
+                <Button Command="{Binding Path=BtnGenerateMotos}">Generate Motos</Button>
+                <Button Command="{Binding Path=BtnPrintMotoSheets}">Generate Sheets</Button>
+                <Button Command="{Binding Path=BtnEnterMotoResults}">Enter Results</Button>
+                <Button Command="{Binding Path=BtnFinalizeMotos}">Finalize Motos</Button>
             </UniformGrid>
         </GroupBox>
 
         <GroupBox Grid.Row="6" Header="Finals Control" IsEnabled="{Binding Path=finalsEnabled}">
             <UniformGrid Columns="4">
-                <Button Command="{Binding Path=btnGenerateFinals}">Generate Finals</Button>
-                <Button Command="{Binding Path=btnPrintFinalSheets}">Generate Sheets</Button>
-                <Button Command="{Binding Path=btnEnterFinalResults}">Enter Results</Button>
-                <Button Command="{Binding Path=btnFinalizeFinals}">Finalize Finals</Button>
+                <Button Command="{Binding Path=BtnGenerateFinals}">Generate Finals</Button>
+                <Button Command="{Binding Path=BtnPrintFinalSheets}">Generate Sheets</Button>
+                <Button Command="{Binding Path=BtnEnterFinalResults}">Enter Results</Button>
+                <Button Command="{Binding Path=BtnFinalizeFinals}">Finalize Finals</Button>
             </UniformGrid>
         </GroupBox>
 
         <GroupBox Grid.Row="7" Header="Results" IsEnabled="{Binding Path=resultsEnabled}">
             <UniformGrid Columns="4">
-                <Button Command="{Binding Path=btnRoundStandings}">Round Standings</Button>
-                <Button Command="{Binding Path=btnSeriesStandings}">Series Standings</Button>
+                <Button Command="{Binding Path=BtnRoundStandings}">Round Standings</Button>
+                <Button Command="{Binding Path=BtnSeriesStandings}">Series Standings</Button>
             </UniformGrid>
         </GroupBox>
     </Grid>

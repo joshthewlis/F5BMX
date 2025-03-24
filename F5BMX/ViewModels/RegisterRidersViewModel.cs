@@ -26,7 +26,7 @@ internal class RegisterRidersViewModel : ViewModelBase
 
         _cvsSeriesRiders = new CollectionViewSource()
         {
-            Source = series.riders,
+            Source = series.Riders,
             IsLiveSortingRequested = true,
             IsLiveFilteringRequested = true
         };
@@ -85,7 +85,7 @@ internal class RegisterRidersViewModel : ViewModelBase
             if (e.PropertyName == "yearAge")
             {
 
-                foreach (var formula in series.formulas)
+                foreach (var formula in series.Formulas)
                     if (formula.minAge <= rider.yearAge && formula.maxAge >= rider.yearAge)
                         rider.formulaID = formula.id;
 
@@ -95,19 +95,19 @@ internal class RegisterRidersViewModel : ViewModelBase
     }
 
     #region Buttons
-    public ICommand btnNewRider => new RelayCommand(newRider);
+    public ICommand BtnNewRider => new RelayCommand(newRider);
     private void newRider()
     {
         selectedRider = new SeriesRider();
     }
 
-    public ICommand btnRegisterRider => new RelayCommand(registerRider, canRegisterRider);
+    public ICommand BtnRegisterRider => new RelayCommand(registerRider, canRegisterRider);
     private void registerRider()
     {
         if (selectedRider != null)
         {
-            if (series.riders.Contains(selectedRider) == false)
-                series.riders.Add(selectedRider);
+            if (series.Riders.Contains(selectedRider) == false)
+                series.Riders.Add(selectedRider);
 
             if (selectedRider != null)
             {
@@ -128,7 +128,7 @@ internal class RegisterRidersViewModel : ViewModelBase
     }
 
     /* FIX LATER */
-    public ICommand btnUnregisterRider => new RelayCommand(unregisterRider, canUnregisterRider);
+    public ICommand BtnUnregisterRider => new RelayCommand(unregisterRider, canUnregisterRider);
     private void unregisterRider()
     {
         if (selectedRegisteredRider == null)
@@ -162,7 +162,7 @@ internal class RegisterRidersViewModel : ViewModelBase
     {
         cvsSeriesRiders.View.Refresh();
 
-        JSON.WriteFile("riders", series.riders);
+        JSON.WriteFile("riders", series.Riders);
         round.Save();
     }
 }

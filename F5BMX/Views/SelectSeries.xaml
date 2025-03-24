@@ -31,8 +31,8 @@
         <ComboBox Grid.Row="2" MinWidth="400" ItemsSource="{Binding Path=series}" SelectedItem="{Binding Path=selectedSeries}" />
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Command="{Binding Path=btnCreateSeries}">Create Series</Button>
-            <Button Command="{Binding Path=btnLoadSeries}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Load Series</Button>
+            <Button Command="{Binding Path=BtnCreateSeries}">Create Series</Button>
+            <Button Command="{Binding Path=BtnLoadSeries}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Load Series</Button>
         </StackPanel>
 
         <!--

@@ -17,8 +17,8 @@ namespace F5BMX.ViewModels
 
         public EnterResultsViewModel(Round round, EnterResultsTypeEnum enterResultsTypeEnum)
         {
-            this.round = round;
-            this.enterResultsTypeEnum = enterResultsTypeEnum;
+            Round = round;
+            EnterResultsTypeEnum = enterResultsTypeEnum;
 
             var tmpRaces = new List<RaceResult>();
             foreach (var formula in round.formulas)
@@ -35,67 +35,67 @@ namespace F5BMX.ViewModels
                 }
             }
 
-            this.races = tmpRaces.OrderBy(x => x.raceNumber).ToList();
+            Races = tmpRaces.OrderBy(x => x.raceNumber).ToList();
         }
 
-        public EnterResultsTypeEnum enterResultsTypeEnum { get; init; }
-        public Round round { get; set; }
+        public EnterResultsTypeEnum EnterResultsTypeEnum { get; init; }
+        public Round Round { get; set; }
 
         #region Enumerator
-        public List<RaceResult> races;
+        public List<RaceResult> Races;
         private int idx = 0;
-        public RaceResult race => races[idx];
+        public RaceResult Race => Races[idx];
         #endregion
 
         #region Buttons
-        public ICommand btnPrevRace => new RelayCommand(
-            () => { idx--; NotifyPropertyChanged(nameof(race)); },
+        public ICommand BtnPrevRace => new RelayCommand(
+            () => { idx--; NotifyPropertyChanged(nameof(Race)); },
             () => { return idx != 0; }
         );
 
-        public ICommand btnNextRace => new RelayCommand(
-            () => { idx++; NotifyPropertyChanged(nameof(race)); },
-            () => { return idx < races.Count - 1; }
+        public ICommand BtnNextRace => new RelayCommand(
+            () => { idx++; NotifyPropertyChanged(nameof(Race)); },
+            () => { return idx < Races.Count - 1; }
         );
-        public ICommand btnReset => new RelayCommand(reset);
-        private void reset()
+        public ICommand BtnReset => new RelayCommand(Reset);
+        private void Reset()
         {
-            race.nextResult = 0;
+            Race.nextResult = 0;
 
-            foreach(var riderResult in race.gates)
+            foreach(var riderResult in Race.gates)
                 riderResult.Value.result = 0;
         }
-        public ICommand btnFinish => new RelayCommand<IClosable>(finish, canFinish);
-        private void finish(IClosable window)
+        public ICommand BtnFinish => new RelayCommand<IClosable>(Finish, CanFinish);
+        private void Finish(IClosable window)
         {
             window.Close();
         }
-        private bool canFinish()
+        private bool CanFinish()
         {
-            foreach (var race in races)
+            foreach (var race in Races)
                 if (race.gates.Where(x => x.Value.result == 0).Any())
                     return false;
 
-            return idx == races.Count - 1;
+            return idx == Races.Count - 1;
         }
         #endregion
 
         #region Rider Buttons
-        public ICommand btnRiderResult => new RelayCommand<uint>(riderResult);
-        private void riderResult(uint gate)
+        public ICommand BtnRiderResult => new RelayCommand<uint>(RiderResult);
+        private void RiderResult(uint gate)
         {
-            race.gates[gate].result = race.nextResult;
-            race.nextResult++;
+            Race.gates[gate].result = Race.nextResult;
+            Race.nextResult++;
         }
-        public ICommand btnRiderDNF => new RelayCommand<uint>(riderDNF);
-        private void riderDNF(uint gate)
+        public ICommand BtnRiderDNF => new RelayCommand<uint>(RiderDNF);
+        private void RiderDNF(uint gate)
         {
-            race.gates[gate].result = (uint)race.gates.Count;
+            Race.gates[gate].result = (uint)Race.gates.Count;
         }
-        public ICommand btnRiderDNS => new RelayCommand<uint>(riderDNS);
-        private void riderDNS(uint gate)
+        public ICommand BtnRiderDNS => new RelayCommand<uint>(RiderDNS);
+        private void RiderDNS(uint gate)
         {
-            race.gates[gate].result = 99;
+            Race.gates[gate].result = 99;
         }
         #endregion
 

@@ -30,7 +30,7 @@ namespace F5BMX.Views
         {
             var viewModel = (RegisterRidersViewModel)DataContext;
 
-            viewModel.btnRegisterRider.Execute(null);
+            viewModel.BtnRegisterRider.Execute(null);
         }
 
         private void lstFormulaRider_MouseDoubleClick(object sender, MouseButtonEventArgs e)

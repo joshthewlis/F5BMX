@@ -12,13 +12,13 @@ internal static class DashForCash
 
     public static Guid RandomDashForCashFormula(Series series)
     {
-        var formulasWithDashForCashEnabled = series.formulas.Where(x => x.dashForCash == true).ToList();
+        var formulasWithDashForCashEnabled = series.Formulas.Where(x => x.dashForCash == true).ToList();
         Dictionary<Guid, int> formulaDashCount = new Dictionary<Guid, int>();
 
         foreach (var item in formulasWithDashForCashEnabled)
             formulaDashCount.Add(item.id, 0);
 
-        foreach (var item in series.rounds)
+        foreach (var item in series.Rounds)
             if (item.dashForCashFormulaID != null)
                 formulaDashCount[item.dashForCashFormulaID.Value]++;
 

@@ -65,12 +65,12 @@
         <UserControls:RiderResult Grid.Row="7" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[7]}" GateNumber="7" />
         <UserControls:RiderResult Grid.Row="8" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[8]}" GateNumber="8" />
 
-        <Button Grid.Row="9" Grid.Column="0" Command="{Binding Path=btnPrevRace}">Previous Race</Button>
+        <Button Grid.Row="9" Grid.Column="0" Command="{Binding Path=BtnPrevRace}">Previous Race</Button>
         <StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Command="{Binding Path=btnReset}">Reset</Button>
-            <Button Command="{Binding Path=btnFinish}"
+            <Button Command="{Binding Path=BtnReset}">Reset</Button>
+            <Button Command="{Binding Path=BtnFinish}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Finish</Button>
         </StackPanel>
-        <Button Grid.Row="9" Grid.Column="2" Command="{Binding Path=btnNextRace}">Next Race</Button>
+        <Button Grid.Row="9" Grid.Column="2" Command="{Binding Path=BtnNextRace}">Next Race</Button>
     </Grid>
 </Window>

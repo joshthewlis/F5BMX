@@ -39,10 +39,13 @@ internal sealed class RelayCommand<T> : ICommand
         if (!TryGetCommandArgument(parameter, out T? result))
             throw new ArgumentException("Invalid Parameter");
 
+        if (parameter is null)
+            return;
+
         this.execute((T)parameter);
     }
 
-    internal bool TryGetCommandArgument(object? parameter, out T? result)
+    internal static bool TryGetCommandArgument(object? parameter, out T? result)
     {
         if (parameter is null && default(T) == null)
         {

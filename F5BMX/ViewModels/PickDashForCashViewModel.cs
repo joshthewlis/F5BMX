@@ -25,7 +25,7 @@ internal class PickDashForCashViewModel : ViewModelBase
     public List<RoundFormula> formulasEligble { get; set; }
     public RoundFormula? selectedFormula { get; set; }
 
-    public ICommand btnPick => new RelayCommand<IClosable>(
+    public ICommand BtnPick => new RelayCommand<IClosable>(
         (IClosable window) => { if (selectedFormula != null) { round.dashForCashFormulaID = selectedFormula.id; window.Close(); } },
         () => { return selectedFormula != null; }
     );

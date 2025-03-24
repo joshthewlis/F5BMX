@@ -17,21 +17,24 @@ internal class SelectRoundViewModel
     {
         Directories.SetSeries(seriesName);
 
-        this.series = JSON.ReadModel<Series>("series");
+        this.Series = JSON.ReadModel<Series>("series");
     }
 
-    public Series series { get; set; }
-    public SeriesRoundInformation? selectedRound { get; set; }
+    public Series? Series { get; set; }
+    public SeriesRoundInformation? SelectedRound { get; set; }
 
 
     #region Buttons
-    public ICommand btnSelectRound => new RelayCommand<SeriesRoundInformation>((SeriesRoundInformation selectedRound) => { this.selectedRound = selectedRound; });
-    public ICommand btnLoadRound => new RelayCommand<IClosable>(loadRound, () => { return selectedRound == null ? false : true; });
-    private void loadRound(IClosable window)
+    public ICommand BtnSelectRound => new RelayCommand<SeriesRoundInformation>((SeriesRoundInformation selectedRound) => { this.SelectedRound = selectedRound; });
+    public ICommand BtnLoadRound => new RelayCommand<IClosable>(LoadRound, () => { return SelectedRound != null; });
+    private void LoadRound(IClosable window)
     {
-        if (selectedRound != null)
+        if (Series == null)
+            return;
+
+        if (SelectedRound != null)
         {
-            new Views.Round() { DataContext = new RoundViewModel(series, selectedRound.roundNumber) }.Show();
+            new Views.Round() { DataContext = new RoundViewModel(Series, SelectedRound.roundNumber) }.Show();
             window.Close();
         }
     }

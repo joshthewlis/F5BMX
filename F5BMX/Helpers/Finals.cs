@@ -134,7 +134,7 @@ internal static class Finals
 
                 foreach (var riderResult in raceResult.gates.Values)
                 {
-                    var seriesRider = series.riders.Where(x => x.id == riderResult.rider.id).First();
+                    var seriesRider = series.Riders.Where(x => x.id == riderResult.rider.id).First();
 
                     var position = startingPosition + riderResult.result;
                     if (position > pointsAllocation.Length - 1)
@@ -149,17 +149,17 @@ internal static class Finals
             // TRY MOVE FORMULAS
             if (round.finalRound == false)
             {
-                var seriesFormula = series.formulas.Where(x => x.id == formula.id).First();
+                var seriesFormula = series.Formulas.Where(x => x.id == formula.id).First();
                 if (seriesFormula.promotion == true)
                 {
                     // ATTEMPT TO MOVE POSITION 1 RIDER UP A FORMULA
                     var firstRider = formula.riders.Where(x => x.finalPosition == 1).First();
-                    var nextFormula = series.formulas.Where(x => x.order == formula.order + 1).FirstOrDefault();
+                    var nextFormula = series.Formulas.Where(x => x.order == formula.order + 1).FirstOrDefault();
                     if (nextFormula != null)
                     {
                         if (nextFormula.promotion == true)
                         {
-                            var seriesRider = series.riders.Where(x => x.id == firstRider.id).First();
+                            var seriesRider = series.Riders.Where(x => x.id == firstRider.id).First();
 
                             firstRider.promotion = Enums.PromotionEnum.Up;
                             seriesRider.formulaID = nextFormula.id;
@@ -168,12 +168,12 @@ internal static class Finals
 
                     // ATTEMPT TO MOVE LAST POSITION DOWN A FORMULA
                     var lastRider = formula.riders.Where(x => x.finalPosition == formula.riders.Count).First();
-                    var prevFormula = series.formulas.Where(x => x.order == formula.order - 1).FirstOrDefault();
+                    var prevFormula = series.Formulas.Where(x => x.order == formula.order - 1).FirstOrDefault();
                     if (prevFormula != null)
                     {
                         if (prevFormula.promotion == true)
                         {
-                            var seriesRider = series.riders.Where(x => x.id == lastRider.id).First();
+                            var seriesRider = series.Riders.Where(x => x.id == lastRider.id).First();
 
                             lastRider.promotion = Enums.PromotionEnum.Down;
                             seriesRider.formulaID = prevFormula.id;
@@ -183,14 +183,14 @@ internal static class Finals
             }
 
             // DASH FOR CASH
-            if(series.dashForCash == true)
+            if(series.DashForCash == true)
             {
 
             }
         }
 
         // Save Changes to Series Riders
-        JSON.WriteFile("riders", series.riders);
+        JSON.WriteFile("riders", series.Riders);
     }
 
     public static void GenerateListing(Series series, Round round)
@@ -246,7 +246,7 @@ internal static class Finals
 </head>
 
 <body><h1>");
-        html.AppendFormat("F5BMX - {0} - {1}", series.year, series.name);
+        html.AppendFormat("F5BMX - {0} - {1}", series.Year, series.Name);
         html.Append(@"</h1><h2>");
         html.AppendFormat("Round {0} - Final Listings", round.roundNumber);
         html.Append(@"</h2>");
