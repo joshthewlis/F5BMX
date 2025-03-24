@@ -27,7 +27,8 @@ internal class Series : ViewModelBase
 
     public Series()
     {
-        Year = DateTime.Now.Year;
+        if (Year == 0)
+            Year = DateTime.Now.Year;
         Name ??= String.Empty;
         NumberOfRounds = 6;
         Formulas = [
@@ -61,8 +62,8 @@ internal class Series : ViewModelBase
         get
         {
             string tmp = String.Empty;
-            Rounds.Where(x => x.dashForCashFormulaID != null).ToList()
-                .ForEach(round => tmp += $"{Formulas.First(x => x.id == round.dashForCashFormulaID)?.name}, ");
+            Rounds.Where(x => x.DashForCashFormulaID != null).ToList()
+                .ForEach(round => tmp += $"{Formulas.First(x => x.id == round.DashForCashFormulaID)?.name}, ");
 
             if (tmp.Length > 0)
                 return tmp.Substring(0, tmp.Length - 2);

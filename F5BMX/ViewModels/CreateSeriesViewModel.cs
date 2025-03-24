@@ -95,7 +95,7 @@ internal class CreateSeriesViewModel : ViewModelBase
 
         // CREATE ROUNDS STATUS
         for (uint i = 1; i <= Series.NumberOfRounds; i++)
-            Series.Rounds.Add(new SeriesRoundInformation() { roundNumber = i });
+            Series.Rounds.Add(new SeriesRoundInformation() { RoundNumber = i });
 
         // WRITE SERIES JSON FILE
         JSON.WriteFile<Series>($"{Series.Year}-{Series.Name.Replace(" ", "_")}/series", Series);

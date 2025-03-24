@@ -34,7 +34,7 @@ internal class SelectRoundViewModel
 
         if (SelectedRound != null)
         {
-            new Views.Round() { DataContext = new RoundViewModel(Series, SelectedRound.roundNumber) }.Show();
+            new Views.Round() { DataContext = new RoundViewModel(Series, SelectedRound.RoundNumber) }.Show();
             window.Close();
         }
     }

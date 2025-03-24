@@ -19,8 +19,8 @@ internal static class DashForCash
             formulaDashCount.Add(item.id, 0);
 
         foreach (var item in series.Rounds)
-            if (item.dashForCashFormulaID != null)
-                formulaDashCount[item.dashForCashFormulaID.Value]++;
+            if (item.DashForCashFormulaID != null)
+                formulaDashCount[item.DashForCashFormulaID.Value]++;
 
         var formulasToPickFrom = formulaDashCount.Where(x => x.Value == formulaDashCount.Min(x => x.Value)).ToList();
 

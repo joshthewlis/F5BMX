@@ -28,7 +28,7 @@
 
         <TextBlock Grid.Row="1" Style="{StaticResource WindowTitle}">Formula 5 BMX Event Manager</TextBlock>
 
-        <ComboBox Grid.Row="2" MinWidth="400" ItemsSource="{Binding Path=series}" SelectedItem="{Binding Path=selectedSeries}" />
+        <ComboBox Grid.Row="2" MinWidth="400" ItemsSource="{Binding Path=Series}" SelectedItem="{Binding Path=SelectedSeries}" />
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Command="{Binding Path=BtnCreateSeries}">Create Series</Button>

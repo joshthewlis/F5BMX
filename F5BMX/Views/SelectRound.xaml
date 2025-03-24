@@ -40,7 +40,7 @@
             <Run Text="{Binding Path=Series.Name}" />
         </TextBlock>
 
-        <ItemsControl Grid.Row="2" MinHeight="100" MinWidth="500" Margin="10" ItemsSource="{Binding Path=series.rounds}">
+        <ItemsControl Grid.Row="2" MinHeight="100" MinWidth="500" Margin="10" ItemsSource="{Binding Path=Series.Rounds}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="3" />
@@ -48,7 +48,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <RadioButton GroupName="round" IsEnabled="{Binding Path=complete, Converter={StaticResource InverseBooleanConverter}}"
+                    <RadioButton GroupName="round" IsEnabled="{Binding Path=Complete, Converter={StaticResource InverseBooleanConverter}}"
                                  Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.BtnSelectRound}"
                                  CommandParameter="{Binding}">
                         <StackPanel>
@@ -59,7 +59,7 @@
                                 </Style>
                             </StackPanel.Resources>
 
-                            <TextBlock Style="{StaticResource ButtonTextBlock}" Text="{Binding Path=roundNumber, StringFormat={}Round {0}}" />
+                            <TextBlock Style="{StaticResource ButtonTextBlock}" Text="{Binding Path=RoundNumber, StringFormat={}Round {0}}" />
                             <TextBlock Style="{StaticResource ButtonTextBlock}" Text="{Binding Path=date}" />
                             <TextBlock Text="{Binding Path=status}">
                                 <TextBlock.Resources>

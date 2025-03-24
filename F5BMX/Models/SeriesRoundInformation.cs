@@ -6,9 +6,9 @@ namespace F5BMX.Models;
 internal class SeriesRoundInformation
 {
 
-    public uint roundNumber { get; set; }
-    public DateOnly date { get; set; }
-    public SeriesRoundStatusEnum status { get; set; } = SeriesRoundStatusEnum.Incomplete;
-    public Guid? dashForCashFormulaID { get; set; }
+    public uint RoundNumber { get; set; }
+    public DateOnly Date { get; set; }
+    public SeriesRoundStatusEnum Status { get; set; } = SeriesRoundStatusEnum.Incomplete;
+    public Guid? DashForCashFormulaID { get; set; }
 
 }

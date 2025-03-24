@@ -90,8 +90,8 @@ internal class RoundViewModel : ViewModelBase
             Round.registrationStatus = RegistrationStatusEnum.Closed;
             Round.Save();
 
-            Series.Rounds[(int)Round.roundNumber - 1].status = SeriesRoundStatusEnum.InProgress;
-            Series.Rounds[(int)Round.roundNumber - 1].date = DateOnly.FromDateTime(DateTime.Now);
+            Series.Rounds[(int)Round.roundNumber - 1].Status = SeriesRoundStatusEnum.InProgress;
+            Series.Rounds[(int)Round.roundNumber - 1].Date = DateOnly.FromDateTime(DateTime.Now);
             Series.Save();
 
             NotifyEnabled();
@@ -228,8 +228,8 @@ internal class RoundViewModel : ViewModelBase
             Round.finalsStatus = StageStatusEnum.Finished;
             Round.Save();
 
-            Series.Rounds[(int)Round.roundNumber - 1].dashForCashFormulaID = DashForCashFormula?.id;
-            Series.Rounds[(int)Round.roundNumber - 1].status = SeriesRoundStatusEnum.Complete;
+            Series.Rounds[(int)Round.roundNumber - 1].DashForCashFormulaID = DashForCashFormula?.id;
+            Series.Rounds[(int)Round.roundNumber - 1].Status = SeriesRoundStatusEnum.Complete;
             Series.Save();
 
             NotifyEnabled();

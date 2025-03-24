@@ -38,9 +38,9 @@
         <TextBlock Grid.Row="0" Style="{StaticResource WindowTitle}">Formula 5 BMX Event Manager</TextBlock>
 
         <TextBlock Grid.Row="1" Style="{StaticResource WindowHeading1}">
-            <Run Text="{Binding Path=series.year}" />
+            <Run Text="{Binding Path=Series.Year}" />
             <Run Text=" - " />
-            <Run Text="{Binding Path=series.name}" />
+            <Run Text="{Binding Path=Series.Name}" />
         </TextBlock>
 
         <GroupBox Grid.Row="2" Header="Round Settings" IsEnabled="{Binding Path=roundSettingsEnabled}">
