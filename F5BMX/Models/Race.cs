@@ -31,6 +31,6 @@ internal class Race
     }
 
     [JsonIgnore]
-    public List<Guid> riderList => Gates.Values.ToList();
+    public List<Guid> RiderList => Gates.Values.ToList();
 
 }

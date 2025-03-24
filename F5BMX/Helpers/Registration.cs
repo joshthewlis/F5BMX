@@ -61,7 +61,7 @@ internal static class Registration
         entryList.AppendFormat("Round {0} - Entry List", round.RoundNumber);
         entryList.Append(@"</h2>");
 
-        foreach (var formula in round.formulas)
+        foreach (var formula in round.Formulas)
         {
             // SKIP FORMULAS WITH NO RIDERS
             if (formula.Riders.Count == 0)
@@ -88,7 +88,7 @@ internal static class Registration
                 entryList.AppendLine($"<td>{rider.FirstName} {rider.LastName}</td>");
                 entryList.AppendLine($"<td>{rider.Club}</td>");
                 entryList.AppendLine($"<td>{rider.PlateNumber}</td>");
-                entryList.AppendLine($"<td>{series.Riders.Where(x => x.id == rider.ID).FirstOrDefault()?.seriesPoints}</td>");
+                entryList.AppendLine($"<td>{series.Riders.FirstOrDefault(x => x.ID == rider.ID)?.SeriesPoints}</td>");
                 entryList.AppendLine("</tr>");
             }
 

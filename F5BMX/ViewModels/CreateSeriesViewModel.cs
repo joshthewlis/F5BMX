@@ -18,7 +18,7 @@ internal class CreateSeriesViewModel : ViewModelBase
 
     private void CreateSeriesViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == "selectedFormula")
+        if (e.PropertyName == nameof(SelectedFormula))
             SelectedFormulaEditor = SelectedFormula?.Clone<SeriesFormula>();
     }
 
@@ -35,17 +35,17 @@ internal class CreateSeriesViewModel : ViewModelBase
     public ICommand BtnMoveUp => new RelayCommand(MoveUp, CanMoveUp);
     public void MoveUp()
     {
-        var formulaAbove = Series.Formulas?.Where(x => x.order == SelectedFormula?.order - 1).FirstOrDefault();
+        var formulaAbove = Series.Formulas?.Where(x => x.Order == SelectedFormula?.Order - 1).FirstOrDefault();
 
         if (SelectedFormula != null && formulaAbove != null)
         {
-            SelectedFormula.order--;
-            formulaAbove.order++;
+            SelectedFormula.Order--;
+            formulaAbove.Order++;
         }
     }
     private bool CanMoveUp()
     {
-        return SelectedFormula?.order != 1;
+        return SelectedFormula?.Order != 1;
     }
 
     public ICommand BtnCreateFormula => new RelayCommand(CreateFormula);
@@ -57,16 +57,16 @@ internal class CreateSeriesViewModel : ViewModelBase
     public ICommand BtnMoveDown => new RelayCommand(MoveDown, CanMoveDown);
     private void MoveDown()
     {
-        var formulaBelow = Series.Formulas?.Where(x => x.order == SelectedFormula?.order + 1).FirstOrDefault();
+        var formulaBelow = Series.Formulas?.Where(x => x.Order == SelectedFormula?.Order + 1).FirstOrDefault();
         if (SelectedFormula != null && formulaBelow != null)
         {
-            SelectedFormula.order++;
-            formulaBelow.order--;
+            SelectedFormula.Order++;
+            formulaBelow.Order--;
         }
     }
     private bool CanMoveDown()
     {
-        return SelectedFormula?.order != Series.Formulas.Count;
+        return SelectedFormula?.Order != Series.Formulas.Count;
     }
 
     public ICommand BtnCreateUpdate => new RelayCommand(CreateUpdateFormula);
@@ -75,7 +75,7 @@ internal class CreateSeriesViewModel : ViewModelBase
         PropertyChanged -= CreateSeriesViewModel_PropertyChanged;
         if (SelectedFormula != null && SelectedFormulaEditor != null)
         {
-            if (SelectedFormula?.order == SelectedFormulaEditor?.order)
+            if (SelectedFormula?.Order == SelectedFormulaEditor?.Order)
                 if (SelectedFormula != null)
                     Series.Formulas?.Remove(SelectedFormula);
 

@@ -15,6 +15,6 @@ internal class RoundRiderResult : ViewModelBase
     public RoundRider Rider { get; set; }
 
     private uint _result;
-    public uint Result { get => _result; set { _result = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(isEnabled)); } }
+    public uint Result { get => _result; set { _result = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(IsEnabled)); } }
 
 }

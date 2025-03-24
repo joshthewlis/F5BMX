@@ -11,8 +11,6 @@ namespace F5BMX.Models;
 
 internal class Series : ViewModelBase
 {
-    public ObservableCollection<SeriesFormula> Formulas { get; set; }
-    public List<SeriesRoundInformation> Rounds { get; set; }
 
     private int _numberOfRounds;
 
@@ -22,6 +20,9 @@ internal class Series : ViewModelBase
     public string? Coordinator { get; set; }
     public string? CoordinatorEmail { get; set; }
     public bool DashForCash { get; set; }
+
+    public ObservableCollection<SeriesFormula> Formulas { get; set; }
+    public List<SeriesRoundInformation> Rounds { get; set; }
 
     [JsonIgnore]
     public ObservableCollection<SeriesRider> Riders { get; set; }
@@ -64,7 +65,7 @@ internal class Series : ViewModelBase
         {
             string tmp = String.Empty;
             Rounds.Where(x => x.DashForCashFormulaID != null).ToList()
-                .ForEach(round => tmp += $"{Formulas.First(x => x.id == round.DashForCashFormulaID)?.name}, ");
+                .ForEach(round => tmp += $"{Formulas.FirstOrDefault(x => x.ID == round.DashForCashFormulaID)?.Name}, ");
 
             if (tmp.Length > 0)
                 return tmp.Substring(0, tmp.Length - 2);

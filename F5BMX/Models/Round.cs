@@ -18,12 +18,12 @@ internal class Round : ModelBase
 
     public Round(uint roundNumber, List<SeriesFormula> seriesFormulas, bool finalRound)
     {
-        this.RoundNumber = roundNumber;
+        RoundNumber = roundNumber;
 
         foreach (var formula in seriesFormulas.OrderByDescending(x => x.Order))
-            this.formulas.Add(new RoundFormula(formula));
+            Formulas.Add(new RoundFormula(formula));
 
-        this.FinalRound = finalRound;
+        FinalRound = finalRound;
     }
 
     public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.Now);
@@ -39,7 +39,7 @@ internal class Round : ModelBase
     public StageStatusEnum MotosStatus { get; set; } = StageStatusEnum.NotGenerated;
     public StageStatusEnum FinalsStatus { get; set; } = StageStatusEnum.NotGenerated;
 
-    public ObservableCollection<RoundFormula> formulas { get; set; } = new ObservableCollection<RoundFormula>();
+    public ObservableCollection<RoundFormula> Formulas { get; set; } = new ObservableCollection<RoundFormula>();
 
     public void Save()
     {

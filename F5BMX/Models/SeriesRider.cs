@@ -15,12 +15,12 @@ namespace F5BMX.Models
         public string LastName { get; set; } = String.Empty;
         public string Club { get; set; } = String.Empty;
         public string PlateNumber { get; set; } = String.Empty;
-        public int YearOfBirth { get => _yearOfBirth; set { _yearOfBirth = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(yearAge)); } }
+        public int YearOfBirth { get => _yearOfBirth; set { _yearOfBirth = value; NotifyPropertyChanged(); NotifyPropertyChanged(nameof(YearAge)); } }
         public uint SeriesPoints { get; set; }
         public Guid FormulaID { get; set; }
 
         [JsonIgnore]
-        public int yearAge { get => DateTime.Now.Year - YearOfBirth; }
+        public int YearAge { get => DateTime.Now.Year - YearOfBirth; }
 
     }
 }

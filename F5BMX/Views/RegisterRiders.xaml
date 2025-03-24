@@ -22,7 +22,7 @@
 
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="400" />
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -38,16 +38,23 @@
 
             <Label Grid.Row="0" Style="{StaticResource FormLabel}">Series Riders</Label>
             <ListView Grid.Row="1" MinHeight="150" Margin="10"
-                      ItemsSource="{Binding Path=cvsSeriesRiders.View}" SelectedItem="{Binding Path=selectedRider}"
+                      ItemsSource="{Binding Path=CvsSeriesRiders.View}" SelectedItem="{Binding Path=SelectedRider}"
                       MouseDoubleClick="lstSeriesRiders_MouseDoubleClick">
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Path=lastName}" />
-                            <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=firstName}" />
-                            <GridViewColumn Header="Plate Number" DisplayMemberBinding="{Binding Path=plateNumber}" />
-                            <GridViewColumn Header="Formula #" DisplayMemberBinding="{Binding Path=lastFormula}" />
-                            <GridViewColumn Header="Age" DisplayMemberBinding="{Binding Path=yearAge}" />
+                            <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Path=LastName}" />
+                            <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=FirstName}" />
+                            <GridViewColumn Header="Plate Number" DisplayMemberBinding="{Binding Path=PlateNumber}" />
+                            <GridViewColumn Header="Formula #" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox IsReadOnly="True" IsEnabled="False" Margin="0" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.Series.Formulas}"
+                                                  DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding Path=FormulaID}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Age" DisplayMemberBinding="{Binding Path=YearAge}" />
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
@@ -58,8 +65,8 @@
                 <Button Command="{Binding Path=BtnNewRider}">New Rider</Button>
             </StackPanel>
 
-            <Grid Grid.Row="4" DataContext="{Binding Path=selectedRider}"
-                  IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.selectedRider, Converter={StaticResource NotNullBooleanConverter}}">
+            <Grid Grid.Row="4" DataContext="{Binding Path=SelectedRider}"
+                  IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectedRider, Converter={StaticResource NotNullBooleanConverter}}">
                 <Grid.Resources>
                     <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ResourceKey=FormTextBox}">
                         <Setter Property="Margin" Value="0,0,10,0" />
@@ -89,31 +96,31 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Column="0" Grid.Row="0">ID</Label>
-                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=id}" IsEnabled="False" />
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=ID}" IsEnabled="False" />
 
                 <Label Grid.Column="0" Grid.Row="1">First Name</Label>
-                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=firstName}" />
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=FirstName}" />
 
                 <Label Grid.Column="0" Grid.Row="2">Last Name</Label>
-                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=lastName}" />
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Path=LastName}" />
 
                 <Label Grid.Column="0" Grid.Row="3">Club / Team</Label>
-                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=club}" />
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=Club}" />
 
                 <Label Grid.Column="0" Grid.Row="4">Plate Number</Label>
-                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=plateNumber}" />
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=PlateNumber}" />
 
                 <Label Grid.Column="0" Grid.Row="5">Year of Birth</Label>
-                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=yearOfBirth}" GotFocus="TextBox_GotFocus" />
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=YearOfBirth}" GotFocus="TextBox_GotFocus" />
 
                 <Label Grid.Column="0" Grid.Row="6">Age</Label>
-                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=yearAge, Mode=OneWay}" IsEnabled="False" />
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=YearAge, Mode=OneWay}" IsEnabled="False" />
 
                 <Label Grid.Column="0" Grid.Row="7">Formula</Label>
                 <!--<TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=formula}" />-->
                 <ComboBox Grid.Column="1" Grid.Row="7"
-                          ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.round.formulas}"
-                          DisplayMemberPath="name" SelectedValuePath="id" SelectedValue="{Binding Path=formulaID}" />
+                          ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.Round.Formulas}"
+                          DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding Path=FormulaID}" />
             </Grid>
 
             <StackPanel Grid.Row="5">
@@ -122,7 +129,7 @@
         </Grid>
 
         <ScrollViewer Margin="10" Grid.Column="1" VerticalScrollBarVisibility="Visible">
-            <ItemsControl ItemsSource="{Binding Path=round.formulas}">
+            <ItemsControl ItemsSource="{Binding Path=Round.Formulas}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid MinHeight="100">
@@ -131,27 +138,27 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid.Resources>
-                                <CollectionViewSource x:Key="cvsRiders" Source="{Binding Path=riders}">
+                                <CollectionViewSource x:Key="CvsRiders" Source="{Binding Path=Riders}">
                                     <CollectionViewSource.SortDescriptions>
-                                        <scm:SortDescription PropertyName="lastName" Direction="Ascending" />
-                                        <scm:SortDescription PropertyName="firstName" Direction="Ascending" />
+                                        <scm:SortDescription PropertyName="LastName" Direction="Ascending" />
+                                        <scm:SortDescription PropertyName="FirstName" Direction="Ascending" />
                                     </CollectionViewSource.SortDescriptions>
                                 </CollectionViewSource>
                             </Grid.Resources>
 
-                            <Label Grid.Row="0" Margin="10,0" Padding="0" Content="{Binding Path=name}" />
+                            <Label Grid.Row="0" Margin="10,0" Padding="0" Content="{Binding Path=Name}" />
 
                             <ListView Grid.Row="1" Margin="10,0" MinHeight="107" MaxHeight="600"
-                                      ItemsSource="{Binding Source={StaticResource cvsRiders}}"
+                                      ItemsSource="{Binding Source={StaticResource CvsRiders}}"
                                       MouseDoubleClick="lstFormulaRider_MouseDoubleClick">
                                 <ListView.View>
                                     <GridView>
                                         <GridView.Columns>
-                                            <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=firstName}" Width="100" />
-                                            <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Path=lastName}" Width="100" />
-                                            <GridViewColumn Header="Plate Number" DisplayMemberBinding="{Binding Path=plateNumber}" Width="100" />
-                                            <GridViewColumn Header="Club" DisplayMemberBinding="{Binding Path=club}" Width="100" />
-                                            <GridViewColumn Header="Age" DisplayMemberBinding="{Binding Path=yearAge}" Width="100" />
+                                            <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=FirstName}" Width="100" />
+                                            <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding Path=LastName}" Width="100" />
+                                            <GridViewColumn Header="Plate Number" DisplayMemberBinding="{Binding Path=PlateNumber}" Width="100" />
+                                            <GridViewColumn Header="Club" DisplayMemberBinding="{Binding Path=Club}" Width="100" />
+                                            <GridViewColumn Header="Age" DisplayMemberBinding="{Binding Path=YearAge}" Width="100" />
                                         </GridView.Columns>
                                     </GridView>
                                 </ListView.View>

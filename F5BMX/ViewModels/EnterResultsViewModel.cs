@@ -15,13 +15,15 @@ namespace F5BMX.ViewModels
     internal class EnterResultsViewModel : ViewModelBase
     {
 
+        public EnterResultsViewModel() : this(new Round(), EnterResultsTypeEnum.Moto) { }
+
         public EnterResultsViewModel(Round round, EnterResultsTypeEnum enterResultsTypeEnum)
         {
             Round = round;
             EnterResultsTypeEnum = enterResultsTypeEnum;
 
             var tmpRaces = new List<RaceResult>();
-            foreach (var formula in round.formulas)
+            foreach (var formula in round.Formulas)
             {
                 if(enterResultsTypeEnum == EnterResultsTypeEnum.Moto)
                 {
@@ -35,7 +37,7 @@ namespace F5BMX.ViewModels
                 }
             }
 
-            Races = tmpRaces.OrderBy(x => x.raceNumber).ToList();
+            Races = tmpRaces.OrderBy(x => x.RaceNumber).ToList();
         }
 
         public EnterResultsTypeEnum EnterResultsTypeEnum { get; init; }
@@ -60,10 +62,10 @@ namespace F5BMX.ViewModels
         public ICommand BtnReset => new RelayCommand(Reset);
         private void Reset()
         {
-            Race.nextResult = 0;
+            Race.NextResult = 1;
 
-            foreach(var riderResult in Race.gates)
-                riderResult.Value.result = 0;
+            foreach(var riderResult in Race.Gates)
+                riderResult.Value.Result = 0;
         }
         public ICommand BtnFinish => new RelayCommand<IClosable>(Finish, CanFinish);
         private void Finish(IClosable window)
@@ -73,7 +75,7 @@ namespace F5BMX.ViewModels
         private bool CanFinish()
         {
             foreach (var race in Races)
-                if (race.gates.Where(x => x.Value.result == 0).Any())
+                if (race.Gates.Where(x => x.Value.Result == 0).Any())
                     return false;
 
             return idx == Races.Count - 1;
@@ -84,18 +86,18 @@ namespace F5BMX.ViewModels
         public ICommand BtnRiderResult => new RelayCommand<uint>(RiderResult);
         private void RiderResult(uint gate)
         {
-            Race.gates[gate].result = Race.nextResult;
-            Race.nextResult++;
+            Race.Gates[gate].Result = Race.NextResult;
+            Race.NextResult++;
         }
         public ICommand BtnRiderDNF => new RelayCommand<uint>(RiderDNF);
         private void RiderDNF(uint gate)
         {
-            Race.gates[gate].result = (uint)Race.gates.Count;
+            Race.Gates[gate].Result = (uint)Race.Gates.Count;
         }
         public ICommand BtnRiderDNS => new RelayCommand<uint>(RiderDNS);
         private void RiderDNS(uint gate)
         {
-            Race.gates[gate].result = 99;
+            Race.Gates[gate].Result = 99;
         }
         #endregion
 

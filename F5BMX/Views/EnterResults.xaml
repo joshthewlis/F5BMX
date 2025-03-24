@@ -6,12 +6,17 @@
         xmlns:local="clr-namespace:F5BMX.Views"
         xmlns:Converters="clr-namespace:F5BMX.Converters"
         xmlns:UserControls="clr-namespace:F5BMX.UserControls"
+        xmlns:ViewModels="clr-namespace:F5BMX.ViewModels"
         mc:Ignorable="d"
         Title="EnterResults"
         Width="500"
         SizeToContent="Height"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
+
+    <d:Window.DataContext>
+        <ViewModels:EnterResultsViewModel />
+    </d:Window.DataContext>
 
     <Grid Margin="5">
         <Grid.Resources>
@@ -50,20 +55,20 @@
 
         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" FontSize="24">
             <Run Text="Round" />
-            <Run Text="{Binding Path=round.roundNumber}" />
+            <Run Text="{Binding Path=Round.RoundNumber}" />
             <Run Text="- " />
-            <Run Text="{Binding Path=enterResultsTypeEnum}" />
-            <Run Text="{Binding Path=race.raceNumber}" />
+            <Run Text="{Binding Path=EnterResultsTypeEnum}" />
+            <Run Text="{Binding Path=Race.RaceNumber}" />
         </TextBlock>
 
-        <UserControls:RiderResult Grid.Row="1" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[1]}" GateNumber="1" />
-        <UserControls:RiderResult Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[2]}" GateNumber="2" />
-        <UserControls:RiderResult Grid.Row="3" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[3]}" GateNumber="3" />
-        <UserControls:RiderResult Grid.Row="4" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[4]}" GateNumber="4" />
-        <UserControls:RiderResult Grid.Row="5" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[5]}" GateNumber="5" />
-        <UserControls:RiderResult Grid.Row="6" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[6]}" GateNumber="6" />
-        <UserControls:RiderResult Grid.Row="7" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[7]}" GateNumber="7" />
-        <UserControls:RiderResult Grid.Row="8" Grid.ColumnSpan="3" DataContext="{Binding Path=race.gates[8]}" GateNumber="8" />
+        <UserControls:RiderResult Grid.Row="1" Grid.ColumnSpan="3" DataContext="{Binding Path=Race.Gates[1]}" GateNumber="1" />
+        <UserControls:RiderResult Grid.Row="2" Grid.ColumnSpan="3" DataContext="{Binding Path=Race.Gates[2]}" GateNumber="2" />
+        <UserControls:RiderResult Grid.Row="3" Grid.ColumnSpan="3" DataContext="{Binding Path=Race.Gates[3]}" GateNumber="3" />
+        <UserControls:RiderResult Grid.Row="4" Grid.ColumnSpan="3" DataContext="{Binding Path=Race.Gates[4]}" GateNumber="4" />
+        <UserControls:RiderResult Grid.Row="5" Grid.ColumnSpan="3" DataContext="{Binding Path=Race.Gates[5]}" GateNumber="5" />
+        <UserControls:RiderResult Grid.Row="6" Grid.ColumnSpan="3" DataContext="{Binding Path=Race.Gates[6]}" GateNumber="6" />
+        <UserControls:RiderResult Grid.Row="7" Grid.ColumnSpan="3" DataContext="{Binding Path=Race.Gates[7]}" GateNumber="7" />
+        <UserControls:RiderResult Grid.Row="8" Grid.ColumnSpan="3" DataContext="{Binding Path=Race.Gates[8]}" GateNumber="8" />
 
         <Button Grid.Row="9" Grid.Column="0" Command="{Binding Path=BtnPrevRace}">Previous Race</Button>
         <StackPanel Grid.Row="9" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">

@@ -21,10 +21,10 @@ internal class RoundViewModel : ViewModelBase
 
     public RoundViewModel(Series series, uint roundNumber)
     {
-        this.Series = series;
+        Series = series;
 
         var round = JSON.ReadModel<Round>($"round{roundNumber}");
-        this.Round = round ?? new Round(roundNumber, series.Formulas.ToList(), series.NumberOfRounds == roundNumber);
+        Round = round ?? new Round(roundNumber, Series.Formulas.ToList(), Series.NumberOfRounds == roundNumber);
     }
 
     public Series Series { get; set; }
@@ -45,7 +45,7 @@ internal class RoundViewModel : ViewModelBase
     [JsonIgnore]
     public RoundFormula? DashForCashFormula
     {
-        get => Round.formulas.Where(x => x.ID == Round.DashForCashFormulaID).FirstOrDefault();
+        get => Round.Formulas.Where(x => x.ID == Round.DashForCashFormulaID).FirstOrDefault();
         set { if (value == null) return; Round.DashForCashFormulaID = value.ID; NotifyPropertyChanged(); }
     }
 
@@ -65,7 +65,7 @@ internal class RoundViewModel : ViewModelBase
         {
             new Views.PickDashForCash()
             {
-                DataContext = new PickDashForCashViewModel(Round, Series.DashForCashFormulas, Round.formulas.Where(x => x.DashForCash == true).ToList())
+                DataContext = new PickDashForCashViewModel(Round, Series.DashForCashFormulas, Round.Formulas.Where(x => x.DashForCash == true).ToList())
             }.ShowDialog();
             NotifyPropertyChanged(nameof(DashForCashFormula));
         }
@@ -74,7 +74,7 @@ internal class RoundViewModel : ViewModelBase
         () => 
         {
             var tmp = DashForCash.RandomDashForCashFormula(Series);
-            DashForCashFormula = Round.formulas.Where(x => x.ID == tmp).First(); 
+            DashForCashFormula = Round.Formulas.Where(x => x.ID == tmp).First(); 
         }
     );
     #endregion

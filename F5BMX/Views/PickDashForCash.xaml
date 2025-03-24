@@ -23,9 +23,9 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Style="{StaticResource FormLabel}" HorizontalContentAlignment="Center">Previous Dash for Cash</Label>
-        <TextBlock Grid.Row="1" Margin="5" Text="{Binding Path=previousDashForCash}" />
+        <TextBlock Grid.Row="1" Margin="5" Text="{Binding Path=PreviousDashForCash}" />
 
-        <ComboBox Grid.Row="2" MaxWidth="250" ItemsSource="{Binding Path=formulasEligble}" DisplayMemberPath="name" SelectedItem="{Binding Path=selectedFormula}" />
+        <ComboBox Grid.Row="2" MaxWidth="250" ItemsSource="{Binding Path=FormulasEligble}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedFormula}" />
 
         <Button Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center"
                 Command="{Binding Path=BtnPick}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Pick</Button>

@@ -13,18 +13,18 @@ namespace F5BMX.Models
 
         public RaceResult(RoundFormula formula, Race race)
         {
-            this.raceNumber = race.RaceNumber;
-            this.formulaName = formula.Name;
-            this.gates = new Dictionary<uint, RoundRiderResult>();
+            RaceNumber = race.RaceNumber;
+            FormulaName = formula.Name;
+            Gates = new Dictionary<uint, RoundRiderResult>();
 
             foreach (KeyValuePair<uint, Guid> kvp in race.Gates)
-                this.gates[kvp.Key] = new RoundRiderResult(formula.Riders.Where(x => x.ID == kvp.Value).First());
+                Gates[kvp.Key] = new RoundRiderResult(formula.Riders.Where(x => x.ID == kvp.Value).First());
         }
 
-        public int raceNumber { get; init; }
-        public string formulaName { get; init; }
-        public Dictionary<uint, RoundRiderResult> gates { get; init; }
-        public uint nextResult { get; set; } = 1;
+        public int RaceNumber { get; init; }
+        public string FormulaName { get; init; }
+        public Dictionary<uint, RoundRiderResult> Gates { get; init; }
+        public uint NextResult { get; set; } = 1;
 
     }
 }

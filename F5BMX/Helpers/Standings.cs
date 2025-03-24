@@ -66,7 +66,7 @@ internal static class Standings
 <h1>F5BMX - Round Standings</h1>");
         html.AppendFormat("<h2>{0} - {1} - Round {2} - {3}</h2>", series.Year, series.Name, round.RoundNumber, round.Date);
 
-        foreach (var formula in round.formulas.OrderByDescending(x => x.Order))
+        foreach (var formula in round.Formulas.OrderByDescending(x => x.Order))
         {
             // SKIP FORMULAS WITH NO RIDERS
             if (formula.Riders.Count == 0)
@@ -172,9 +172,9 @@ internal static class Standings
         );
         html.AppendFormat("<h2>{0} - {1} - AFTER Round {2} - {3}</h2>", series.Year, series.Name, round.RoundNumber, round.Date);
 
-        foreach (var formula in series.Formulas.OrderByDescending(x => x.order))
+        foreach (var formula in series.Formulas.OrderByDescending(x => x.Order))
         {
-            var riders = series.Riders.Where(x => x.formulaID == formula.id).ToList();
+            var riders = series.Riders.Where(x => x.FormulaID == formula.ID).ToList();
 
             // SKIP FORMULAS WITH NO RIDERS
             if (riders.Count == 0)
@@ -192,14 +192,14 @@ internal static class Standings
             <td width=""10%"">Points</td>
         </tr>
     </thead>
-    <tbody>", formula.name, riders.Count);
+    <tbody>", formula.Name, riders.Count);
 
-            foreach (var rider in riders.OrderByDescending(x => x.seriesPoints))
+            foreach (var rider in riders.OrderByDescending(x => x.SeriesPoints))
             {
                 html.AppendLine("<tr>");
-                html.AppendLine($"<td>{rider.firstName} {rider.lastName}</td>");
-                html.AppendLine($"<td>{rider.club}</td>");
-                html.AppendLine($"<td>{rider.seriesPoints}</td>");
+                html.AppendLine($"<td>{rider.FirstName} {rider.LastName}</td>");
+                html.AppendLine($"<td>{rider.Club}</td>");
+                html.AppendLine($"<td>{rider.SeriesPoints}</td>");
                 html.AppendLine("</tr>");
             }
 

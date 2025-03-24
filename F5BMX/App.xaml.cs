@@ -12,7 +12,13 @@ namespace F5BMX
 
         public App() : base()
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+            var culture = new CultureInfo("en-GB");
+
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
         }
 
     }

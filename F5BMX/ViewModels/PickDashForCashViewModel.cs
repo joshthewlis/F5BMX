@@ -10,24 +10,24 @@ namespace F5BMX.ViewModels;
 internal class PickDashForCashViewModel : ViewModelBase
 {
     
-    public PickDashForCashViewModel() : this(new Round(), String.Empty, new List<RoundFormula>())
+    public PickDashForCashViewModel() : this(new Round(), String.Empty, [])
     { }
 
     public PickDashForCashViewModel(Round round, string previousDashForCash, List<RoundFormula> formulasEligble)
     {
-        this.round = round;
-        this.previousDashForCash = previousDashForCash;
-        this.formulasEligble = formulasEligble;
+        Round = round;
+        PreviousDashForCash = previousDashForCash;
+        FormulasEligble = formulasEligble;
     }
 
-    public Round round { get; init; }
-    public string previousDashForCash { get; set; }
-    public List<RoundFormula> formulasEligble { get; set; }
-    public RoundFormula? selectedFormula { get; set; }
+    public Round Round { get; init; }
+    public string PreviousDashForCash { get; set; }
+    public List<RoundFormula> FormulasEligble { get; set; }
+    public RoundFormula? SelectedFormula { get; set; }
 
     public ICommand BtnPick => new RelayCommand<IClosable>(
-        (IClosable window) => { if (selectedFormula != null) { round.DashForCashFormulaID = selectedFormula.ID; window.Close(); } },
-        () => { return selectedFormula != null; }
+        (IClosable window) => { if (SelectedFormula != null) { Round.DashForCashFormulaID = SelectedFormula.ID; window.Close(); } },
+        () => { return SelectedFormula != null; }
     );
 
 }

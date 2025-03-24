@@ -25,7 +25,7 @@
             <Setter Property="FontWeight" Value="Bold" />
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=isEnabled}" Value="false">
+                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="false">
                     <Setter Property="Foreground" Value="LightGray" />
                 </DataTrigger>
             </Style.Triggers>
@@ -45,14 +45,14 @@
             <ColumnDefinition Width="60" />
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Row="1" Grid.Column="0" Content="{Binding Path=rider.plateNumber}"
+        <Button Grid.Row="1" Grid.Column="0" Content="{Binding Path=Rider.PlateNumber}"
                 Command="{Binding Path=DataContext.BtnRiderResult, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                 CommandParameter="{Binding Path=GateNumber, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
         <TextBlock Grid.Row="1" Grid.Column="1">
-            <Run Text="{Binding Path=rider.firstName}" />
-            <Run Text="{Binding Path=rider.lastName}" />
+            <Run Text="{Binding Path=Rider.FirstName}" />
+            <Run Text="{Binding Path=Rider.LastName}" />
         </TextBlock>
-        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=result}" />
+        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=Result}" />
         <StackPanel Grid.Row="1" Grid.Column="3" Margin="8">
             <StackPanel.Resources>
                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IsEnabledControl}">

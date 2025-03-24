@@ -53,7 +53,7 @@ internal static class Motos
     public static void Generate(Round round)
     {
         var gateNumbers = getGateNumbers(round.NumberOfGates);
-        var formulaRaceOrder = round.formulas.OrderBy(x => x.Order);
+        var formulaRaceOrder = round.Formulas.OrderBy(x => x.Order);
 
         // ASSIGN RIDERS
         foreach (var formula in formulaRaceOrder)
@@ -137,11 +137,11 @@ internal static class Motos
 
         foreach (var raceResult in raceResults)
         {
-            foreach (var riderResult in raceResult.gates)
+            foreach (var riderResult in raceResult.Gates)
             {
-                int motoRound = (int)Math.Floor(((double)raceResult.raceNumber-1) / numberOfMotoPerRounds);
+                int motoRound = (int)Math.Floor(((double)raceResult.RaceNumber-1) / numberOfMotoPerRounds);
 
-                riderResult.Value.rider.motoPositions[motoRound] = riderResult.Value.result;
+                riderResult.Value.Rider.MotoPositions[motoRound] = riderResult.Value.Result;
             }
         }
     }
@@ -205,7 +205,7 @@ internal static class Motos
         html.AppendFormat("Round {0} - Moto Listings", round.RoundNumber);
         html.Append(@"</h2>");
 
-        foreach (var formula in round.formulas.OrderByDescending(x => x.Order))
+        foreach (var formula in round.Formulas.OrderByDescending(x => x.Order))
         {
             // SKIP FORMULAS WITH NO RIDERS
             if (formula.Riders.Count == 0)
@@ -229,9 +229,9 @@ internal static class Motos
 
             foreach (var rider in formula.Riders)
             {
-                var riderMoto1 = formula.Moto1.Where(x => x.riderList.Contains(rider.ID)).FirstOrDefault();
-                var riderMoto2 = formula.Moto2.Where(x => x.riderList.Contains(rider.ID)).FirstOrDefault();
-                var riderMoto3 = formula.Moto3.Where(x => x.riderList.Contains(rider.ID)).FirstOrDefault();
+                var riderMoto1 = formula.Moto1.Where(x => x.RiderList.Contains(rider.ID)).FirstOrDefault();
+                var riderMoto2 = formula.Moto2.Where(x => x.RiderList.Contains(rider.ID)).FirstOrDefault();
+                var riderMoto3 = formula.Moto3.Where(x => x.RiderList.Contains(rider.ID)).FirstOrDefault();
 
                 html.AppendLine("<tr>");
                 html.AppendLine($"<td>{rider.FirstName} {rider.LastName}</td>");
@@ -312,7 +312,7 @@ internal static class Motos
 
         for (int moto = 1; moto <= round.NumberOfMotos; moto++)
         {
-            foreach (var formula in round.formulas.OrderBy(x => x.Order))
+            foreach (var formula in round.Formulas.OrderBy(x => x.Order))
             {
                 List<Race> races = new List<Race>();
 
@@ -429,7 +429,7 @@ internal static class Motos
 
         for (int moto = 1; moto <= round.NumberOfMotos; moto++)
         {
-            foreach (var formula in round.formulas.OrderBy(x => x.Order))
+            foreach (var formula in round.Formulas.OrderBy(x => x.Order))
             {
                 List<Race> races = new List<Race>();
 

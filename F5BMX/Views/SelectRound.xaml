@@ -60,18 +60,18 @@
                             </StackPanel.Resources>
 
                             <TextBlock Style="{StaticResource ButtonTextBlock}" Text="{Binding Path=RoundNumber, StringFormat={}Round {0}}" />
-                            <TextBlock Style="{StaticResource ButtonTextBlock}" Text="{Binding Path=date}" />
-                            <TextBlock Text="{Binding Path=status}">
+                            <TextBlock Style="{StaticResource ButtonTextBlock}" Text="{Binding Path=Date}" />
+                            <TextBlock Text="{Binding Path=Status}">
                                 <TextBlock.Resources>
                                     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource ButtonTextBlock}">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=status}" Value="{x:Static Enums:SeriesRoundStatusEnum.Incomplete}">
+                                            <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Enums:SeriesRoundStatusEnum.Incomplete}">
                                                 <Setter Property="Foreground" Value="Red" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=status}" Value="{x:Static Enums:SeriesRoundStatusEnum.InProgress}">
+                                            <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Enums:SeriesRoundStatusEnum.InProgress}">
                                                 <Setter Property="Foreground" Value="Yellow" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=status}" Value="{x:Static Enums:SeriesRoundStatusEnum.Complete}">
+                                            <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Enums:SeriesRoundStatusEnum.Complete}">
                                                 <Setter Property="Foreground" Value="Green" />
                                             </DataTrigger>
                                         </Style.Triggers>

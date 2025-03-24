@@ -75,7 +75,7 @@ internal static class Finals
     public static void Generate(Round round)
     {
 
-        var formulaRaceOrder = round.formulas.OrderBy(x => x.Order);
+        var formulaRaceOrder = round.Formulas.OrderBy(x => x.Order);
 
         // ASSIGN RIDERS
         foreach (var formula in formulaRaceOrder)
@@ -119,7 +119,7 @@ internal static class Finals
 
     public static void Finalize(Series series, Round round, List<RaceResult> raceResults)
     {
-        foreach (var formula in round.formulas)
+        foreach (var formula in round.Formulas)
         {
             // IGNORE FORMULAS WITH NO RIDERS
             if (formula.Riders.Count == 0)
@@ -128,55 +128,55 @@ internal static class Finals
             // ADD SERIES POINTS
             foreach (var race in formula.Final)
             {
-                var raceResult = raceResults.Where(x => x.raceNumber == race.RaceNumber).First();
+                var raceResult = raceResults.Where(x => x.RaceNumber == race.RaceNumber).First();
 
                 var startingPosition = race.FinalNumber * round.NumberOfGates;
 
-                foreach (var riderResult in raceResult.gates.Values)
+                foreach (var riderResult in raceResult.Gates.Values)
                 {
-                    var seriesRider = series.Riders.Where(x => x.id == riderResult.rider.id).First();
+                    var seriesRider = series.Riders.Where(x => x.ID == riderResult.Rider.ID).First();
 
-                    var position = startingPosition + riderResult.result;
+                    var position = startingPosition + riderResult.Result;
                     if (position > pointsAllocation.Length - 1)
                         position = (uint)pointsAllocation.Length - 1; // ENSURES EVERYONE GETS MINIMUM 3 POINTS
 
-                    riderResult.rider.finalPosition = position;
-                    riderResult.rider.roundPoints = pointsAllocation[position - 1];
-                    seriesRider.seriesPoints += pointsAllocation[position - 1];
+                    riderResult.Rider.FinalPosition = position;
+                    riderResult.Rider.RoundPoints = pointsAllocation[position - 1];
+                    seriesRider.SeriesPoints += pointsAllocation[position - 1];
                 }
             }
 
             // TRY MOVE FORMULAS
             if (round.FinalRound == false)
             {
-                var seriesFormula = series.Formulas.Where(x => x.id == formula.ID).First();
-                if (seriesFormula.promotion == true)
+                var seriesFormula = series.Formulas.Where(x => x.ID == formula.ID).First();
+                if (seriesFormula.Promotion == true)
                 {
                     // ATTEMPT TO MOVE POSITION 1 RIDER UP A FORMULA
                     var firstRider = formula.Riders.Where(x => x.FinalPosition == 1).First();
-                    var nextFormula = series.Formulas.Where(x => x.order == formula.Order + 1).FirstOrDefault();
+                    var nextFormula = series.Formulas.Where(x => x.Order == formula.Order + 1).FirstOrDefault();
                     if (nextFormula != null)
                     {
-                        if (nextFormula.promotion == true)
+                        if (nextFormula.Promotion == true)
                         {
-                            var seriesRider = series.Riders.Where(x => x.id == firstRider.ID).First();
+                            var seriesRider = series.Riders.Where(x => x.ID == firstRider.ID).First();
 
                             firstRider.Promotion = Enums.PromotionEnum.Up;
-                            seriesRider.formulaID = nextFormula.id;
+                            seriesRider.FormulaID = nextFormula.ID;
                         }
                     }
 
                     // ATTEMPT TO MOVE LAST POSITION DOWN A FORMULA
                     var lastRider = formula.Riders.Where(x => x.FinalPosition == formula.Riders.Count).First();
-                    var prevFormula = series.Formulas.Where(x => x.order == formula.Order - 1).FirstOrDefault();
+                    var prevFormula = series.Formulas.Where(x => x.Order == formula.Order - 1).FirstOrDefault();
                     if (prevFormula != null)
                     {
-                        if (prevFormula.promotion == true)
+                        if (prevFormula.Promotion == true)
                         {
-                            var seriesRider = series.Riders.Where(x => x.id == lastRider.ID).First();
+                            var seriesRider = series.Riders.Where(x => x.ID == lastRider.ID).First();
 
                             lastRider.Promotion = Enums.PromotionEnum.Down;
-                            seriesRider.formulaID = prevFormula.id;
+                            seriesRider.FormulaID = prevFormula.ID;
                         }
                     }
                 }
@@ -251,7 +251,7 @@ internal static class Finals
         html.AppendFormat("Round {0} - Final Listings", round.RoundNumber);
         html.Append(@"</h2>");
 
-        foreach (var formula in round.formulas.OrderBy(x => x.Order))
+        foreach (var formula in round.Formulas.OrderBy(x => x.Order))
         {
             foreach (var race in formula.Final.OrderBy(x => x.RaceNumber))
             {
@@ -360,7 +360,7 @@ internal static class Finals
 
 <body>");
 
-        foreach (var formula in round.formulas.OrderBy(x => x.Order))
+        foreach (var formula in round.Formulas.OrderBy(x => x.Order))
         {
             foreach (var race in formula.Final.OrderByDescending(x => x.FinalNumber))
             {
@@ -465,7 +465,7 @@ internal static class Finals
 
 <body>");
 
-        foreach (var formula in round.formulas.OrderBy(x => x.Order))
+        foreach (var formula in round.Formulas.OrderBy(x => x.Order))
         {
             foreach (var race in formula.Final.OrderByDescending(x => x.FinalNumber))
             {

@@ -43,7 +43,7 @@ namespace F5BMX.Views
             var selectedRider = (IRider)listView.SelectedItem;
             var viewModel = (RegisterRidersViewModel)DataContext;
 
-            viewModel.unregisterRider(selectedRider);
+            viewModel.UnregisterRider(selectedRider);
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
